@@ -4,7 +4,6 @@ go 1.23.1
 
 require (
 	github.com/golang/protobuf v1.5.4
-	github.com/joho/godotenv v1.5.1
 	github.com/pkg/errors v0.9.1
 	github.com/rs/zerolog v1.33.0
 	google.golang.org/grpc v1.68.0
