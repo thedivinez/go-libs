@@ -12,8 +12,6 @@ import (
 	"gopkg.in/gomail.v2"
 )
 
-// Embed the entire directory.
-//
 //go:embed templates
 var emailTemplate embed.FS
 
