@@ -1,18 +1,20 @@
 package utils
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 
-	"google.golang.org/grpc/codes"
+	"github.com/pkg/errors"
+	"google.golang.org/grpc/status"
 )
 
 type ServiceError struct {
-	Code    codes.Code `json:"code"`
-	Message string     `json:"message"`
+	Code    int    `json:"code"`
+	Message string `json:"message"`
 }
 
-func NewServiceError(code codes.Code, message string) *ServiceError {
+func NewServiceError(code int, message string) *ServiceError {
 	return &ServiceError{Code: code, Message: message}
 }
 
@@ -23,4 +25,16 @@ func (e *ServiceError) Error() string {
 func (e *ServiceError) WithInternal(err error) *ServiceError {
 	log.Println(err)
 	return e
+}
+
+func FromServiceError(err error) (*ServiceError, error) {
+	errorMessage := &ServiceError{Code: 500, Message: "internal error"}
+	if rpcErr, ok := status.FromError(err); !ok {
+		return errorMessage, errors.New(err.Error())
+	} else {
+		if err := json.Unmarshal([]byte(rpcErr.Message()), &errorMessage); err != nil {
+			return errorMessage, err
+		}
+	}
+	return errorMessage, nil
 }
