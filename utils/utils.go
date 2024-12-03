@@ -1,6 +1,7 @@
 package utils
 
 import (
+	"bytes"
 	"context"
 	"crypto/aes"
 	"crypto/cipher"
@@ -12,9 +13,11 @@ import (
 	"io"
 	"math"
 	"math/big"
+	"mime/multipart"
 	"slices"
 	"time"
 
+	"github.com/go-resty/resty/v2"
 	"github.com/pkg/errors"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
@@ -186,4 +189,21 @@ func OutgoingInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryS
 		ctx = metadata.NewIncomingContext(ctx, metadata.Pairs(headers...))
 	}
 	return handler(ctx, req)
+}
+
+func UploadFile(dest, filename string, file []byte) (string, error) {
+	resp, err := resty.New().R().SetFileReader("file", filename, bytes.NewReader(file)).Put(dest)
+	if err != nil {
+		return "", errors.WithStack(err)
+	}
+	return string(resp.Body()), nil
+}
+
+func ReadMultipartFile(fileHeader *multipart.FileHeader) ([]byte, error) {
+	if file, err := fileHeader.Open(); err != nil {
+		return nil, errors.WithStack(err)
+	} else {
+		defer file.Close()
+		return io.ReadAll(file)
+	}
 }
