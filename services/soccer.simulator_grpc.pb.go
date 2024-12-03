@@ -20,14 +20,14 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	SoccerSimulator_AddTeam_FullMethodName        = "/SoccerSimulator/AddTeam"
 	SoccerSimulator_PlaceBet_FullMethodName       = "/SoccerSimulator/PlaceBet"
 	SoccerSimulator_GetMatch_FullMethodName       = "/SoccerSimulator/GetMatch"
 	SoccerSimulator_AddMatch_FullMethodName       = "/SoccerSimulator/AddMatch"
 	SoccerSimulator_UpdateTeam_FullMethodName     = "/SoccerSimulator/UpdateTeam"
-	SoccerSimulator_AddLeague_FullMethodName      = "/SoccerSimulator/AddLeague"
+	SoccerSimulator_AddTeam_FullMethodName        = "/SoccerSimulator/AddTeam"
 	SoccerSimulator_GetBets_FullMethodName        = "/SoccerSimulator/GetBets"
 	SoccerSimulator_DeleteBet_FullMethodName      = "/SoccerSimulator/DeleteBet"
+	SoccerSimulator_AddLeague_FullMethodName      = "/SoccerSimulator/AddLeague"
 	SoccerSimulator_UpdateBet_FullMethodName      = "/SoccerSimulator/UpdateBet"
 	SoccerSimulator_ReuseMatch_FullMethodName     = "/SoccerSimulator/ReuseMatch"
 	SoccerSimulator_DeleteMatch_FullMethodName    = "/SoccerSimulator/DeleteMatch"
@@ -45,14 +45,14 @@ const (
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type SoccerSimulatorClient interface {
-	AddTeam(ctx context.Context, in *Team, opts ...grpc.CallOption) (*AddTeamResponse, error)
 	PlaceBet(ctx context.Context, in *Bet, opts ...grpc.CallOption) (*BetUpdateResponse, error)
 	GetMatch(ctx context.Context, in *GetMatchRequest, opts ...grpc.CallOption) (*Match, error)
 	AddMatch(ctx context.Context, in *Match, opts ...grpc.CallOption) (*AddMatchResponse, error)
 	UpdateTeam(ctx context.Context, in *Team, opts ...grpc.CallOption) (*AddTeamResponse, error)
-	AddLeague(ctx context.Context, in *League, opts ...grpc.CallOption) (*AddLeagueResponse, error)
+	AddTeam(ctx context.Context, in *AddTeamRequest, opts ...grpc.CallOption) (*AddTeamResponse, error)
 	GetBets(ctx context.Context, in *GetBetsRequest, opts ...grpc.CallOption) (*GetBetsResponse, error)
 	DeleteBet(ctx context.Context, in *DeleteBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error)
+	AddLeague(ctx context.Context, in *AddLeagueRequest, opts ...grpc.CallOption) (*AddLeagueResponse, error)
 	UpdateBet(ctx context.Context, in *UpdateBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error)
 	ReuseMatch(ctx context.Context, in *ReuseMatchRequest, opts ...grpc.CallOption) (*AddMatchResponse, error)
 	DeleteMatch(ctx context.Context, in *DeleteMatchRequest, opts ...grpc.CallOption) (*AddMatchResponse, error)
@@ -72,16 +72,6 @@ type soccerSimulatorClient struct {
 
 func NewSoccerSimulatorClient(cc grpc.ClientConnInterface) SoccerSimulatorClient {
 	return &soccerSimulatorClient{cc}
-}
-
-func (c *soccerSimulatorClient) AddTeam(ctx context.Context, in *Team, opts ...grpc.CallOption) (*AddTeamResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddTeamResponse)
-	err := c.cc.Invoke(ctx, SoccerSimulator_AddTeam_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
 }
 
 func (c *soccerSimulatorClient) PlaceBet(ctx context.Context, in *Bet, opts ...grpc.CallOption) (*BetUpdateResponse, error) {
@@ -124,10 +114,10 @@ func (c *soccerSimulatorClient) UpdateTeam(ctx context.Context, in *Team, opts .
 	return out, nil
 }
 
-func (c *soccerSimulatorClient) AddLeague(ctx context.Context, in *League, opts ...grpc.CallOption) (*AddLeagueResponse, error) {
+func (c *soccerSimulatorClient) AddTeam(ctx context.Context, in *AddTeamRequest, opts ...grpc.CallOption) (*AddTeamResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddLeagueResponse)
-	err := c.cc.Invoke(ctx, SoccerSimulator_AddLeague_FullMethodName, in, out, cOpts...)
+	out := new(AddTeamResponse)
+	err := c.cc.Invoke(ctx, SoccerSimulator_AddTeam_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -148,6 +138,16 @@ func (c *soccerSimulatorClient) DeleteBet(ctx context.Context, in *DeleteBetRequ
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(BetUpdateResponse)
 	err := c.cc.Invoke(ctx, SoccerSimulator_DeleteBet_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *soccerSimulatorClient) AddLeague(ctx context.Context, in *AddLeagueRequest, opts ...grpc.CallOption) (*AddLeagueResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddLeagueResponse)
+	err := c.cc.Invoke(ctx, SoccerSimulator_AddLeague_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -268,14 +268,14 @@ func (c *soccerSimulatorClient) ScheduleStream(ctx context.Context, in *Schedule
 // All implementations should embed UnimplementedSoccerSimulatorServer
 // for forward compatibility.
 type SoccerSimulatorServer interface {
-	AddTeam(context.Context, *Team) (*AddTeamResponse, error)
 	PlaceBet(context.Context, *Bet) (*BetUpdateResponse, error)
 	GetMatch(context.Context, *GetMatchRequest) (*Match, error)
 	AddMatch(context.Context, *Match) (*AddMatchResponse, error)
 	UpdateTeam(context.Context, *Team) (*AddTeamResponse, error)
-	AddLeague(context.Context, *League) (*AddLeagueResponse, error)
+	AddTeam(context.Context, *AddTeamRequest) (*AddTeamResponse, error)
 	GetBets(context.Context, *GetBetsRequest) (*GetBetsResponse, error)
 	DeleteBet(context.Context, *DeleteBetRequest) (*BetUpdateResponse, error)
+	AddLeague(context.Context, *AddLeagueRequest) (*AddLeagueResponse, error)
 	UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error)
 	ReuseMatch(context.Context, *ReuseMatchRequest) (*AddMatchResponse, error)
 	DeleteMatch(context.Context, *DeleteMatchRequest) (*AddMatchResponse, error)
@@ -296,9 +296,6 @@ type SoccerSimulatorServer interface {
 // pointer dereference when methods are called.
 type UnimplementedSoccerSimulatorServer struct{}
 
-func (UnimplementedSoccerSimulatorServer) AddTeam(context.Context, *Team) (*AddTeamResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddTeam not implemented")
-}
 func (UnimplementedSoccerSimulatorServer) PlaceBet(context.Context, *Bet) (*BetUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceBet not implemented")
 }
@@ -311,14 +308,17 @@ func (UnimplementedSoccerSimulatorServer) AddMatch(context.Context, *Match) (*Ad
 func (UnimplementedSoccerSimulatorServer) UpdateTeam(context.Context, *Team) (*AddTeamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateTeam not implemented")
 }
-func (UnimplementedSoccerSimulatorServer) AddLeague(context.Context, *League) (*AddLeagueResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddLeague not implemented")
+func (UnimplementedSoccerSimulatorServer) AddTeam(context.Context, *AddTeamRequest) (*AddTeamResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddTeam not implemented")
 }
 func (UnimplementedSoccerSimulatorServer) GetBets(context.Context, *GetBetsRequest) (*GetBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetBets not implemented")
 }
 func (UnimplementedSoccerSimulatorServer) DeleteBet(context.Context, *DeleteBetRequest) (*BetUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteBet not implemented")
+}
+func (UnimplementedSoccerSimulatorServer) AddLeague(context.Context, *AddLeagueRequest) (*AddLeagueResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddLeague not implemented")
 }
 func (UnimplementedSoccerSimulatorServer) UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBet not implemented")
@@ -371,24 +371,6 @@ func RegisterSoccerSimulatorServer(s grpc.ServiceRegistrar, srv SoccerSimulatorS
 		t.testEmbeddedByValue()
 	}
 	s.RegisterService(&SoccerSimulator_ServiceDesc, srv)
-}
-
-func _SoccerSimulator_AddTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Team)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SoccerSimulatorServer).AddTeam(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SoccerSimulator_AddTeam_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SoccerSimulatorServer).AddTeam(ctx, req.(*Team))
-	}
-	return interceptor(ctx, in, info, handler)
 }
 
 func _SoccerSimulator_PlaceBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -463,20 +445,20 @@ func _SoccerSimulator_UpdateTeam_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SoccerSimulator_AddLeague_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(League)
+func _SoccerSimulator_AddTeam_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddTeamRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SoccerSimulatorServer).AddLeague(ctx, in)
+		return srv.(SoccerSimulatorServer).AddTeam(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: SoccerSimulator_AddLeague_FullMethodName,
+		FullMethod: SoccerSimulator_AddTeam_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SoccerSimulatorServer).AddLeague(ctx, req.(*League))
+		return srv.(SoccerSimulatorServer).AddTeam(ctx, req.(*AddTeamRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -513,6 +495,24 @@ func _SoccerSimulator_DeleteBet_Handler(srv interface{}, ctx context.Context, de
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SoccerSimulatorServer).DeleteBet(ctx, req.(*DeleteBetRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _SoccerSimulator_AddLeague_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddLeagueRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SoccerSimulatorServer).AddLeague(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SoccerSimulator_AddLeague_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SoccerSimulatorServer).AddLeague(ctx, req.(*AddLeagueRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -723,10 +723,6 @@ var SoccerSimulator_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*SoccerSimulatorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "AddTeam",
-			Handler:    _SoccerSimulator_AddTeam_Handler,
-		},
-		{
 			MethodName: "PlaceBet",
 			Handler:    _SoccerSimulator_PlaceBet_Handler,
 		},
@@ -743,8 +739,8 @@ var SoccerSimulator_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SoccerSimulator_UpdateTeam_Handler,
 		},
 		{
-			MethodName: "AddLeague",
-			Handler:    _SoccerSimulator_AddLeague_Handler,
+			MethodName: "AddTeam",
+			Handler:    _SoccerSimulator_AddTeam_Handler,
 		},
 		{
 			MethodName: "GetBets",
@@ -753,6 +749,10 @@ var SoccerSimulator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteBet",
 			Handler:    _SoccerSimulator_DeleteBet_Handler,
+		},
+		{
+			MethodName: "AddLeague",
+			Handler:    _SoccerSimulator_AddLeague_Handler,
 		},
 		{
 			MethodName: "UpdateBet",
