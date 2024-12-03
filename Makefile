@@ -3,7 +3,7 @@ ifeq ($(VERSION),)
 endif
 
 publish:
-	echo $(VERSION)
+	git push
 	git tag $(VERSION)
 	git push --tags
 	GOPROXY=proxy.golang.org go list -m github.com/thedivinez/betting-libraries@$(VERSION)
