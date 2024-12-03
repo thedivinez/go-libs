@@ -18,8 +18,8 @@ type RedisCache struct {
 	Client *redis.Client
 }
 
-func NewRedisCache(address string) *RedisCache {
-	redisClient := redis.NewClient(&redis.Options{Addr: address, ReadTimeout: -1})
+func NewRedisCache(address string, db int) *RedisCache {
+	redisClient := redis.NewClient(&redis.Options{Addr: address, ReadTimeout: -1, DB: db})
 	if err := redisClient.Ping(context.Background()).Err(); err != nil {
 		time.Sleep(3 * time.Second)
 		if err := redisClient.Ping(context.Background()).Err(); err != nil {
