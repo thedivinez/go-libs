@@ -4,7 +4,7 @@
 // - protoc             v3.12.4
 // source: messaging.proto
 
-package grandaviator
+package aviator
 
 import (
 	context "context"
