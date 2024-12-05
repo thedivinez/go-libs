@@ -11,7 +11,7 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
-	"github.com/thedivinez/betting-libraries/utils"
+	"github.com/thedivinez/go-libs/utils"
 )
 
 type RedisCache struct {

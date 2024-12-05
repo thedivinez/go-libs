@@ -2,9 +2,9 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v3.12.4
-// source: soccer.simulator.proto
+// source: soccer.proto
 
-package services
+package soccer
 
 import (
 	context "context"
@@ -838,5 +838,5 @@ var SoccerSimulator_ServiceDesc = grpc.ServiceDesc{
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "soccer.simulator.proto",
+	Metadata: "soccer.proto",
 }

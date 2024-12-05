@@ -3,17 +3,14 @@ package mailer
 import (
 	"bytes"
 	"crypto/tls"
-	"embed"
 	"html/template"
+	"io/fs"
 	"log"
 	"strconv"
 
 	"github.com/pkg/errors"
 	"gopkg.in/gomail.v2"
 )
-
-//go:embed templates
-var emailTemplate embed.FS
 
 type EmailMailer struct {
 	port   int
@@ -39,11 +36,8 @@ func NewEmailMailer(mailer MailerConfigs) *EmailMailer {
 	return &EmailMailer{email: mailer.MailerEmail, server: mailer.MailerServer, sender: mailer.MailerSender, pwd: mailer.MailerPwd, port: port}
 }
 
-/****************************************
-*	READ EMAIL BODY FRO HTML FILE METHOD	*
-****************************************/
-func (mailer *EmailMailer) ReadTemplate(file string, data interface{}) (string, error) {
-	t, err := template.ParseFS(emailTemplate, "templates/"+file+".html")
+func (mailer *EmailMailer) ReadTemplate(fs fs.FS, file string, data interface{}) (string, error) {
+	t, err := template.ParseFS(fs, file)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -54,9 +48,6 @@ func (mailer *EmailMailer) ReadTemplate(file string, data interface{}) (string, 
 	return buf.String(), nil
 }
 
-/****************************
-*	SEND EMAIL TO USER METHOD	*
-****************************/
 func (mailer *EmailMailer) Send(to, subject, body string) error {
 	msg := gomail.NewMessage()
 	msg.SetHeader("To", to)
@@ -65,8 +56,5 @@ func (mailer *EmailMailer) Send(to, subject, body string) error {
 	msg.SetHeader("From", mailer.sender+" <"+mailer.email+">")
 	n := gomail.NewDialer(mailer.server, mailer.port, mailer.email, mailer.pwd)
 	n.TLSConfig = &tls.Config{InsecureSkipVerify: true}
-	if err := n.DialAndSend(msg); err != nil {
-		return errors.WithStack(err)
-	}
-	return nil
+	return errors.WithStack(n.DialAndSend(msg))
 }

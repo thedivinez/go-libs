@@ -1,4 +1,4 @@
-module github.com/thedivinez/betting-libraries
+module github.com/thedivinez/go-libs
 
 go 1.23.1
 

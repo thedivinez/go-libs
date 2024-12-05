@@ -13,6 +13,7 @@ import (
 	"io"
 	"math"
 	"math/big"
+	mrand "math/rand/v2"
 	"mime/multipart"
 	"slices"
 	"time"
@@ -206,4 +207,15 @@ func ReadMultipartFile(fileHeader *multipart.FileHeader) ([]byte, error) {
 		defer file.Close()
 		return io.ReadAll(file)
 	}
+}
+
+func RandFloat(min, max float64) float64 {
+	seed := uint64(time.Now().UnixNano())
+	localRand := mrand.New(mrand.NewPCG(mrand.Uint64(), seed))
+	return min + localRand.Float64()*(max-min)
+}
+
+func RandInt(min, max int) int {
+	localRand := mrand.New(mrand.NewPCG(mrand.Uint64(), mrand.Uint64()))
+	return localRand.IntN(max-min) + min
 }

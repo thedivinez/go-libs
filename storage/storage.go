@@ -17,19 +17,3 @@ type Database interface {
 	Find(collection string, filter any, results interface{}, opts ...*options.FindOptions) error
 	FindOne(collection string, filter any, results interface{}, opts ...*options.FindOneOptions) error
 }
-
-func GetCollectionName(target string) string {
-	if target == "admin" {
-		return Organizations
-	}
-	return Users
-}
-
-const (
-	Users           = "users"
-	Devices         = "devices"
-	Accounting      = "accounting"
-	Transactions    = "transactions"
-	Organizations   = "organizations"
-	DeletedAccounts = "deletedAccounts"
-)
