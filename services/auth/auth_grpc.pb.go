@@ -36,6 +36,7 @@ const (
 	Authentication_DeleteAvatar_FullMethodName            = "/Authentication/DeleteAvatar"
 	Authentication_RefreshToken_FullMethodName            = "/Authentication/RefreshToken"
 	Authentication_InitiateDeposit_FullMethodName         = "/Authentication/InitiateDeposit"
+	Authentication_UpdateAvatar_FullMethodName            = "/Authentication/UpdateAvatar"
 	Authentication_ForgotPassword_FullMethodName          = "/Authentication/ForgotPassword"
 	Authentication_UploadDocument_FullMethodName          = "/Authentication/UploadDocument"
 	Authentication_AuthenticateAdmin_FullMethodName       = "/Authentication/AuthenticateAdmin"
@@ -69,6 +70,7 @@ type AuthenticationClient interface {
 	DeleteAvatar(ctx context.Context, in *DeleteAvatarRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	RefreshToken(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserAuthTokens, error)
 	InitiateDeposit(ctx context.Context, in *DepositRequest, opts ...grpc.CallOption) (*any1.Any, error)
+	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	AuthenticateAdmin(ctx context.Context, in *AdminAuthRequest, opts ...grpc.CallOption) (*AuthenticationConfig, error)
@@ -241,6 +243,16 @@ func (c *authenticationClient) InitiateDeposit(ctx context.Context, in *DepositR
 	return out, nil
 }
 
+func (c *authenticationClient) UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateUserResponse)
+	err := c.cc.Invoke(ctx, Authentication_UpdateAvatar_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MessageResponse)
@@ -380,6 +392,7 @@ type AuthenticationServer interface {
 	DeleteAvatar(context.Context, *DeleteAvatarRequest) (*MessageResponse, error)
 	RefreshToken(context.Context, *empty.Empty) (*UserAuthTokens, error)
 	InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error)
+	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateUserResponse, error)
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error)
 	UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error)
 	AuthenticateAdmin(context.Context, *AdminAuthRequest) (*AuthenticationConfig, error)
@@ -445,6 +458,9 @@ func (UnimplementedAuthenticationServer) RefreshToken(context.Context, *empty.Em
 }
 func (UnimplementedAuthenticationServer) InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitiateDeposit not implemented")
+}
+func (UnimplementedAuthenticationServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
 }
 func (UnimplementedAuthenticationServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
@@ -772,6 +788,24 @@ func _Authentication_InitiateDeposit_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_UpdateAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAvatarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).UpdateAvatar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_UpdateAvatar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).UpdateAvatar(ctx, req.(*UpdateAvatarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ForgotPasswordRequest)
 	if err := dec(in); err != nil {
@@ -1054,6 +1088,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "InitiateDeposit",
 			Handler:    _Authentication_InitiateDeposit_Handler,
+		},
+		{
+			MethodName: "UpdateAvatar",
+			Handler:    _Authentication_UpdateAvatar_Handler,
 		},
 		{
 			MethodName: "ForgotPassword",
