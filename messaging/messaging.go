@@ -25,12 +25,15 @@ func NewClient(host string, db int) (*Messenger, error) {
 
 func (client *Messenger) Listen(channels ...string) <-chan *EventMessage {
 	message := make(chan *EventMessage)
-	for msg := range client.redis.Subscribe(context.Background(), channels...).Channel() {
-		payload := &EventMessage{}
-		if err := payload.UnmarshalBinary([]byte(msg.Payload)); err == nil {
-			message <- payload
+	go func() {
+		for msg := range client.redis.Subscribe(context.Background(), channels...).Channel() {
+			payload := &EventMessage{}
+			if err := payload.UnmarshalBinary([]byte(msg.Payload)); err == nil {
+				message <- payload
+			}
 		}
-	}
+		close(message)
+	}()
 	return message
 }
 
