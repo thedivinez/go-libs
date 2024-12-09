@@ -38,6 +38,7 @@ const (
 	Authentication_InitiateDeposit_FullMethodName         = "/Authentication/InitiateDeposit"
 	Authentication_ForgotPassword_FullMethodName          = "/Authentication/ForgotPassword"
 	Authentication_UploadDocument_FullMethodName          = "/Authentication/UploadDocument"
+	Authentication_AuthenticateAdmin_FullMethodName       = "/Authentication/AuthenticateAdmin"
 	Authentication_ValidateToken_FullMethodName           = "/Authentication/ValidateToken"
 	Authentication_MakeWithdrawalRequest_FullMethodName   = "/Authentication/MakeWithdrawalRequest"
 	Authentication_DepositWebhook_FullMethodName          = "/Authentication/DepositWebhook"
@@ -70,6 +71,7 @@ type AuthenticationClient interface {
 	InitiateDeposit(ctx context.Context, in *DepositRequest, opts ...grpc.CallOption) (*any1.Any, error)
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	AuthenticateAdmin(ctx context.Context, in *AdminAuthRequest, opts ...grpc.CallOption) (*AuthenticationConfig, error)
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 	MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
 	DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
@@ -259,6 +261,16 @@ func (c *authenticationClient) UploadDocument(ctx context.Context, in *UploadDoc
 	return out, nil
 }
 
+func (c *authenticationClient) AuthenticateAdmin(ctx context.Context, in *AdminAuthRequest, opts ...grpc.CallOption) (*AuthenticationConfig, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AuthenticationConfig)
+	err := c.cc.Invoke(ctx, Authentication_AuthenticateAdmin_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(ValidateTokenResponse)
@@ -370,6 +382,7 @@ type AuthenticationServer interface {
 	InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error)
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error)
 	UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error)
+	AuthenticateAdmin(context.Context, *AdminAuthRequest) (*AuthenticationConfig, error)
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
 	DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
@@ -438,6 +451,9 @@ func (UnimplementedAuthenticationServer) ForgotPassword(context.Context, *Forgot
 }
 func (UnimplementedAuthenticationServer) UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UploadDocument not implemented")
+}
+func (UnimplementedAuthenticationServer) AuthenticateAdmin(context.Context, *AdminAuthRequest) (*AuthenticationConfig, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AuthenticateAdmin not implemented")
 }
 func (UnimplementedAuthenticationServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
@@ -792,6 +808,24 @@ func _Authentication_UploadDocument_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_AuthenticateAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AdminAuthRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).AuthenticateAdmin(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_AuthenticateAdmin_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).AuthenticateAdmin(ctx, req.(*AdminAuthRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ValidateTokenRequest)
 	if err := dec(in); err != nil {
@@ -1028,6 +1062,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UploadDocument",
 			Handler:    _Authentication_UploadDocument_Handler,
+		},
+		{
+			MethodName: "AuthenticateAdmin",
+			Handler:    _Authentication_AuthenticateAdmin_Handler,
 		},
 		{
 			MethodName: "ValidateToken",
