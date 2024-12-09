@@ -1,4 +1,4 @@
-package utils
+package messaging
 
 import "encoding/json"
 
@@ -7,6 +7,7 @@ type EventMessage struct {
 	Room    string
 	Event   string
 	Service string
+	OrgId   string
 }
 
 func (ev EventMessage) MarshalBinary() ([]byte, error) {

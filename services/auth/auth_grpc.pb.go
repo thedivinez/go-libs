@@ -22,29 +22,31 @@ const _ = grpc.SupportPackageIsVersion9
 
 const (
 	Authentication_GetUser_FullMethodName                 = "/Authentication/GetUser"
-	Authentication_UpdateUser_FullMethodName              = "/Authentication/UpdateUser"
 	Authentication_SignIn_FullMethodName                  = "/Authentication/SignIn"
 	Authentication_SignUp_FullMethodName                  = "/Authentication/SignUp"
+	Authentication_UpdateUser_FullMethodName              = "/Authentication/UpdateUser"
 	Authentication_FindUserById_FullMethodName            = "/Authentication/FindUserById"
+	Authentication_ChangePassword_FullMethodName          = "/Authentication/ChangePassword"
 	Authentication_FindDeviceById_FullMethodName          = "/Authentication/FindDeviceById"
 	Authentication_GetDevices_FullMethodName              = "/Authentication/GetDevices"
 	Authentication_SignOut_FullMethodName                 = "/Authentication/SignOut"
-	Authentication_ChangePassword_FullMethodName          = "/Authentication/ChangePassword"
-	Authentication_RefreshToken_FullMethodName            = "/Authentication/RefreshToken"
-	Authentication_InitiateDeposit_FullMethodName         = "/Authentication/InitiateDeposit"
 	Authentication_VerifyEmail_FullMethodName             = "/Authentication/VerifyEmail"
 	Authentication_DeleteAccount_FullMethodName           = "/Authentication/DeleteAccount"
 	Authentication_ResetPassword_FullMethodName           = "/Authentication/ResetPassword"
+	Authentication_DeleteAvatar_FullMethodName            = "/Authentication/DeleteAvatar"
+	Authentication_RefreshToken_FullMethodName            = "/Authentication/RefreshToken"
+	Authentication_InitiateDeposit_FullMethodName         = "/Authentication/InitiateDeposit"
+	Authentication_ForgotPassword_FullMethodName          = "/Authentication/ForgotPassword"
+	Authentication_UploadDocument_FullMethodName          = "/Authentication/UploadDocument"
 	Authentication_ValidateToken_FullMethodName           = "/Authentication/ValidateToken"
 	Authentication_MakeWithdrawalRequest_FullMethodName   = "/Authentication/MakeWithdrawalRequest"
 	Authentication_DepositWebhook_FullMethodName          = "/Authentication/DepositWebhook"
-	Authentication_ForgotPassword_FullMethodName          = "/Authentication/ForgotPassword"
 	Authentication_GetTransactions_FullMethodName         = "/Authentication/GetTransactions"
 	Authentication_GetOrganizationtAccount_FullMethodName = "/Authentication/GetOrganizationtAccount"
-	Authentication_TopupDemoBalance_FullMethodName        = "/Authentication/TopupDemoBalance"
 	Authentication_UpdateOnlineStatus_FullMethodName      = "/Authentication/UpdateOnlineStatus"
 	Authentication_AddToAccountBalance_FullMethodName     = "/Authentication/AddToAccountBalance"
 	Authentication_SendVerificationLink_FullMethodName    = "/Authentication/SendVerificationLink"
+	Authentication_TopupDemoBalance_FullMethodName        = "/Authentication/TopupDemoBalance"
 )
 
 // AuthenticationClient is the client API for Authentication service.
@@ -52,29 +54,31 @@ const (
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AuthenticationClient interface {
 	GetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
-	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
 	SignIn(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserAuthTokens, error)
 	SignUp(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserAuthTokens, error)
+	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	FindUserById(ctx context.Context, in *FindUserByIdRequest, opts ...grpc.CallOption) (*User, error)
+	ChangePassword(ctx context.Context, in *Credentials, opts ...grpc.CallOption) (*MessageResponse, error)
 	FindDeviceById(ctx context.Context, in *FindDeviceByIdRequest, opts ...grpc.CallOption) (*Device, error)
 	GetDevices(ctx context.Context, in *GetDevicesRequest, opts ...grpc.CallOption) (*DevicesResponse, error)
 	SignOut(ctx context.Context, in *SignOutRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	ChangePassword(ctx context.Context, in *Credentials, opts ...grpc.CallOption) (*empty.Empty, error)
+	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	DeleteAccount(ctx context.Context, in *DeleteAccountBody, opts ...grpc.CallOption) (*MessageResponse, error)
+	ResetPassword(ctx context.Context, in *ResetPasswordBody, opts ...grpc.CallOption) (*MessageResponse, error)
+	DeleteAvatar(ctx context.Context, in *DeleteAvatarRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	RefreshToken(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserAuthTokens, error)
 	InitiateDeposit(ctx context.Context, in *DepositRequest, opts ...grpc.CallOption) (*any1.Any, error)
-	VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	DeleteAccount(ctx context.Context, in *DeleteAccountBody, opts ...grpc.CallOption) (*empty.Empty, error)
-	ResetPassword(ctx context.Context, in *ResetPasswordBody, opts ...grpc.CallOption) (*empty.Empty, error)
+	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 	MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
 	DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error)
 	GetOrganizationtAccount(ctx context.Context, in *GetOrganizationtAccountRequest, opts ...grpc.CallOption) (*User, error)
+	UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error)
-	UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*empty.Empty, error)
-	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 }
 
 type authenticationClient struct {
@@ -89,16 +93,6 @@ func (c *authenticationClient) GetUser(ctx context.Context, in *User, opts ...gr
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
 	err := c.cc.Invoke(ctx, Authentication_GetUser_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authenticationClient) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(User)
-	err := c.cc.Invoke(ctx, Authentication_UpdateUser_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -125,10 +119,30 @@ func (c *authenticationClient) SignUp(ctx context.Context, in *User, opts ...grp
 	return out, nil
 }
 
+func (c *authenticationClient) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(UpdateUserResponse)
+	err := c.cc.Invoke(ctx, Authentication_UpdateUser_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) FindUserById(ctx context.Context, in *FindUserByIdRequest, opts ...grpc.CallOption) (*User, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
 	err := c.cc.Invoke(ctx, Authentication_FindUserById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) ChangePassword(ctx context.Context, in *Credentials, opts ...grpc.CallOption) (*MessageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_ChangePassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -165,10 +179,40 @@ func (c *authenticationClient) SignOut(ctx context.Context, in *SignOutRequest, 
 	return out, nil
 }
 
-func (c *authenticationClient) ChangePassword(ctx context.Context, in *Credentials, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *authenticationClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, Authentication_ChangePassword_FullMethodName, in, out, cOpts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_VerifyEmail_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) DeleteAccount(ctx context.Context, in *DeleteAccountBody, opts ...grpc.CallOption) (*MessageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_DeleteAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) ResetPassword(ctx context.Context, in *ResetPasswordBody, opts ...grpc.CallOption) (*MessageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_ResetPassword_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) DeleteAvatar(ctx context.Context, in *DeleteAvatarRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_DeleteAvatar_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -195,30 +239,20 @@ func (c *authenticationClient) InitiateDeposit(ctx context.Context, in *DepositR
 	return out, nil
 }
 
-func (c *authenticationClient) VerifyEmail(ctx context.Context, in *VerifyEmailRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *authenticationClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, Authentication_VerifyEmail_FullMethodName, in, out, cOpts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_ForgotPassword_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *authenticationClient) DeleteAccount(ctx context.Context, in *DeleteAccountBody, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *authenticationClient) UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, Authentication_DeleteAccount_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authenticationClient) ResetPassword(ctx context.Context, in *ResetPasswordBody, opts ...grpc.CallOption) (*empty.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, Authentication_ResetPassword_FullMethodName, in, out, cOpts...)
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, Authentication_UploadDocument_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -255,16 +289,6 @@ func (c *authenticationClient) DepositWebhook(ctx context.Context, in *DepositWe
 	return out, nil
 }
 
-func (c *authenticationClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, Authentication_ForgotPassword_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authenticationClient) GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(TransactionsResponse)
@@ -285,19 +309,9 @@ func (c *authenticationClient) GetOrganizationtAccount(ctx context.Context, in *
 	return out, nil
 }
 
-func (c *authenticationClient) TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error) {
+func (c *authenticationClient) UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(TopupDemoBalanceResponse)
-	err := c.cc.Invoke(ctx, Authentication_TopupDemoBalance_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authenticationClient) UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, Authentication_UpdateOnlineStatus_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -305,9 +319,9 @@ func (c *authenticationClient) UpdateOnlineStatus(ctx context.Context, in *Updat
 	return out, nil
 }
 
-func (c *authenticationClient) AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *authenticationClient) AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, Authentication_AddToAccountBalance_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
@@ -315,10 +329,20 @@ func (c *authenticationClient) AddToAccountBalance(ctx context.Context, in *AddT
 	return out, nil
 }
 
-func (c *authenticationClient) SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+func (c *authenticationClient) SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(empty.Empty)
+	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, Authentication_SendVerificationLink_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(TopupDemoBalanceResponse)
+	err := c.cc.Invoke(ctx, Authentication_TopupDemoBalance_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -330,29 +354,31 @@ func (c *authenticationClient) SendVerificationLink(ctx context.Context, in *Sen
 // for forward compatibility.
 type AuthenticationServer interface {
 	GetUser(context.Context, *User) (*User, error)
-	UpdateUser(context.Context, *User) (*User, error)
 	SignIn(context.Context, *User) (*UserAuthTokens, error)
 	SignUp(context.Context, *User) (*UserAuthTokens, error)
+	UpdateUser(context.Context, *User) (*UpdateUserResponse, error)
 	FindUserById(context.Context, *FindUserByIdRequest) (*User, error)
+	ChangePassword(context.Context, *Credentials) (*MessageResponse, error)
 	FindDeviceById(context.Context, *FindDeviceByIdRequest) (*Device, error)
 	GetDevices(context.Context, *GetDevicesRequest) (*DevicesResponse, error)
 	SignOut(context.Context, *SignOutRequest) (*empty.Empty, error)
-	ChangePassword(context.Context, *Credentials) (*empty.Empty, error)
+	VerifyEmail(context.Context, *VerifyEmailRequest) (*MessageResponse, error)
+	DeleteAccount(context.Context, *DeleteAccountBody) (*MessageResponse, error)
+	ResetPassword(context.Context, *ResetPasswordBody) (*MessageResponse, error)
+	DeleteAvatar(context.Context, *DeleteAvatarRequest) (*MessageResponse, error)
 	RefreshToken(context.Context, *empty.Empty) (*UserAuthTokens, error)
 	InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error)
-	VerifyEmail(context.Context, *VerifyEmailRequest) (*empty.Empty, error)
-	DeleteAccount(context.Context, *DeleteAccountBody) (*empty.Empty, error)
-	ResetPassword(context.Context, *ResetPasswordBody) (*empty.Empty, error)
+	ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error)
+	UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error)
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
 	DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
-	ForgotPassword(context.Context, *ForgotPasswordRequest) (*empty.Empty, error)
 	GetTransactions(context.Context, *GetTransactionsRequest) (*TransactionsResponse, error)
 	GetOrganizationtAccount(context.Context, *GetOrganizationtAccountRequest) (*User, error)
+	UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*MessageResponse, error)
+	AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*MessageResponse, error)
+	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error)
 	TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error)
-	UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*empty.Empty, error)
-	AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*empty.Empty, error)
-	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*empty.Empty, error)
 }
 
 // UnimplementedAuthenticationServer should be embedded to have
@@ -365,17 +391,20 @@ type UnimplementedAuthenticationServer struct{}
 func (UnimplementedAuthenticationServer) GetUser(context.Context, *User) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetUser not implemented")
 }
-func (UnimplementedAuthenticationServer) UpdateUser(context.Context, *User) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
-}
 func (UnimplementedAuthenticationServer) SignIn(context.Context, *User) (*UserAuthTokens, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignIn not implemented")
 }
 func (UnimplementedAuthenticationServer) SignUp(context.Context, *User) (*UserAuthTokens, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
 }
+func (UnimplementedAuthenticationServer) UpdateUser(context.Context, *User) (*UpdateUserResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
+}
 func (UnimplementedAuthenticationServer) FindUserById(context.Context, *FindUserByIdRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserById not implemented")
+}
+func (UnimplementedAuthenticationServer) ChangePassword(context.Context, *Credentials) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
 }
 func (UnimplementedAuthenticationServer) FindDeviceById(context.Context, *FindDeviceByIdRequest) (*Device, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindDeviceById not implemented")
@@ -386,8 +415,17 @@ func (UnimplementedAuthenticationServer) GetDevices(context.Context, *GetDevices
 func (UnimplementedAuthenticationServer) SignOut(context.Context, *SignOutRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignOut not implemented")
 }
-func (UnimplementedAuthenticationServer) ChangePassword(context.Context, *Credentials) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
+func (UnimplementedAuthenticationServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
+}
+func (UnimplementedAuthenticationServer) DeleteAccount(context.Context, *DeleteAccountBody) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
+}
+func (UnimplementedAuthenticationServer) ResetPassword(context.Context, *ResetPasswordBody) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+}
+func (UnimplementedAuthenticationServer) DeleteAvatar(context.Context, *DeleteAvatarRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DeleteAvatar not implemented")
 }
 func (UnimplementedAuthenticationServer) RefreshToken(context.Context, *empty.Empty) (*UserAuthTokens, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RefreshToken not implemented")
@@ -395,14 +433,11 @@ func (UnimplementedAuthenticationServer) RefreshToken(context.Context, *empty.Em
 func (UnimplementedAuthenticationServer) InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitiateDeposit not implemented")
 }
-func (UnimplementedAuthenticationServer) VerifyEmail(context.Context, *VerifyEmailRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method VerifyEmail not implemented")
+func (UnimplementedAuthenticationServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
 }
-func (UnimplementedAuthenticationServer) DeleteAccount(context.Context, *DeleteAccountBody) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method DeleteAccount not implemented")
-}
-func (UnimplementedAuthenticationServer) ResetPassword(context.Context, *ResetPasswordBody) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ResetPassword not implemented")
+func (UnimplementedAuthenticationServer) UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UploadDocument not implemented")
 }
 func (UnimplementedAuthenticationServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
@@ -413,26 +448,23 @@ func (UnimplementedAuthenticationServer) MakeWithdrawalRequest(context.Context, 
 func (UnimplementedAuthenticationServer) DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DepositWebhook not implemented")
 }
-func (UnimplementedAuthenticationServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
-}
 func (UnimplementedAuthenticationServer) GetTransactions(context.Context, *GetTransactionsRequest) (*TransactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransactions not implemented")
 }
 func (UnimplementedAuthenticationServer) GetOrganizationtAccount(context.Context, *GetOrganizationtAccountRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationtAccount not implemented")
 }
-func (UnimplementedAuthenticationServer) TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TopupDemoBalance not implemented")
-}
-func (UnimplementedAuthenticationServer) UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*empty.Empty, error) {
+func (UnimplementedAuthenticationServer) UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOnlineStatus not implemented")
 }
-func (UnimplementedAuthenticationServer) AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*empty.Empty, error) {
+func (UnimplementedAuthenticationServer) AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddToAccountBalance not implemented")
 }
-func (UnimplementedAuthenticationServer) SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*empty.Empty, error) {
+func (UnimplementedAuthenticationServer) SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendVerificationLink not implemented")
+}
+func (UnimplementedAuthenticationServer) TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TopupDemoBalance not implemented")
 }
 func (UnimplementedAuthenticationServer) testEmbeddedByValue() {}
 
@@ -468,24 +500,6 @@ func _Authentication_GetUser_Handler(srv interface{}, ctx context.Context, dec f
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).GetUser(ctx, req.(*User))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(User)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).UpdateUser(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_UpdateUser_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).UpdateUser(ctx, req.(*User))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -526,6 +540,24 @@ func _Authentication_SignUp_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(User)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).UpdateUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_UpdateUser_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).UpdateUser(ctx, req.(*User))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_FindUserById_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(FindUserByIdRequest)
 	if err := dec(in); err != nil {
@@ -540,6 +572,24 @@ func _Authentication_FindUserById_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).FindUserById(ctx, req.(*FindUserByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Credentials)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).ChangePassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_ChangePassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).ChangePassword(ctx, req.(*Credentials))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -598,60 +648,6 @@ func _Authentication_SignOut_Handler(srv interface{}, ctx context.Context, dec f
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Authentication_ChangePassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Credentials)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).ChangePassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_ChangePassword_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).ChangePassword(ctx, req.(*Credentials))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).RefreshToken(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_RefreshToken_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).RefreshToken(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_InitiateDeposit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DepositRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).InitiateDeposit(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_InitiateDeposit_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).InitiateDeposit(ctx, req.(*DepositRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Authentication_VerifyEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(VerifyEmailRequest)
 	if err := dec(in); err != nil {
@@ -702,6 +698,96 @@ func _Authentication_ResetPassword_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).ResetPassword(ctx, req.(*ResetPasswordBody))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_DeleteAvatar_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DeleteAvatarRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).DeleteAvatar(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_DeleteAvatar_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).DeleteAvatar(ctx, req.(*DeleteAvatarRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_RefreshToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).RefreshToken(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_RefreshToken_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).RefreshToken(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_InitiateDeposit_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DepositRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).InitiateDeposit(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_InitiateDeposit_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).InitiateDeposit(ctx, req.(*DepositRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ForgotPasswordRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).ForgotPassword(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_ForgotPassword_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).ForgotPassword(ctx, req.(*ForgotPasswordRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_UploadDocument_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UploadDocumentRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).UploadDocument(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_UploadDocument_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).UploadDocument(ctx, req.(*UploadDocumentRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -760,24 +846,6 @@ func _Authentication_DepositWebhook_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Authentication_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(ForgotPasswordRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).ForgotPassword(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_ForgotPassword_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).ForgotPassword(ctx, req.(*ForgotPasswordRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Authentication_GetTransactions_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetTransactionsRequest)
 	if err := dec(in); err != nil {
@@ -810,24 +878,6 @@ func _Authentication_GetOrganizationtAccount_Handler(srv interface{}, ctx contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, req.(*GetOrganizationtAccountRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_TopupDemoBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TopupDemoBalanceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).TopupDemoBalance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_TopupDemoBalance_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).TopupDemoBalance(ctx, req.(*TopupDemoBalanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -886,6 +936,24 @@ func _Authentication_SendVerificationLink_Handler(srv interface{}, ctx context.C
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_TopupDemoBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TopupDemoBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).TopupDemoBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_TopupDemoBalance_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).TopupDemoBalance(ctx, req.(*TopupDemoBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -898,10 +966,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_GetUser_Handler,
 		},
 		{
-			MethodName: "UpdateUser",
-			Handler:    _Authentication_UpdateUser_Handler,
-		},
-		{
 			MethodName: "SignIn",
 			Handler:    _Authentication_SignIn_Handler,
 		},
@@ -910,8 +974,16 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_SignUp_Handler,
 		},
 		{
+			MethodName: "UpdateUser",
+			Handler:    _Authentication_UpdateUser_Handler,
+		},
+		{
 			MethodName: "FindUserById",
 			Handler:    _Authentication_FindUserById_Handler,
+		},
+		{
+			MethodName: "ChangePassword",
+			Handler:    _Authentication_ChangePassword_Handler,
 		},
 		{
 			MethodName: "FindDeviceById",
@@ -926,18 +998,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_SignOut_Handler,
 		},
 		{
-			MethodName: "ChangePassword",
-			Handler:    _Authentication_ChangePassword_Handler,
-		},
-		{
-			MethodName: "RefreshToken",
-			Handler:    _Authentication_RefreshToken_Handler,
-		},
-		{
-			MethodName: "InitiateDeposit",
-			Handler:    _Authentication_InitiateDeposit_Handler,
-		},
-		{
 			MethodName: "VerifyEmail",
 			Handler:    _Authentication_VerifyEmail_Handler,
 		},
@@ -948,6 +1008,26 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ResetPassword",
 			Handler:    _Authentication_ResetPassword_Handler,
+		},
+		{
+			MethodName: "DeleteAvatar",
+			Handler:    _Authentication_DeleteAvatar_Handler,
+		},
+		{
+			MethodName: "RefreshToken",
+			Handler:    _Authentication_RefreshToken_Handler,
+		},
+		{
+			MethodName: "InitiateDeposit",
+			Handler:    _Authentication_InitiateDeposit_Handler,
+		},
+		{
+			MethodName: "ForgotPassword",
+			Handler:    _Authentication_ForgotPassword_Handler,
+		},
+		{
+			MethodName: "UploadDocument",
+			Handler:    _Authentication_UploadDocument_Handler,
 		},
 		{
 			MethodName: "ValidateToken",
@@ -962,20 +1042,12 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_DepositWebhook_Handler,
 		},
 		{
-			MethodName: "ForgotPassword",
-			Handler:    _Authentication_ForgotPassword_Handler,
-		},
-		{
 			MethodName: "GetTransactions",
 			Handler:    _Authentication_GetTransactions_Handler,
 		},
 		{
 			MethodName: "GetOrganizationtAccount",
 			Handler:    _Authentication_GetOrganizationtAccount_Handler,
-		},
-		{
-			MethodName: "TopupDemoBalance",
-			Handler:    _Authentication_TopupDemoBalance_Handler,
 		},
 		{
 			MethodName: "UpdateOnlineStatus",
@@ -988,6 +1060,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendVerificationLink",
 			Handler:    _Authentication_SendVerificationLink_Handler,
+		},
+		{
+			MethodName: "TopupDemoBalance",
+			Handler:    _Authentication_TopupDemoBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

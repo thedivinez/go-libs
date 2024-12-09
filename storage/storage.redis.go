@@ -11,7 +11,6 @@ import (
 
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
-	"github.com/thedivinez/go-libs/utils"
 )
 
 type RedisCache struct {
@@ -85,9 +84,4 @@ func (client *RedisCache) Count(key string) int64 {
 		}
 	}
 	return 0
-}
-
-func (client *RedisCache) Publish(userType string, message utils.EventMessage) error {
-	message.Room = fmt.Sprintf("%s:%s", userType, message.Room)
-	return client.Client.Publish(context.Background(), message.Service, message).Err()
 }
