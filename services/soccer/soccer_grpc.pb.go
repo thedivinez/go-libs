@@ -37,7 +37,6 @@ const (
 	SoccerSimulator_GetTeams_FullMethodName       = "/SoccerSimulator/GetTeams"
 	SoccerSimulator_GetMatches_FullMethodName     = "/SoccerSimulator/GetMatches"
 	SoccerSimulator_DeleteTeam_FullMethodName     = "/SoccerSimulator/DeleteTeam"
-	SoccerSimulator_AddClient_FullMethodName      = "/SoccerSimulator/AddClient"
 	SoccerSimulator_GetLeagues_FullMethodName     = "/SoccerSimulator/GetLeagues"
 	SoccerSimulator_GetSettings_FullMethodName    = "/SoccerSimulator/GetSettings"
 	SoccerSimulator_DeleteLeague_FullMethodName   = "/SoccerSimulator/DeleteLeague"
@@ -66,7 +65,6 @@ type SoccerSimulatorClient interface {
 	GetTeams(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetTeamsResponse, error)
 	GetMatches(ctx context.Context, in *GetMatchesRequest, opts ...grpc.CallOption) (*GetMatchesResponse, error)
 	DeleteTeam(ctx context.Context, in *DeleteTeamRequest, opts ...grpc.CallOption) (*DeleteTeamResponse, error)
-	AddClient(ctx context.Context, in *SoccerSimulatorAdmin, opts ...grpc.CallOption) (*AddClientResponse, error)
 	GetLeagues(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetLeaguesResponse, error)
 	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*SoccerSimulatorAdmin, error)
 	DeleteLeague(ctx context.Context, in *DeleteLeagueRequest, opts ...grpc.CallOption) (*DeleteLeagueResponse, error)
@@ -252,16 +250,6 @@ func (c *soccerSimulatorClient) DeleteTeam(ctx context.Context, in *DeleteTeamRe
 	return out, nil
 }
 
-func (c *soccerSimulatorClient) AddClient(ctx context.Context, in *SoccerSimulatorAdmin, opts ...grpc.CallOption) (*AddClientResponse, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(AddClientResponse)
-	err := c.cc.Invoke(ctx, SoccerSimulator_AddClient_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *soccerSimulatorClient) GetLeagues(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetLeaguesResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetLeaguesResponse)
@@ -333,7 +321,6 @@ type SoccerSimulatorServer interface {
 	GetTeams(context.Context, *empty.Empty) (*GetTeamsResponse, error)
 	GetMatches(context.Context, *GetMatchesRequest) (*GetMatchesResponse, error)
 	DeleteTeam(context.Context, *DeleteTeamRequest) (*DeleteTeamResponse, error)
-	AddClient(context.Context, *SoccerSimulatorAdmin) (*AddClientResponse, error)
 	GetLeagues(context.Context, *empty.Empty) (*GetLeaguesResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*SoccerSimulatorAdmin, error)
 	DeleteLeague(context.Context, *DeleteLeagueRequest) (*DeleteLeagueResponse, error)
@@ -398,9 +385,6 @@ func (UnimplementedSoccerSimulatorServer) GetMatches(context.Context, *GetMatche
 }
 func (UnimplementedSoccerSimulatorServer) DeleteTeam(context.Context, *DeleteTeamRequest) (*DeleteTeamResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DeleteTeam not implemented")
-}
-func (UnimplementedSoccerSimulatorServer) AddClient(context.Context, *SoccerSimulatorAdmin) (*AddClientResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AddClient not implemented")
 }
 func (UnimplementedSoccerSimulatorServer) GetLeagues(context.Context, *empty.Empty) (*GetLeaguesResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetLeagues not implemented")
@@ -743,24 +727,6 @@ func _SoccerSimulator_DeleteTeam_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SoccerSimulator_AddClient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SoccerSimulatorAdmin)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SoccerSimulatorServer).AddClient(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: SoccerSimulator_AddClient_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SoccerSimulatorServer).AddClient(ctx, req.(*SoccerSimulatorAdmin))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _SoccerSimulator_GetLeagues_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(empty.Empty)
 	if err := dec(in); err != nil {
@@ -925,10 +891,6 @@ var SoccerSimulator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "DeleteTeam",
 			Handler:    _SoccerSimulator_DeleteTeam_Handler,
-		},
-		{
-			MethodName: "AddClient",
-			Handler:    _SoccerSimulator_AddClient_Handler,
 		},
 		{
 			MethodName: "GetLeagues",
