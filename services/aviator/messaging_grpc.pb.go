@@ -26,6 +26,7 @@ const (
 	Aviator_CancelPlaneBet_FullMethodName      = "/Aviator/CancelPlaneBet"
 	Aviator_GetPlaneBets_FullMethodName        = "/Aviator/GetPlaneBets"
 	Aviator_GetPlaneSettings_FullMethodName    = "/Aviator/GetPlaneSettings"
+	Aviator_GetActiveBets_FullMethodName       = "/Aviator/GetActiveBets"
 	Aviator_GetPlaneHistory_FullMethodName     = "/Aviator/GetPlaneHistory"
 	Aviator_UpdatePlaneSettings_FullMethodName = "/Aviator/UpdatePlaneSettings"
 )
@@ -40,6 +41,7 @@ type AviatorClient interface {
 	CancelPlaneBet(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*CancelPlaneBetResponse, error)
 	GetPlaneBets(ctx context.Context, in *GetPlaneBetsRequest, opts ...grpc.CallOption) (*GetPlaneBetsResponse, error)
 	GetPlaneSettings(ctx context.Context, in *GetPlaneSettingsRequest, opts ...grpc.CallOption) (*PlaneSettings, error)
+	GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error)
 	GetPlaneHistory(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetPlaneHistoryResponse, error)
 	UpdatePlaneSettings(ctx context.Context, in *PlaneSettings, opts ...grpc.CallOption) (*UpdatePlaneSettingsResponse, error)
 }
@@ -112,6 +114,16 @@ func (c *aviatorClient) GetPlaneSettings(ctx context.Context, in *GetPlaneSettin
 	return out, nil
 }
 
+func (c *aviatorClient) GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetActiveBetsResponse)
+	err := c.cc.Invoke(ctx, Aviator_GetActiveBets_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *aviatorClient) GetPlaneHistory(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*GetPlaneHistoryResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GetPlaneHistoryResponse)
@@ -142,6 +154,7 @@ type AviatorServer interface {
 	CancelPlaneBet(context.Context, *PlaneBet) (*CancelPlaneBetResponse, error)
 	GetPlaneBets(context.Context, *GetPlaneBetsRequest) (*GetPlaneBetsResponse, error)
 	GetPlaneSettings(context.Context, *GetPlaneSettingsRequest) (*PlaneSettings, error)
+	GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error)
 	GetPlaneHistory(context.Context, *empty.Empty) (*GetPlaneHistoryResponse, error)
 	UpdatePlaneSettings(context.Context, *PlaneSettings) (*UpdatePlaneSettingsResponse, error)
 }
@@ -170,6 +183,9 @@ func (UnimplementedAviatorServer) GetPlaneBets(context.Context, *GetPlaneBetsReq
 }
 func (UnimplementedAviatorServer) GetPlaneSettings(context.Context, *GetPlaneSettingsRequest) (*PlaneSettings, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlaneSettings not implemented")
+}
+func (UnimplementedAviatorServer) GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
 }
 func (UnimplementedAviatorServer) GetPlaneHistory(context.Context, *empty.Empty) (*GetPlaneHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlaneHistory not implemented")
@@ -305,6 +321,24 @@ func _Aviator_GetPlaneSettings_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Aviator_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActiveBetsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AviatorServer).GetActiveBets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Aviator_GetActiveBets_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AviatorServer).GetActiveBets(ctx, req.(*GetActiveBetsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Aviator_GetPlaneHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(empty.Empty)
 	if err := dec(in); err != nil {
@@ -371,6 +405,10 @@ var Aviator_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPlaneSettings",
 			Handler:    _Aviator_GetPlaneSettings_Handler,
+		},
+		{
+			MethodName: "GetActiveBets",
+			Handler:    _Aviator_GetActiveBets_Handler,
 		},
 		{
 			MethodName: "GetPlaneHistory",
