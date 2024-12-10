@@ -219,3 +219,12 @@ func RandInt(min, max int) int {
 	localRand := mrand.New(mrand.NewPCG(mrand.Uint64(), mrand.Uint64()))
 	return localRand.IntN(max-min) + min
 }
+
+func CalculateLisenseExpiration(currentExp time.Time, subscription string, duration int64) int64 {
+	if subscription == "monthly" {
+		return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 30).Unix()
+	} else if subscription == "yearly" {
+		return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 365).Unix()
+	}
+	return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 7).Unix()
+}
