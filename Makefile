@@ -3,6 +3,7 @@ ifeq ($(VERSION),)
 endif
 
 public:
+	echo $(VERSION)
 	git push
 	git tag $(VERSION)
 	git push --tags
