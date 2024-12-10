@@ -179,7 +179,7 @@ func ConnectService(host string) (*grpc.ClientConn, error) {
 }
 
 func OutgoingInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryServerInfo, handler grpc.UnaryHandler) (interface{}, error) {
-	ignore := []string{"/usermanager.UserManager/SignIn", "/usermanager.UserManager/SignUp"}
+	ignore := []string{}
 	if !slices.Contains(ignore, info.FullMethod) {
 		headers := []string{}
 		if md, ok := metadata.FromIncomingContext(ctx); ok {
