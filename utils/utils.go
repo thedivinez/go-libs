@@ -221,7 +221,6 @@ func RandInt(min, max int) int {
 }
 
 func CalculateLisenseExpiration(currentExp time.Time, subscription string, duration int64) int64 {
-	//todo: add logic for yearly and monthly subscriptions
 	if subscription == "monthly" {
 		return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 30).Unix()
 	} else if subscription == "yearly" {
