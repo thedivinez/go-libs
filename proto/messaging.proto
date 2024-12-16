@@ -1,8 +1,0 @@
-syntax = "proto3";
-
-option go_package = "github.com/thedivinez/go-libs/proto";
-
-message File {
-	bytes Data =1; // @gotags: json:"data"
-	string Filename =2; // @gotags: json:"fileName"
-}
