@@ -49,6 +49,7 @@ const (
 	Authentication_AddToAccountBalance_FullMethodName     = "/Authentication/AddToAccountBalance"
 	Authentication_SendVerificationLink_FullMethodName    = "/Authentication/SendVerificationLink"
 	Authentication_TopupDemoBalance_FullMethodName        = "/Authentication/TopupDemoBalance"
+	Authentication_SwitchUserAccount_FullMethodName       = "/Authentication/SwitchUserAccount"
 )
 
 // AuthenticationClient is the client API for Authentication service.
@@ -83,6 +84,7 @@ type AuthenticationClient interface {
 	AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error)
+	SwitchUserAccount(ctx context.Context, in *SwitchUserAccountRequest, opts ...grpc.CallOption) (*SwitchUserAccountResponse, error)
 }
 
 type authenticationClient struct {
@@ -373,6 +375,16 @@ func (c *authenticationClient) TopupDemoBalance(ctx context.Context, in *TopupDe
 	return out, nil
 }
 
+func (c *authenticationClient) SwitchUserAccount(ctx context.Context, in *SwitchUserAccountRequest, opts ...grpc.CallOption) (*SwitchUserAccountResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(SwitchUserAccountResponse)
+	err := c.cc.Invoke(ctx, Authentication_SwitchUserAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations should embed UnimplementedAuthenticationServer
 // for forward compatibility.
@@ -405,6 +417,7 @@ type AuthenticationServer interface {
 	AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*MessageResponse, error)
 	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error)
 	TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error)
+	SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error)
 }
 
 // UnimplementedAuthenticationServer should be embedded to have
@@ -497,6 +510,9 @@ func (UnimplementedAuthenticationServer) SendVerificationLink(context.Context, *
 }
 func (UnimplementedAuthenticationServer) TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TopupDemoBalance not implemented")
+}
+func (UnimplementedAuthenticationServer) SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SwitchUserAccount not implemented")
 }
 func (UnimplementedAuthenticationServer) testEmbeddedByValue() {}
 
@@ -1022,6 +1038,24 @@ func _Authentication_TopupDemoBalance_Handler(srv interface{}, ctx context.Conte
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_SwitchUserAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SwitchUserAccountRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).SwitchUserAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_SwitchUserAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).SwitchUserAccount(ctx, req.(*SwitchUserAccountRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1140,6 +1174,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "TopupDemoBalance",
 			Handler:    _Authentication_TopupDemoBalance_Handler,
+		},
+		{
+			MethodName: "SwitchUserAccount",
+			Handler:    _Authentication_SwitchUserAccount_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
