@@ -1069,7 +1069,7 @@ type League struct {
 
 	ID   string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`      
 	Logo string `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo" bson:"logo,omitempty"`  
-	Name string `protobuf:"bytes,3,opt,name=Name,proto3" json:"name" bson:"name" form:"name"`  
+	Name string `protobuf:"bytes,3,opt,name=Name,proto3" json:"name" bson:"name,omitempty"`  
 }
 
 func (x *League) Reset() {
