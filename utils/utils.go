@@ -170,9 +170,8 @@ func FromIncomingContext(ctx context.Context, key string) string {
 
 func ConnectService(host string) (*grpc.ClientConn, error) {
 	interceptor := grpc.WithUnaryInterceptor(func(ctx context.Context, method string, req any, reply any, cc *grpc.ClientConn, invoker grpc.UnaryInvoker, opts ...grpc.CallOption) error {
-		if token := metadata.ValueFromIncomingContext(ctx, "authorization"); len(token) > 0 {
-			ctx = metadata.NewOutgoingContext(ctx, metadata.Pairs("authorization", token[0]))
-		}
+		// md, _ := metadata.FromIncomingContext(ctx)
+		// ctx = metadata.NewOutgoingContext(ctx, md)
 		return invoker(ctx, method, req, reply, cc, opts...)
 	})
 	return grpc.NewClient(host, grpc.WithTransportCredentials(insecure.NewCredentials()), interceptor)
