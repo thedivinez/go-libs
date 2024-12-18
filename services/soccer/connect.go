@@ -1,6 +1,8 @@
 package soccer
 
-import "github.com/thedivinez/go-libs/utils"
+import (
+	"github.com/thedivinez/go-libs/utils"
+)
 
 func Connect(addr string) (SoccerSimulatorClient, error) {
 	conn, err := utils.ConnectService(addr)
