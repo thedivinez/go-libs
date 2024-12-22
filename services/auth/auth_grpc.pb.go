@@ -39,6 +39,7 @@ const (
 	Authentication_DeleteAvatar_FullMethodName            = "/Authentication/DeleteAvatar"
 	Authentication_RefreshToken_FullMethodName            = "/Authentication/RefreshToken"
 	Authentication_InitiateDeposit_FullMethodName         = "/Authentication/InitiateDeposit"
+	Authentication_GetOrganizationtAccount_FullMethodName = "/Authentication/GetOrganizationtAccount"
 	Authentication_ForgotPassword_FullMethodName          = "/Authentication/ForgotPassword"
 	Authentication_UploadDocument_FullMethodName          = "/Authentication/UploadDocument"
 	Authentication_UpdateAvatar_FullMethodName            = "/Authentication/UpdateAvatar"
@@ -47,7 +48,6 @@ const (
 	Authentication_MakeWithdrawalRequest_FullMethodName   = "/Authentication/MakeWithdrawalRequest"
 	Authentication_DepositWebhook_FullMethodName          = "/Authentication/DepositWebhook"
 	Authentication_GetTransactions_FullMethodName         = "/Authentication/GetTransactions"
-	Authentication_GetOrganizationtAccount_FullMethodName = "/Authentication/GetOrganizationtAccount"
 	Authentication_UpdateOnlineStatus_FullMethodName      = "/Authentication/UpdateOnlineStatus"
 	Authentication_AddToAccountBalance_FullMethodName     = "/Authentication/AddToAccountBalance"
 	Authentication_SendVerificationLink_FullMethodName    = "/Authentication/SendVerificationLink"
@@ -77,6 +77,7 @@ type AuthenticationClient interface {
 	DeleteAvatar(ctx context.Context, in *DeleteAvatarRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	RefreshToken(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserAuthTokens, error)
 	InitiateDeposit(ctx context.Context, in *DepositRequest, opts ...grpc.CallOption) (*any1.Any, error)
+	GetOrganizationtAccount(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*User, error)
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error)
@@ -85,7 +86,6 @@ type AuthenticationClient interface {
 	MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
 	DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error)
-	GetOrganizationtAccount(ctx context.Context, in *GetOrganizationtAccountRequest, opts ...grpc.CallOption) (*User, error)
 	UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error)
@@ -281,6 +281,16 @@ func (c *authenticationClient) InitiateDeposit(ctx context.Context, in *DepositR
 	return out, nil
 }
 
+func (c *authenticationClient) GetOrganizationtAccount(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*User, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(User)
+	err := c.cc.Invoke(ctx, Authentication_GetOrganizationtAccount_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MessageResponse)
@@ -361,16 +371,6 @@ func (c *authenticationClient) GetTransactions(ctx context.Context, in *GetTrans
 	return out, nil
 }
 
-func (c *authenticationClient) GetOrganizationtAccount(ctx context.Context, in *GetOrganizationtAccountRequest, opts ...grpc.CallOption) (*User, error) {
-	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
-	out := new(User)
-	err := c.cc.Invoke(ctx, Authentication_GetOrganizationtAccount_FullMethodName, in, out, cOpts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authenticationClient) UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(MessageResponse)
@@ -443,6 +443,7 @@ type AuthenticationServer interface {
 	DeleteAvatar(context.Context, *DeleteAvatarRequest) (*MessageResponse, error)
 	RefreshToken(context.Context, *empty.Empty) (*UserAuthTokens, error)
 	InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error)
+	GetOrganizationtAccount(context.Context, *empty.Empty) (*User, error)
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error)
 	UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error)
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
@@ -451,7 +452,6 @@ type AuthenticationServer interface {
 	MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
 	DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
 	GetTransactions(context.Context, *GetTransactionsRequest) (*TransactionsResponse, error)
-	GetOrganizationtAccount(context.Context, *GetOrganizationtAccountRequest) (*User, error)
 	UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*MessageResponse, error)
 	AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*MessageResponse, error)
 	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error)
@@ -520,6 +520,9 @@ func (UnimplementedAuthenticationServer) RefreshToken(context.Context, *empty.Em
 func (UnimplementedAuthenticationServer) InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitiateDeposit not implemented")
 }
+func (UnimplementedAuthenticationServer) GetOrganizationtAccount(context.Context, *empty.Empty) (*User, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationtAccount not implemented")
+}
 func (UnimplementedAuthenticationServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
 }
@@ -543,9 +546,6 @@ func (UnimplementedAuthenticationServer) DepositWebhook(context.Context, *Deposi
 }
 func (UnimplementedAuthenticationServer) GetTransactions(context.Context, *GetTransactionsRequest) (*TransactionsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetTransactions not implemented")
-}
-func (UnimplementedAuthenticationServer) GetOrganizationtAccount(context.Context, *GetOrganizationtAccountRequest) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationtAccount not implemented")
 }
 func (UnimplementedAuthenticationServer) UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateOnlineStatus not implemented")
@@ -906,6 +906,24 @@ func _Authentication_InitiateDeposit_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_GetOrganizationtAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_GetOrganizationtAccount_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, req.(*empty.Empty))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ForgotPasswordRequest)
 	if err := dec(in); err != nil {
@@ -1046,24 +1064,6 @@ func _Authentication_GetTransactions_Handler(srv interface{}, ctx context.Contex
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).GetTransactions(ctx, req.(*GetTransactionsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_GetOrganizationtAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetOrganizationtAccountRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: Authentication_GetOrganizationtAccount_FullMethodName,
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, req.(*GetOrganizationtAccountRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1238,6 +1238,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_InitiateDeposit_Handler,
 		},
 		{
+			MethodName: "GetOrganizationtAccount",
+			Handler:    _Authentication_GetOrganizationtAccount_Handler,
+		},
+		{
 			MethodName: "ForgotPassword",
 			Handler:    _Authentication_ForgotPassword_Handler,
 		},
@@ -1268,10 +1272,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetTransactions",
 			Handler:    _Authentication_GetTransactions_Handler,
-		},
-		{
-			MethodName: "GetOrganizationtAccount",
-			Handler:    _Authentication_GetOrganizationtAccount_Handler,
 		},
 		{
 			MethodName: "UpdateOnlineStatus",
