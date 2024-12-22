@@ -24,8 +24,10 @@ const (
 	Authentication_GetUser_FullMethodName                 = "/Authentication/GetUser"
 	Authentication_SignIn_FullMethodName                  = "/Authentication/SignIn"
 	Authentication_SignUp_FullMethodName                  = "/Authentication/SignUp"
+	Authentication_AddGame_FullMethodName                 = "/Authentication/AddGame"
 	Authentication_UpdateUser_FullMethodName              = "/Authentication/UpdateUser"
 	Authentication_FindUserById_FullMethodName            = "/Authentication/FindUserById"
+	Authentication_GetGames_FullMethodName                = "/Authentication/GetGames"
 	Authentication_ChangePassword_FullMethodName          = "/Authentication/ChangePassword"
 	Authentication_FindDeviceById_FullMethodName          = "/Authentication/FindDeviceById"
 	Authentication_GetDevices_FullMethodName              = "/Authentication/GetDevices"
@@ -59,8 +61,10 @@ type AuthenticationClient interface {
 	GetUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*User, error)
 	SignIn(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserAuthTokens, error)
 	SignUp(ctx context.Context, in *User, opts ...grpc.CallOption) (*UserAuthTokens, error)
+	AddGame(ctx context.Context, in *Game, opts ...grpc.CallOption) (*AddGameResponse, error)
 	UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UpdateUserResponse, error)
 	FindUserById(ctx context.Context, in *FindUserByIdRequest, opts ...grpc.CallOption) (*User, error)
+	GetGames(ctx context.Context, in *GetGamesRequest, opts ...grpc.CallOption) (*GetGamesResponse, error)
 	ChangePassword(ctx context.Context, in *Credentials, opts ...grpc.CallOption) (*MessageResponse, error)
 	FindDeviceById(ctx context.Context, in *FindDeviceByIdRequest, opts ...grpc.CallOption) (*Device, error)
 	GetDevices(ctx context.Context, in *GetDevicesRequest, opts ...grpc.CallOption) (*DevicesResponse, error)
@@ -125,6 +129,16 @@ func (c *authenticationClient) SignUp(ctx context.Context, in *User, opts ...grp
 	return out, nil
 }
 
+func (c *authenticationClient) AddGame(ctx context.Context, in *Game, opts ...grpc.CallOption) (*AddGameResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(AddGameResponse)
+	err := c.cc.Invoke(ctx, Authentication_AddGame_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) UpdateUser(ctx context.Context, in *User, opts ...grpc.CallOption) (*UpdateUserResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(UpdateUserResponse)
@@ -139,6 +153,16 @@ func (c *authenticationClient) FindUserById(ctx context.Context, in *FindUserByI
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(User)
 	err := c.cc.Invoke(ctx, Authentication_FindUserById_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) GetGames(ctx context.Context, in *GetGamesRequest, opts ...grpc.CallOption) (*GetGamesResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(GetGamesResponse)
+	err := c.cc.Invoke(ctx, Authentication_GetGames_FullMethodName, in, out, cOpts...)
 	if err != nil {
 		return nil, err
 	}
@@ -392,8 +416,10 @@ type AuthenticationServer interface {
 	GetUser(context.Context, *User) (*User, error)
 	SignIn(context.Context, *User) (*UserAuthTokens, error)
 	SignUp(context.Context, *User) (*UserAuthTokens, error)
+	AddGame(context.Context, *Game) (*AddGameResponse, error)
 	UpdateUser(context.Context, *User) (*UpdateUserResponse, error)
 	FindUserById(context.Context, *FindUserByIdRequest) (*User, error)
+	GetGames(context.Context, *GetGamesRequest) (*GetGamesResponse, error)
 	ChangePassword(context.Context, *Credentials) (*MessageResponse, error)
 	FindDeviceById(context.Context, *FindDeviceByIdRequest) (*Device, error)
 	GetDevices(context.Context, *GetDevicesRequest) (*DevicesResponse, error)
@@ -436,11 +462,17 @@ func (UnimplementedAuthenticationServer) SignIn(context.Context, *User) (*UserAu
 func (UnimplementedAuthenticationServer) SignUp(context.Context, *User) (*UserAuthTokens, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SignUp not implemented")
 }
+func (UnimplementedAuthenticationServer) AddGame(context.Context, *Game) (*AddGameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddGame not implemented")
+}
 func (UnimplementedAuthenticationServer) UpdateUser(context.Context, *User) (*UpdateUserResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateUser not implemented")
 }
 func (UnimplementedAuthenticationServer) FindUserById(context.Context, *FindUserByIdRequest) (*User, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method FindUserById not implemented")
+}
+func (UnimplementedAuthenticationServer) GetGames(context.Context, *GetGamesRequest) (*GetGamesResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGames not implemented")
 }
 func (UnimplementedAuthenticationServer) ChangePassword(context.Context, *Credentials) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ChangePassword not implemented")
@@ -588,6 +620,24 @@ func _Authentication_SignUp_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_AddGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Game)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).AddGame(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_AddGame_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).AddGame(ctx, req.(*Game))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_UpdateUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(User)
 	if err := dec(in); err != nil {
@@ -620,6 +670,24 @@ func _Authentication_FindUserById_Handler(srv interface{}, ctx context.Context, 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).FindUserById(ctx, req.(*FindUserByIdRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_GetGames_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGamesRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).GetGames(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: Authentication_GetGames_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).GetGames(ctx, req.(*GetGamesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1076,12 +1144,20 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_SignUp_Handler,
 		},
 		{
+			MethodName: "AddGame",
+			Handler:    _Authentication_AddGame_Handler,
+		},
+		{
 			MethodName: "UpdateUser",
 			Handler:    _Authentication_UpdateUser_Handler,
 		},
 		{
 			MethodName: "FindUserById",
 			Handler:    _Authentication_FindUserById_Handler,
+		},
+		{
+			MethodName: "GetGames",
+			Handler:    _Authentication_GetGames_Handler,
 		},
 		{
 			MethodName: "ChangePassword",
