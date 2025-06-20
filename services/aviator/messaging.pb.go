@@ -289,7 +289,7 @@ func (x *RoundState) GetLeaderBoard() []*RoundLeaderBoard {
 	return nil
 }
 
-type PlaneSettings struct {
+type RoundSettings struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -311,8 +311,8 @@ type PlaneSettings struct {
 	LisenseExpiration  int64   `protobuf:"varint,15,opt,name=LisenseExpiration,proto3" json:"licenseExpiry" bson:"licenseExpiry,omitempty"`     
 }
 
-func (x *PlaneSettings) Reset() {
-	*x = PlaneSettings{}
+func (x *RoundSettings) Reset() {
+	*x = RoundSettings{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_messaging_proto_msgTypes[3]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -320,13 +320,13 @@ func (x *PlaneSettings) Reset() {
 	}
 }
 
-func (x *PlaneSettings) String() string {
+func (x *RoundSettings) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PlaneSettings) ProtoMessage() {}
+func (*RoundSettings) ProtoMessage() {}
 
-func (x *PlaneSettings) ProtoReflect() protoreflect.Message {
+func (x *RoundSettings) ProtoReflect() protoreflect.Message {
 	mi := &file_messaging_proto_msgTypes[3]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -338,110 +338,110 @@ func (x *PlaneSettings) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PlaneSettings.ProtoReflect.Descriptor instead.
-func (*PlaneSettings) Descriptor() ([]byte, []int) {
+// Deprecated: Use RoundSettings.ProtoReflect.Descriptor instead.
+func (*RoundSettings) Descriptor() ([]byte, []int) {
 	return file_messaging_proto_rawDescGZIP(), []int{3}
 }
 
-func (x *PlaneSettings) GetFinanced() float64 {
+func (x *RoundSettings) GetFinanced() float64 {
 	if x != nil {
 		return x.Financed
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetAmountToRisk() float64 {
+func (x *RoundSettings) GetAmountToRisk() float64 {
 	if x != nil {
 		return x.AmountToRisk
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMinDemoStake() float64 {
+func (x *RoundSettings) GetMinDemoStake() float64 {
 	if x != nil {
 		return x.MinDemoStake
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMaxDemoStake() float64 {
+func (x *RoundSettings) GetMaxDemoStake() float64 {
 	if x != nil {
 		return x.MaxDemoStake
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMinTotalBets() int64 {
+func (x *RoundSettings) GetMinTotalBets() int64 {
 	if x != nil {
 		return x.MinTotalBets
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMaxTotalBets() int64 {
+func (x *RoundSettings) GetMaxTotalBets() int64 {
 	if x != nil {
 		return x.MaxTotalBets
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetReservedBalance() float64 {
+func (x *RoundSettings) GetReservedBalance() float64 {
 	if x != nil {
 		return x.ReservedBalance
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetAutoExplodeAfter() int64 {
+func (x *RoundSettings) GetAutoExplodeAfter() int64 {
 	if x != nil {
 		return x.AutoExplodeAfter
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMinDemoRiskAmount() float64 {
+func (x *RoundSettings) GetMinDemoRiskAmount() float64 {
 	if x != nil {
 		return x.MinDemoRiskAmount
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMaxDemoRiskAmount() float64 {
+func (x *RoundSettings) GetMaxDemoRiskAmount() float64 {
 	if x != nil {
 		return x.MaxDemoRiskAmount
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMinRiskPercentage() float64 {
+func (x *RoundSettings) GetMinRiskPercentage() float64 {
 	if x != nil {
 		return x.MinRiskPercentage
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMaxRiskPercentage() float64 {
+func (x *RoundSettings) GetMaxRiskPercentage() float64 {
 	if x != nil {
 		return x.MaxRiskPercentage
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetMaxMultiplierShift() float64 {
+func (x *RoundSettings) GetMaxMultiplierShift() float64 {
 	if x != nil {
 		return x.MaxMultiplierShift
 	}
 	return 0
 }
 
-func (x *PlaneSettings) GetOrgID() string {
+func (x *RoundSettings) GetOrgID() string {
 	if x != nil {
 		return x.OrgID
 	}
 	return ""
 }
 
-func (x *PlaneSettings) GetLisenseExpiration() int64 {
+func (x *RoundSettings) GetLisenseExpiration() int64 {
 	if x != nil {
 		return x.LisenseExpiration
 	}
@@ -567,7 +567,7 @@ func (x *RoundBet) GetDateCreated() int64 {
 	return 0
 }
 
-type PlaneCashoutResponse struct {
+type RoundCashoutResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -575,8 +575,8 @@ type PlaneCashoutResponse struct {
 	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`  
 }
 
-func (x *PlaneCashoutResponse) Reset() {
-	*x = PlaneCashoutResponse{}
+func (x *RoundCashoutResponse) Reset() {
+	*x = RoundCashoutResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_messaging_proto_msgTypes[5]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -584,13 +584,13 @@ func (x *PlaneCashoutResponse) Reset() {
 	}
 }
 
-func (x *PlaneCashoutResponse) String() string {
+func (x *RoundCashoutResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*PlaneCashoutResponse) ProtoMessage() {}
+func (*RoundCashoutResponse) ProtoMessage() {}
 
-func (x *PlaneCashoutResponse) ProtoReflect() protoreflect.Message {
+func (x *RoundCashoutResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_messaging_proto_msgTypes[5]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -602,12 +602,12 @@ func (x *PlaneCashoutResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use PlaneCashoutResponse.ProtoReflect.Descriptor instead.
-func (*PlaneCashoutResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use RoundCashoutResponse.ProtoReflect.Descriptor instead.
+func (*RoundCashoutResponse) Descriptor() ([]byte, []int) {
 	return file_messaging_proto_rawDescGZIP(), []int{5}
 }
 
-func (x *PlaneCashoutResponse) GetMessage() string {
+func (x *RoundCashoutResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
@@ -826,7 +826,7 @@ func (x *GetRoundBetsResponse) GetBets() []*RoundBet {
 	return nil
 }
 
-type GetPlaneHistoryResponse struct {
+type GetRoundHistoryResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -834,8 +834,8 @@ type GetPlaneHistoryResponse struct {
 	History []string `protobuf:"bytes,1,rep,name=History,proto3" json:"history"`  
 }
 
-func (x *GetPlaneHistoryResponse) Reset() {
-	*x = GetPlaneHistoryResponse{}
+func (x *GetRoundHistoryResponse) Reset() {
+	*x = GetRoundHistoryResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_messaging_proto_msgTypes[10]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -843,13 +843,13 @@ func (x *GetPlaneHistoryResponse) Reset() {
 	}
 }
 
-func (x *GetPlaneHistoryResponse) String() string {
+func (x *GetRoundHistoryResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetPlaneHistoryResponse) ProtoMessage() {}
+func (*GetRoundHistoryResponse) ProtoMessage() {}
 
-func (x *GetPlaneHistoryResponse) ProtoReflect() protoreflect.Message {
+func (x *GetRoundHistoryResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_messaging_proto_msgTypes[10]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -861,12 +861,12 @@ func (x *GetPlaneHistoryResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetPlaneHistoryResponse.ProtoReflect.Descriptor instead.
-func (*GetPlaneHistoryResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRoundHistoryResponse.ProtoReflect.Descriptor instead.
+func (*GetRoundHistoryResponse) Descriptor() ([]byte, []int) {
 	return file_messaging_proto_rawDescGZIP(), []int{10}
 }
 
-func (x *GetPlaneHistoryResponse) GetHistory() []string {
+func (x *GetRoundHistoryResponse) GetHistory() []string {
 	if x != nil {
 		return x.History
 	}
@@ -942,7 +942,7 @@ type SubscribeResponse struct {
 	unknownFields protoimpl.UnknownFields
 
 	Message  string         `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Settings *PlaneSettings `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
+	Settings *RoundSettings `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
 }
 
 func (x *SubscribeResponse) Reset() {
@@ -984,14 +984,14 @@ func (x *SubscribeResponse) GetMessage() string {
 	return ""
 }
 
-func (x *SubscribeResponse) GetSettings() *PlaneSettings {
+func (x *SubscribeResponse) GetSettings() *RoundSettings {
 	if x != nil {
 		return x.Settings
 	}
 	return nil
 }
 
-type GetPlaneSettingsRequest struct {
+type GetRoundSettingsRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -999,8 +999,8 @@ type GetPlaneSettingsRequest struct {
 	OrgID string `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId"`  
 }
 
-func (x *GetPlaneSettingsRequest) Reset() {
-	*x = GetPlaneSettingsRequest{}
+func (x *GetRoundSettingsRequest) Reset() {
+	*x = GetRoundSettingsRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_messaging_proto_msgTypes[13]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1008,13 +1008,13 @@ func (x *GetPlaneSettingsRequest) Reset() {
 	}
 }
 
-func (x *GetPlaneSettingsRequest) String() string {
+func (x *GetRoundSettingsRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetPlaneSettingsRequest) ProtoMessage() {}
+func (*GetRoundSettingsRequest) ProtoMessage() {}
 
-func (x *GetPlaneSettingsRequest) ProtoReflect() protoreflect.Message {
+func (x *GetRoundSettingsRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_messaging_proto_msgTypes[13]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1026,29 +1026,29 @@ func (x *GetPlaneSettingsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetPlaneSettingsRequest.ProtoReflect.Descriptor instead.
-func (*GetPlaneSettingsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRoundSettingsRequest.ProtoReflect.Descriptor instead.
+func (*GetRoundSettingsRequest) Descriptor() ([]byte, []int) {
 	return file_messaging_proto_rawDescGZIP(), []int{13}
 }
 
-func (x *GetPlaneSettingsRequest) GetOrgID() string {
+func (x *GetRoundSettingsRequest) GetOrgID() string {
 	if x != nil {
 		return x.OrgID
 	}
 	return ""
 }
 
-type UpdatePlaneSettingsResponse struct {
+type UpdateRoundSettingsResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
 	Message  string         `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Settings *PlaneSettings `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
+	Settings *RoundSettings `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
 }
 
-func (x *UpdatePlaneSettingsResponse) Reset() {
-	*x = UpdatePlaneSettingsResponse{}
+func (x *UpdateRoundSettingsResponse) Reset() {
+	*x = UpdateRoundSettingsResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_messaging_proto_msgTypes[14]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1056,13 +1056,13 @@ func (x *UpdatePlaneSettingsResponse) Reset() {
 	}
 }
 
-func (x *UpdatePlaneSettingsResponse) String() string {
+func (x *UpdateRoundSettingsResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdatePlaneSettingsResponse) ProtoMessage() {}
+func (*UpdateRoundSettingsResponse) ProtoMessage() {}
 
-func (x *UpdatePlaneSettingsResponse) ProtoReflect() protoreflect.Message {
+func (x *UpdateRoundSettingsResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_messaging_proto_msgTypes[14]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1074,19 +1074,19 @@ func (x *UpdatePlaneSettingsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdatePlaneSettingsResponse.ProtoReflect.Descriptor instead.
-func (*UpdatePlaneSettingsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use UpdateRoundSettingsResponse.ProtoReflect.Descriptor instead.
+func (*UpdateRoundSettingsResponse) Descriptor() ([]byte, []int) {
 	return file_messaging_proto_rawDescGZIP(), []int{14}
 }
 
-func (x *UpdatePlaneSettingsResponse) GetMessage() string {
+func (x *UpdateRoundSettingsResponse) GetMessage() string {
 	if x != nil {
 		return x.Message
 	}
 	return ""
 }
 
-func (x *UpdatePlaneSettingsResponse) GetSettings() *PlaneSettings {
+func (x *UpdateRoundSettingsResponse) GetSettings() *RoundSettings {
 	if x != nil {
 		return x.Settings
 	}
@@ -1195,7 +1195,7 @@ func (x *GetActiveBetsResponse) GetBets() []*RoundBet {
 	return nil
 }
 
-type GetPlaneHistoryRequest struct {
+type GetRoundHistoryRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
@@ -1203,8 +1203,8 @@ type GetPlaneHistoryRequest struct {
 	OrgID string `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId"`  
 }
 
-func (x *GetPlaneHistoryRequest) Reset() {
-	*x = GetPlaneHistoryRequest{}
+func (x *GetRoundHistoryRequest) Reset() {
+	*x = GetRoundHistoryRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_messaging_proto_msgTypes[17]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1212,13 +1212,13 @@ func (x *GetPlaneHistoryRequest) Reset() {
 	}
 }
 
-func (x *GetPlaneHistoryRequest) String() string {
+func (x *GetRoundHistoryRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*GetPlaneHistoryRequest) ProtoMessage() {}
+func (*GetRoundHistoryRequest) ProtoMessage() {}
 
-func (x *GetPlaneHistoryRequest) ProtoReflect() protoreflect.Message {
+func (x *GetRoundHistoryRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_messaging_proto_msgTypes[17]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -1230,12 +1230,12 @@ func (x *GetPlaneHistoryRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use GetPlaneHistoryRequest.ProtoReflect.Descriptor instead.
-func (*GetPlaneHistoryRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use GetRoundHistoryRequest.ProtoReflect.Descriptor instead.
+func (*GetRoundHistoryRequest) Descriptor() ([]byte, []int) {
 	return file_messaging_proto_rawDescGZIP(), []int{17}
 }
 
-func (x *GetPlaneHistoryRequest) GetOrgID() string {
+func (x *GetRoundHistoryRequest) GetOrgID() string {
 	if x != nil {
 		return x.OrgID
 	}
@@ -1283,7 +1283,7 @@ var file_messaging_proto_rawDesc = []byte{
 	0x61, 0x64, 0x65, 0x72, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x18, 0x05, 0x20, 0x03, 0x28, 0x0b, 0x32,
 	0x11, 0x2e, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x4c, 0x65, 0x61, 0x64, 0x65, 0x72, 0x42, 0x6f, 0x61,
 	0x72, 0x64, 0x52, 0x0b, 0x4c, 0x65, 0x61, 0x64, 0x65, 0x72, 0x42, 0x6f, 0x61, 0x72, 0x64, 0x22,
-	0xe1, 0x04, 0x0a, 0x0d, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67,
+	0xe1, 0x04, 0x0a, 0x0d, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67,
 	0x73, 0x12, 0x1a, 0x0a, 0x08, 0x46, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x64, 0x18, 0x01, 0x20,
 	0x01, 0x28, 0x01, 0x52, 0x08, 0x46, 0x69, 0x6e, 0x61, 0x6e, 0x63, 0x65, 0x64, 0x12, 0x22, 0x0a,
 	0x0c, 0x41, 0x6d, 0x6f, 0x75, 0x6e, 0x74, 0x54, 0x6f, 0x52, 0x69, 0x73, 0x6b, 0x18, 0x02, 0x20,
@@ -1337,7 +1337,7 @@ var file_messaging_proto_rawDesc = []byte{
 	0x64, 0x49, 0x44, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x52, 0x6f, 0x75, 0x6e, 0x64,
 	0x49, 0x44, 0x12, 0x20, 0x0a, 0x0b, 0x44, 0x61, 0x74, 0x65, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65,
 	0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x44, 0x61, 0x74, 0x65, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x64, 0x22, 0x30, 0x0a, 0x14, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x43, 0x61, 0x73,
+	0x61, 0x74, 0x65, 0x64, 0x22, 0x30, 0x0a, 0x14, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x43, 0x61, 0x73,
 	0x68, 0x6f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07,
 	0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d,
 	0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x22, 0x32, 0x0a, 0x16, 0x43, 0x61, 0x6e, 0x63, 0x65, 0x6c,
@@ -1358,7 +1358,7 @@ var file_messaging_proto_rawDesc = []byte{
 	0x65, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1d, 0x0a, 0x04, 0x42,
 	0x65, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x52, 0x6f, 0x75, 0x6e,
 	0x64, 0x42, 0x65, 0x74, 0x52, 0x04, 0x42, 0x65, 0x74, 0x73, 0x22, 0x33, 0x0a, 0x17, 0x47, 0x65,
-	0x74, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73,
+	0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x73,
 	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79,
 	0x18, 0x01, 0x20, 0x03, 0x28, 0x09, 0x52, 0x07, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x22,
 	0x5e, 0x0a, 0x10, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x71, 0x75,
@@ -1371,16 +1371,16 @@ var file_messaging_proto_rawDesc = []byte{
 	0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18,
 	0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x2a,
 	0x0a, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b,
-	0x32, 0x0e, 0x2e, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73,
+	0x32, 0x0e, 0x2e, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73,
 	0x52, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x22, 0x2f, 0x0a, 0x17, 0x47, 0x65,
-	0x74, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65,
+	0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65,
 	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x18, 0x01,
 	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x22, 0x63, 0x0a, 0x1b, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
 	0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65,
 	0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x73,
 	0x73, 0x61, 0x67, 0x65, 0x12, 0x2a, 0x0a, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73,
-	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65,
+	0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0e, 0x2e, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65,
 	0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73,
 	0x22, 0x44, 0x0a, 0x14, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x42, 0x65, 0x74,
 	0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x55, 0x73, 0x65, 0x72,
@@ -1390,12 +1390,12 @@ var file_messaging_proto_rawDesc = []byte{
 	0x69, 0x76, 0x65, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
 	0x1d, 0x0a, 0x04, 0x42, 0x65, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b, 0x32, 0x09, 0x2e,
 	0x52, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x74, 0x52, 0x04, 0x42, 0x65, 0x74, 0x73, 0x22, 0x2e,
-	0x0a, 0x16, 0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72,
+	0x0a, 0x16, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72,
 	0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49,
 	0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x32, 0x9f,
-	0x04, 0x0a, 0x07, 0x41, 0x76, 0x69, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x30, 0x0a, 0x0c, 0x50, 0x6c,
-	0x61, 0x6e, 0x65, 0x43, 0x61, 0x73, 0x68, 0x6f, 0x75, 0x74, 0x12, 0x09, 0x2e, 0x52, 0x6f, 0x75,
-	0x6e, 0x64, 0x42, 0x65, 0x74, 0x1a, 0x15, 0x2e, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x43, 0x61, 0x73,
+	0x04, 0x0a, 0x07, 0x41, 0x76, 0x69, 0x61, 0x74, 0x6f, 0x72, 0x12, 0x30, 0x0a, 0x0c, 0x52, 0x6f,
+	0x75, 0x6e, 0x64, 0x43, 0x61, 0x73, 0x68, 0x6f, 0x75, 0x74, 0x12, 0x09, 0x2e, 0x52, 0x6f, 0x75,
+	0x6e, 0x64, 0x42, 0x65, 0x74, 0x1a, 0x15, 0x2e, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x43, 0x61, 0x73,
 	0x68, 0x6f, 0x75, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x32, 0x0a, 0x0d,
 	0x50, 0x6c, 0x61, 0x63, 0x65, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x74, 0x12, 0x09, 0x2e,
 	0x52, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x74, 0x1a, 0x16, 0x2e, 0x50, 0x6c, 0x61, 0x63, 0x65,
@@ -1410,22 +1410,22 @@ var file_messaging_proto_rawDesc = []byte{
 	0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x74, 0x73, 0x12, 0x14, 0x2e, 0x47, 0x65, 0x74,
 	0x52, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
 	0x1a, 0x15, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x42, 0x65, 0x74, 0x73, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x50, 0x6c,
-	0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x18, 0x2e, 0x47, 0x65,
-	0x74, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74,
+	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3c, 0x0a, 0x10, 0x47, 0x65, 0x74, 0x52, 0x6f,
+	0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x18, 0x2e, 0x47, 0x65,
+	0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x0e, 0x2e, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74,
 	0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x3e, 0x0a, 0x0d, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69,
 	0x76, 0x65, 0x42, 0x65, 0x74, 0x73, 0x12, 0x15, 0x2e, 0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69,
 	0x76, 0x65, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x16, 0x2e,
 	0x47, 0x65, 0x74, 0x41, 0x63, 0x74, 0x69, 0x76, 0x65, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73,
-	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x44, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x6e,
-	0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x17, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6c,
-	0x61, 0x6e, 0x65, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
-	0x74, 0x1a, 0x18, 0x2e, 0x47, 0x65, 0x74, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x48, 0x69, 0x73, 0x74,
+	0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x44, 0x0a, 0x0f, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e,
+	0x64, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x12, 0x17, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f,
+	0x75, 0x6e, 0x64, 0x48, 0x69, 0x73, 0x74, 0x6f, 0x72, 0x79, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x18, 0x2e, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x48, 0x69, 0x73, 0x74,
 	0x6f, 0x72, 0x79, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x43, 0x0a, 0x13, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
-	0x67, 0x73, 0x12, 0x0e, 0x2e, 0x50, 0x6c, 0x61, 0x6e, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
-	0x67, 0x73, 0x1a, 0x1c, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x50, 0x6c, 0x61, 0x6e, 0x65,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
+	0x67, 0x73, 0x12, 0x0e, 0x2e, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e,
+	0x67, 0x73, 0x1a, 0x1c, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x6f, 0x75, 0x6e, 0x64,
 	0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
 	0x42, 0x30, 0x5a, 0x2e, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x74,
 	0x68, 0x65, 0x64, 0x69, 0x76, 0x69, 0x6e, 0x65, 0x7a, 0x2f, 0x67, 0x6f, 0x2d, 0x6c, 0x69, 0x62,
@@ -1450,48 +1450,48 @@ var file_messaging_proto_goTypes = []interface{}{
 	(*RoundLeaderBoard)(nil),            // 0: RoundLeaderBoard
 	(*Round)(nil),                       // 1: Round
 	(*RoundState)(nil),                  // 2: RoundState
-	(*PlaneSettings)(nil),               // 3: PlaneSettings
+	(*RoundSettings)(nil),               // 3: RoundSettings
 	(*RoundBet)(nil),                    // 4: RoundBet
-	(*PlaneCashoutResponse)(nil),        // 5: PlaneCashoutResponse
+	(*RoundCashoutResponse)(nil),        // 5: RoundCashoutResponse
 	(*CancelRoundBetResponse)(nil),      // 6: CancelRoundBetResponse
 	(*PlaceRoundBetResponse)(nil),       // 7: PlaceRoundBetResponse
 	(*GetRoundBetsRequest)(nil),         // 8: GetRoundBetsRequest
 	(*GetRoundBetsResponse)(nil),        // 9: GetRoundBetsResponse
-	(*GetPlaneHistoryResponse)(nil),     // 10: GetPlaneHistoryResponse
+	(*GetRoundHistoryResponse)(nil),     // 10: GetRoundHistoryResponse
 	(*SubscribeRequest)(nil),            // 11: SubscribeRequest
 	(*SubscribeResponse)(nil),           // 12: SubscribeResponse
-	(*GetPlaneSettingsRequest)(nil),     // 13: GetPlaneSettingsRequest
-	(*UpdatePlaneSettingsResponse)(nil), // 14: UpdatePlaneSettingsResponse
+	(*GetRoundSettingsRequest)(nil),     // 13: GetRoundSettingsRequest
+	(*UpdateRoundSettingsResponse)(nil), // 14: UpdateRoundSettingsResponse
 	(*GetActiveBetsRequest)(nil),        // 15: GetActiveBetsRequest
 	(*GetActiveBetsResponse)(nil),       // 16: GetActiveBetsResponse
-	(*GetPlaneHistoryRequest)(nil),      // 17: GetPlaneHistoryRequest
+	(*GetRoundHistoryRequest)(nil),      // 17: GetRoundHistoryRequest
 }
 var file_messaging_proto_depIdxs = []int32{
 	0,  // 0: Round.LeaderBoard:type_name -> RoundLeaderBoard
 	0,  // 1: RoundState.LeaderBoard:type_name -> RoundLeaderBoard
 	4,  // 2: PlaceRoundBetResponse.Bet:type_name -> RoundBet
 	4,  // 3: GetRoundBetsResponse.Bets:type_name -> RoundBet
-	3,  // 4: SubscribeResponse.Settings:type_name -> PlaneSettings
-	3,  // 5: UpdatePlaneSettingsResponse.Settings:type_name -> PlaneSettings
+	3,  // 4: SubscribeResponse.Settings:type_name -> RoundSettings
+	3,  // 5: UpdateRoundSettingsResponse.Settings:type_name -> RoundSettings
 	4,  // 6: GetActiveBetsResponse.Bets:type_name -> RoundBet
-	4,  // 7: Aviator.PlaneCashout:input_type -> RoundBet
+	4,  // 7: Aviator.RoundCashout:input_type -> RoundBet
 	4,  // 8: Aviator.PlaceRoundBet:input_type -> RoundBet
 	11, // 9: Aviator.Subscribe:input_type -> SubscribeRequest
 	4,  // 10: Aviator.CancelRoundBet:input_type -> RoundBet
 	8,  // 11: Aviator.GetRoundBets:input_type -> GetRoundBetsRequest
-	13, // 12: Aviator.GetPlaneSettings:input_type -> GetPlaneSettingsRequest
+	13, // 12: Aviator.GetRoundSettings:input_type -> GetRoundSettingsRequest
 	15, // 13: Aviator.GetActiveBets:input_type -> GetActiveBetsRequest
-	17, // 14: Aviator.GetPlaneHistory:input_type -> GetPlaneHistoryRequest
-	3,  // 15: Aviator.UpdatePlaneSettings:input_type -> PlaneSettings
-	5,  // 16: Aviator.PlaneCashout:output_type -> PlaneCashoutResponse
+	17, // 14: Aviator.GetRoundHistory:input_type -> GetRoundHistoryRequest
+	3,  // 15: Aviator.UpdateRoundSettings:input_type -> RoundSettings
+	5,  // 16: Aviator.RoundCashout:output_type -> RoundCashoutResponse
 	7,  // 17: Aviator.PlaceRoundBet:output_type -> PlaceRoundBetResponse
 	12, // 18: Aviator.Subscribe:output_type -> SubscribeResponse
 	6,  // 19: Aviator.CancelRoundBet:output_type -> CancelRoundBetResponse
 	9,  // 20: Aviator.GetRoundBets:output_type -> GetRoundBetsResponse
-	3,  // 21: Aviator.GetPlaneSettings:output_type -> PlaneSettings
+	3,  // 21: Aviator.GetRoundSettings:output_type -> RoundSettings
 	16, // 22: Aviator.GetActiveBets:output_type -> GetActiveBetsResponse
-	10, // 23: Aviator.GetPlaneHistory:output_type -> GetPlaneHistoryResponse
-	14, // 24: Aviator.UpdatePlaneSettings:output_type -> UpdatePlaneSettingsResponse
+	10, // 23: Aviator.GetRoundHistory:output_type -> GetRoundHistoryResponse
+	14, // 24: Aviator.UpdateRoundSettings:output_type -> UpdateRoundSettingsResponse
 	16, // [16:25] is the sub-list for method output_type
 	7,  // [7:16] is the sub-list for method input_type
 	7,  // [7:7] is the sub-list for extension type_name
@@ -1542,7 +1542,7 @@ func file_messaging_proto_init() {
 			}
 		}
 		file_messaging_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PlaneSettings); i {
+			switch v := v.(*RoundSettings); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1566,7 +1566,7 @@ func file_messaging_proto_init() {
 			}
 		}
 		file_messaging_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*PlaneCashoutResponse); i {
+			switch v := v.(*RoundCashoutResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1626,7 +1626,7 @@ func file_messaging_proto_init() {
 			}
 		}
 		file_messaging_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetPlaneHistoryResponse); i {
+			switch v := v.(*GetRoundHistoryResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1662,7 +1662,7 @@ func file_messaging_proto_init() {
 			}
 		}
 		file_messaging_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetPlaneSettingsRequest); i {
+			switch v := v.(*GetRoundSettingsRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1674,7 +1674,7 @@ func file_messaging_proto_init() {
 			}
 		}
 		file_messaging_proto_msgTypes[14].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdatePlaneSettingsResponse); i {
+			switch v := v.(*UpdateRoundSettingsResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1710,7 +1710,7 @@ func file_messaging_proto_init() {
 			}
 		}
 		file_messaging_proto_msgTypes[17].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetPlaneHistoryRequest); i {
+			switch v := v.(*GetRoundHistoryRequest); i {
 			case 0:
 				return &v.state
 			case 1:

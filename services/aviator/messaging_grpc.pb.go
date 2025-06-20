@@ -22,15 +22,15 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AviatorClient interface {
-	PlaneCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaneCashoutResponse, error)
+	RoundCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*RoundCashoutResponse, error)
 	PlaceRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaceRoundBetResponse, error)
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
 	CancelRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*CancelRoundBetResponse, error)
 	GetRoundBets(ctx context.Context, in *GetRoundBetsRequest, opts ...grpc.CallOption) (*GetRoundBetsResponse, error)
-	GetPlaneSettings(ctx context.Context, in *GetPlaneSettingsRequest, opts ...grpc.CallOption) (*PlaneSettings, error)
+	GetRoundSettings(ctx context.Context, in *GetRoundSettingsRequest, opts ...grpc.CallOption) (*RoundSettings, error)
 	GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error)
-	GetPlaneHistory(ctx context.Context, in *GetPlaneHistoryRequest, opts ...grpc.CallOption) (*GetPlaneHistoryResponse, error)
-	UpdatePlaneSettings(ctx context.Context, in *PlaneSettings, opts ...grpc.CallOption) (*UpdatePlaneSettingsResponse, error)
+	GetRoundHistory(ctx context.Context, in *GetRoundHistoryRequest, opts ...grpc.CallOption) (*GetRoundHistoryResponse, error)
+	UpdateRoundSettings(ctx context.Context, in *RoundSettings, opts ...grpc.CallOption) (*UpdateRoundSettingsResponse, error)
 }
 
 type aviatorClient struct {
@@ -41,9 +41,9 @@ func NewAviatorClient(cc grpc.ClientConnInterface) AviatorClient {
 	return &aviatorClient{cc}
 }
 
-func (c *aviatorClient) PlaneCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaneCashoutResponse, error) {
-	out := new(PlaneCashoutResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/PlaneCashout", in, out, opts...)
+func (c *aviatorClient) RoundCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*RoundCashoutResponse, error) {
+	out := new(RoundCashoutResponse)
+	err := c.cc.Invoke(ctx, "/Aviator/RoundCashout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -86,9 +86,9 @@ func (c *aviatorClient) GetRoundBets(ctx context.Context, in *GetRoundBetsReques
 	return out, nil
 }
 
-func (c *aviatorClient) GetPlaneSettings(ctx context.Context, in *GetPlaneSettingsRequest, opts ...grpc.CallOption) (*PlaneSettings, error) {
-	out := new(PlaneSettings)
-	err := c.cc.Invoke(ctx, "/Aviator/GetPlaneSettings", in, out, opts...)
+func (c *aviatorClient) GetRoundSettings(ctx context.Context, in *GetRoundSettingsRequest, opts ...grpc.CallOption) (*RoundSettings, error) {
+	out := new(RoundSettings)
+	err := c.cc.Invoke(ctx, "/Aviator/GetRoundSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -104,18 +104,18 @@ func (c *aviatorClient) GetActiveBets(ctx context.Context, in *GetActiveBetsRequ
 	return out, nil
 }
 
-func (c *aviatorClient) GetPlaneHistory(ctx context.Context, in *GetPlaneHistoryRequest, opts ...grpc.CallOption) (*GetPlaneHistoryResponse, error) {
-	out := new(GetPlaneHistoryResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/GetPlaneHistory", in, out, opts...)
+func (c *aviatorClient) GetRoundHistory(ctx context.Context, in *GetRoundHistoryRequest, opts ...grpc.CallOption) (*GetRoundHistoryResponse, error) {
+	out := new(GetRoundHistoryResponse)
+	err := c.cc.Invoke(ctx, "/Aviator/GetRoundHistory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) UpdatePlaneSettings(ctx context.Context, in *PlaneSettings, opts ...grpc.CallOption) (*UpdatePlaneSettingsResponse, error) {
-	out := new(UpdatePlaneSettingsResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/UpdatePlaneSettings", in, out, opts...)
+func (c *aviatorClient) UpdateRoundSettings(ctx context.Context, in *RoundSettings, opts ...grpc.CallOption) (*UpdateRoundSettingsResponse, error) {
+	out := new(UpdateRoundSettingsResponse)
+	err := c.cc.Invoke(ctx, "/Aviator/UpdateRoundSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -126,23 +126,23 @@ func (c *aviatorClient) UpdatePlaneSettings(ctx context.Context, in *PlaneSettin
 // All implementations should embed UnimplementedAviatorServer
 // for forward compatibility
 type AviatorServer interface {
-	PlaneCashout(context.Context, *RoundBet) (*PlaneCashoutResponse, error)
+	RoundCashout(context.Context, *RoundBet) (*RoundCashoutResponse, error)
 	PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error)
 	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
 	CancelRoundBet(context.Context, *RoundBet) (*CancelRoundBetResponse, error)
 	GetRoundBets(context.Context, *GetRoundBetsRequest) (*GetRoundBetsResponse, error)
-	GetPlaneSettings(context.Context, *GetPlaneSettingsRequest) (*PlaneSettings, error)
+	GetRoundSettings(context.Context, *GetRoundSettingsRequest) (*RoundSettings, error)
 	GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error)
-	GetPlaneHistory(context.Context, *GetPlaneHistoryRequest) (*GetPlaneHistoryResponse, error)
-	UpdatePlaneSettings(context.Context, *PlaneSettings) (*UpdatePlaneSettingsResponse, error)
+	GetRoundHistory(context.Context, *GetRoundHistoryRequest) (*GetRoundHistoryResponse, error)
+	UpdateRoundSettings(context.Context, *RoundSettings) (*UpdateRoundSettingsResponse, error)
 }
 
 // UnimplementedAviatorServer should be embedded to have forward compatible implementations.
 type UnimplementedAviatorServer struct {
 }
 
-func (UnimplementedAviatorServer) PlaneCashout(context.Context, *RoundBet) (*PlaneCashoutResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PlaneCashout not implemented")
+func (UnimplementedAviatorServer) RoundCashout(context.Context, *RoundBet) (*RoundCashoutResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RoundCashout not implemented")
 }
 func (UnimplementedAviatorServer) PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceRoundBet not implemented")
@@ -156,17 +156,17 @@ func (UnimplementedAviatorServer) CancelRoundBet(context.Context, *RoundBet) (*C
 func (UnimplementedAviatorServer) GetRoundBets(context.Context, *GetRoundBetsRequest) (*GetRoundBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRoundBets not implemented")
 }
-func (UnimplementedAviatorServer) GetPlaneSettings(context.Context, *GetPlaneSettingsRequest) (*PlaneSettings, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPlaneSettings not implemented")
+func (UnimplementedAviatorServer) GetRoundSettings(context.Context, *GetRoundSettingsRequest) (*RoundSettings, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoundSettings not implemented")
 }
 func (UnimplementedAviatorServer) GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
 }
-func (UnimplementedAviatorServer) GetPlaneHistory(context.Context, *GetPlaneHistoryRequest) (*GetPlaneHistoryResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPlaneHistory not implemented")
+func (UnimplementedAviatorServer) GetRoundHistory(context.Context, *GetRoundHistoryRequest) (*GetRoundHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoundHistory not implemented")
 }
-func (UnimplementedAviatorServer) UpdatePlaneSettings(context.Context, *PlaneSettings) (*UpdatePlaneSettingsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdatePlaneSettings not implemented")
+func (UnimplementedAviatorServer) UpdateRoundSettings(context.Context, *RoundSettings) (*UpdateRoundSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoundSettings not implemented")
 }
 
 // UnsafeAviatorServer may be embedded to opt out of forward compatibility for this service.
@@ -180,20 +180,20 @@ func RegisterAviatorServer(s grpc.ServiceRegistrar, srv AviatorServer) {
 	s.RegisterService(&Aviator_ServiceDesc, srv)
 }
 
-func _Aviator_PlaneCashout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _Aviator_RoundCashout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).PlaneCashout(ctx, in)
+		return srv.(AviatorServer).RoundCashout(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/PlaneCashout",
+		FullMethod: "/Aviator/RoundCashout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).PlaneCashout(ctx, req.(*RoundBet))
+		return srv.(AviatorServer).RoundCashout(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -270,20 +270,20 @@ func _Aviator_GetRoundBets_Handler(srv interface{}, ctx context.Context, dec fun
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetPlaneSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPlaneSettingsRequest)
+func _Aviator_GetRoundSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoundSettingsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetPlaneSettings(ctx, in)
+		return srv.(AviatorServer).GetRoundSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetPlaneSettings",
+		FullMethod: "/Aviator/GetRoundSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetPlaneSettings(ctx, req.(*GetPlaneSettingsRequest))
+		return srv.(AviatorServer).GetRoundSettings(ctx, req.(*GetRoundSettingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -306,38 +306,38 @@ func _Aviator_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec fu
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetPlaneHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPlaneHistoryRequest)
+func _Aviator_GetRoundHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoundHistoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetPlaneHistory(ctx, in)
+		return srv.(AviatorServer).GetRoundHistory(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetPlaneHistory",
+		FullMethod: "/Aviator/GetRoundHistory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetPlaneHistory(ctx, req.(*GetPlaneHistoryRequest))
+		return srv.(AviatorServer).GetRoundHistory(ctx, req.(*GetRoundHistoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_UpdatePlaneSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlaneSettings)
+func _Aviator_UpdateRoundSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoundSettings)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).UpdatePlaneSettings(ctx, in)
+		return srv.(AviatorServer).UpdateRoundSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/UpdatePlaneSettings",
+		FullMethod: "/Aviator/UpdateRoundSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).UpdatePlaneSettings(ctx, req.(*PlaneSettings))
+		return srv.(AviatorServer).UpdateRoundSettings(ctx, req.(*RoundSettings))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -350,8 +350,8 @@ var Aviator_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*AviatorServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "PlaneCashout",
-			Handler:    _Aviator_PlaneCashout_Handler,
+			MethodName: "RoundCashout",
+			Handler:    _Aviator_RoundCashout_Handler,
 		},
 		{
 			MethodName: "PlaceRoundBet",
@@ -370,20 +370,20 @@ var Aviator_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Aviator_GetRoundBets_Handler,
 		},
 		{
-			MethodName: "GetPlaneSettings",
-			Handler:    _Aviator_GetPlaneSettings_Handler,
+			MethodName: "GetRoundSettings",
+			Handler:    _Aviator_GetRoundSettings_Handler,
 		},
 		{
 			MethodName: "GetActiveBets",
 			Handler:    _Aviator_GetActiveBets_Handler,
 		},
 		{
-			MethodName: "GetPlaneHistory",
-			Handler:    _Aviator_GetPlaneHistory_Handler,
+			MethodName: "GetRoundHistory",
+			Handler:    _Aviator_GetRoundHistory_Handler,
 		},
 		{
-			MethodName: "UpdatePlaneSettings",
-			Handler:    _Aviator_UpdatePlaneSettings_Handler,
+			MethodName: "UpdateRoundSettings",
+			Handler:    _Aviator_UpdateRoundSettings_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
