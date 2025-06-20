@@ -1,6 +1,6 @@
 module github.com/thedivinez/go-libs
 
-go 1.23.1
+go 1.23.4
 
 require (
 	firebase.google.com/go v3.13.0+incompatible
