@@ -8,6 +8,7 @@ type Database interface {
 	DeleteOne(string, any) error
 	DeleteMany(string, any) error
 	Count(string, any) (int64, error)
+	GenerateID(letters int, digits int) string
 	InsertOne(string, any) (string, error)
 	InsertMany(collection string, data ...any) (err error)
 	Aggregate(collection string, filter any, results any) error

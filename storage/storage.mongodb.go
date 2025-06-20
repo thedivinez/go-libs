@@ -2,8 +2,12 @@ package storage
 
 import (
 	"context"
+	"crypto/rand"
 	"encoding/json"
+	"fmt"
 	"log"
+	"math"
+	"math/big"
 	"reflect"
 	"strconv"
 	"time"
@@ -171,4 +175,38 @@ func (s *MongoStorage) Aggregate(collection string, filter any, results any) err
 		return err
 	}
 	return errors.WithStack(res.All(context.TODO(), results))
+}
+
+func generateRandomNumber(numberOfDigits int) (int, error) {
+	maxLimit := int64(int(math.Pow10(numberOfDigits)) - 1)
+	lowLimit := int(math.Pow10(numberOfDigits - 1))
+	randomNumber, err := rand.Int(rand.Reader, big.NewInt(maxLimit))
+	if err != nil {
+		return 0, err
+	}
+	randomNumberInt := int(randomNumber.Int64())
+	if randomNumberInt <= lowLimit {
+		randomNumberInt += lowLimit
+	}
+	if randomNumberInt > int(maxLimit) {
+		randomNumberInt = int(maxLimit)
+	}
+	return randomNumberInt, nil
+}
+
+func (s *MongoStorage) GenerateID(letters, digits int) string {
+	generate := func() string {
+		letters := make([]byte, letters)
+		letterBytes := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+		for i := range letters {
+			randomNumber, _ := rand.Int(rand.Reader, big.NewInt(int64(len(letterBytes))))
+			letters[i] = letterBytes[randomNumber.Int64()]
+		}
+		_digits, err := generateRandomNumber(digits)
+		if err != nil {
+			return ""
+		}
+		return fmt.Sprintf("%s%06d", string(letters), _digits)
+	}
+	return generate()
 }
