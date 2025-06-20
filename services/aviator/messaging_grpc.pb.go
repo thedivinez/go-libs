@@ -22,11 +22,11 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type AviatorClient interface {
-	PlaneCashout(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*PlaneCashoutResponse, error)
-	PlacePlaneBet(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*PlacePlaneBetResponse, error)
+	PlaneCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaneCashoutResponse, error)
+	PlaceRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaceRoundBetResponse, error)
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
-	CancelPlaneBet(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*CancelPlaneBetResponse, error)
-	GetPlaneBets(ctx context.Context, in *GetPlaneBetsRequest, opts ...grpc.CallOption) (*GetPlaneBetsResponse, error)
+	CancelRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*CancelRoundBetResponse, error)
+	GetRoundBets(ctx context.Context, in *GetRoundBetsRequest, opts ...grpc.CallOption) (*GetRoundBetsResponse, error)
 	GetPlaneSettings(ctx context.Context, in *GetPlaneSettingsRequest, opts ...grpc.CallOption) (*PlaneSettings, error)
 	GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error)
 	GetPlaneHistory(ctx context.Context, in *GetPlaneHistoryRequest, opts ...grpc.CallOption) (*GetPlaneHistoryResponse, error)
@@ -41,7 +41,7 @@ func NewAviatorClient(cc grpc.ClientConnInterface) AviatorClient {
 	return &aviatorClient{cc}
 }
 
-func (c *aviatorClient) PlaneCashout(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*PlaneCashoutResponse, error) {
+func (c *aviatorClient) PlaneCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaneCashoutResponse, error) {
 	out := new(PlaneCashoutResponse)
 	err := c.cc.Invoke(ctx, "/Aviator/PlaneCashout", in, out, opts...)
 	if err != nil {
@@ -50,9 +50,9 @@ func (c *aviatorClient) PlaneCashout(ctx context.Context, in *PlaneBet, opts ...
 	return out, nil
 }
 
-func (c *aviatorClient) PlacePlaneBet(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*PlacePlaneBetResponse, error) {
-	out := new(PlacePlaneBetResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/PlacePlaneBet", in, out, opts...)
+func (c *aviatorClient) PlaceRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaceRoundBetResponse, error) {
+	out := new(PlaceRoundBetResponse)
+	err := c.cc.Invoke(ctx, "/Aviator/PlaceRoundBet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -68,18 +68,18 @@ func (c *aviatorClient) Subscribe(ctx context.Context, in *SubscribeRequest, opt
 	return out, nil
 }
 
-func (c *aviatorClient) CancelPlaneBet(ctx context.Context, in *PlaneBet, opts ...grpc.CallOption) (*CancelPlaneBetResponse, error) {
-	out := new(CancelPlaneBetResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/CancelPlaneBet", in, out, opts...)
+func (c *aviatorClient) CancelRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*CancelRoundBetResponse, error) {
+	out := new(CancelRoundBetResponse)
+	err := c.cc.Invoke(ctx, "/Aviator/CancelRoundBet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) GetPlaneBets(ctx context.Context, in *GetPlaneBetsRequest, opts ...grpc.CallOption) (*GetPlaneBetsResponse, error) {
-	out := new(GetPlaneBetsResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/GetPlaneBets", in, out, opts...)
+func (c *aviatorClient) GetRoundBets(ctx context.Context, in *GetRoundBetsRequest, opts ...grpc.CallOption) (*GetRoundBetsResponse, error) {
+	out := new(GetRoundBetsResponse)
+	err := c.cc.Invoke(ctx, "/Aviator/GetRoundBets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -126,11 +126,11 @@ func (c *aviatorClient) UpdatePlaneSettings(ctx context.Context, in *PlaneSettin
 // All implementations should embed UnimplementedAviatorServer
 // for forward compatibility
 type AviatorServer interface {
-	PlaneCashout(context.Context, *PlaneBet) (*PlaneCashoutResponse, error)
-	PlacePlaneBet(context.Context, *PlaneBet) (*PlacePlaneBetResponse, error)
+	PlaneCashout(context.Context, *RoundBet) (*PlaneCashoutResponse, error)
+	PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error)
 	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
-	CancelPlaneBet(context.Context, *PlaneBet) (*CancelPlaneBetResponse, error)
-	GetPlaneBets(context.Context, *GetPlaneBetsRequest) (*GetPlaneBetsResponse, error)
+	CancelRoundBet(context.Context, *RoundBet) (*CancelRoundBetResponse, error)
+	GetRoundBets(context.Context, *GetRoundBetsRequest) (*GetRoundBetsResponse, error)
 	GetPlaneSettings(context.Context, *GetPlaneSettingsRequest) (*PlaneSettings, error)
 	GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error)
 	GetPlaneHistory(context.Context, *GetPlaneHistoryRequest) (*GetPlaneHistoryResponse, error)
@@ -141,20 +141,20 @@ type AviatorServer interface {
 type UnimplementedAviatorServer struct {
 }
 
-func (UnimplementedAviatorServer) PlaneCashout(context.Context, *PlaneBet) (*PlaneCashoutResponse, error) {
+func (UnimplementedAviatorServer) PlaneCashout(context.Context, *RoundBet) (*PlaneCashoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaneCashout not implemented")
 }
-func (UnimplementedAviatorServer) PlacePlaneBet(context.Context, *PlaneBet) (*PlacePlaneBetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PlacePlaneBet not implemented")
+func (UnimplementedAviatorServer) PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method PlaceRoundBet not implemented")
 }
 func (UnimplementedAviatorServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
-func (UnimplementedAviatorServer) CancelPlaneBet(context.Context, *PlaneBet) (*CancelPlaneBetResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CancelPlaneBet not implemented")
+func (UnimplementedAviatorServer) CancelRoundBet(context.Context, *RoundBet) (*CancelRoundBetResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method CancelRoundBet not implemented")
 }
-func (UnimplementedAviatorServer) GetPlaneBets(context.Context, *GetPlaneBetsRequest) (*GetPlaneBetsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetPlaneBets not implemented")
+func (UnimplementedAviatorServer) GetRoundBets(context.Context, *GetRoundBetsRequest) (*GetRoundBetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRoundBets not implemented")
 }
 func (UnimplementedAviatorServer) GetPlaneSettings(context.Context, *GetPlaneSettingsRequest) (*PlaneSettings, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPlaneSettings not implemented")
@@ -181,7 +181,7 @@ func RegisterAviatorServer(s grpc.ServiceRegistrar, srv AviatorServer) {
 }
 
 func _Aviator_PlaneCashout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlaneBet)
+	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -193,25 +193,25 @@ func _Aviator_PlaneCashout_Handler(srv interface{}, ctx context.Context, dec fun
 		FullMethod: "/Aviator/PlaneCashout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).PlaneCashout(ctx, req.(*PlaneBet))
+		return srv.(AviatorServer).PlaneCashout(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_PlacePlaneBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlaneBet)
+func _Aviator_PlaceRoundBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).PlacePlaneBet(ctx, in)
+		return srv.(AviatorServer).PlaceRoundBet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/PlacePlaneBet",
+		FullMethod: "/Aviator/PlaceRoundBet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).PlacePlaneBet(ctx, req.(*PlaneBet))
+		return srv.(AviatorServer).PlaceRoundBet(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -234,38 +234,38 @@ func _Aviator_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(i
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_CancelPlaneBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PlaneBet)
+func _Aviator_CancelRoundBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).CancelPlaneBet(ctx, in)
+		return srv.(AviatorServer).CancelRoundBet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/CancelPlaneBet",
+		FullMethod: "/Aviator/CancelRoundBet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).CancelPlaneBet(ctx, req.(*PlaneBet))
+		return srv.(AviatorServer).CancelRoundBet(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetPlaneBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetPlaneBetsRequest)
+func _Aviator_GetRoundBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRoundBetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetPlaneBets(ctx, in)
+		return srv.(AviatorServer).GetRoundBets(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetPlaneBets",
+		FullMethod: "/Aviator/GetRoundBets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetPlaneBets(ctx, req.(*GetPlaneBetsRequest))
+		return srv.(AviatorServer).GetRoundBets(ctx, req.(*GetRoundBetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -354,20 +354,20 @@ var Aviator_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Aviator_PlaneCashout_Handler,
 		},
 		{
-			MethodName: "PlacePlaneBet",
-			Handler:    _Aviator_PlacePlaneBet_Handler,
+			MethodName: "PlaceRoundBet",
+			Handler:    _Aviator_PlaceRoundBet_Handler,
 		},
 		{
 			MethodName: "Subscribe",
 			Handler:    _Aviator_Subscribe_Handler,
 		},
 		{
-			MethodName: "CancelPlaneBet",
-			Handler:    _Aviator_CancelPlaneBet_Handler,
+			MethodName: "CancelRoundBet",
+			Handler:    _Aviator_CancelRoundBet_Handler,
 		},
 		{
-			MethodName: "GetPlaneBets",
-			Handler:    _Aviator_GetPlaneBets_Handler,
+			MethodName: "GetRoundBets",
+			Handler:    _Aviator_GetRoundBets_Handler,
 		},
 		{
 			MethodName: "GetPlaneSettings",
