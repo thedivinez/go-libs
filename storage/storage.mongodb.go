@@ -194,8 +194,12 @@ func generateRandomNumber(numberOfDigits int) (int, error) {
 	return randomNumberInt, nil
 }
 
-func (s *MongoStorage) GenerateID(letters, digits int) string {
-	generate := func() string {
+type ID struct {
+	Value string
+}
+
+func (s *MongoStorage) GenerateID(collection string, letters, digits int) *ID {
+	generate := func() (*ID, error) {
 		letters := make([]byte, letters)
 		letterBytes := "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
 		for i := range letters {
@@ -204,9 +208,16 @@ func (s *MongoStorage) GenerateID(letters, digits int) string {
 		}
 		_digits, err := generateRandomNumber(digits)
 		if err != nil {
-			return ""
+			return nil, err
 		}
-		return fmt.Sprintf("%s%06d", string(letters), _digits)
+		return &ID{Value: fmt.Sprintf("%s%06d", string(letters), _digits)}, nil
 	}
-	return generate()
+	for range 10 {
+		if id, err := generate(); err == nil {
+			if err := s.FindOne(collection, bson.M{"id": id}, bson.M{}); err != nil {
+				return id
+			}
+		}
+	}
+	return nil
 }
