@@ -26,9 +26,9 @@ type RockPaperScissorsClient interface {
 	GetRound(ctx context.Context, in *GetRoundRequest, opts ...grpc.CallOption) (*Round, error)
 	GetBets(ctx context.Context, in *GetBetsRequest, opts ...grpc.CallOption) (*GetBetsResponse, error)
 	UpdateBet(ctx context.Context, in *UpdateBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error)
-	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
 	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*RockPaperScissorsAdmin, error)
 	UpdateSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error)
+	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*RockPaperScissorsSubscribeResponse, error)
 }
 
 type rockPaperScissorsClient struct {
@@ -75,15 +75,6 @@ func (c *rockPaperScissorsClient) UpdateBet(ctx context.Context, in *UpdateBetRe
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
-	out := new(SubscribeResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/Subscribe", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *rockPaperScissorsClient) GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*RockPaperScissorsAdmin, error) {
 	out := new(RockPaperScissorsAdmin)
 	err := c.cc.Invoke(ctx, "/RockPaperScissors/GetSettings", in, out, opts...)
@@ -102,6 +93,15 @@ func (c *rockPaperScissorsClient) UpdateSettings(ctx context.Context, in *RockPa
 	return out, nil
 }
 
+func (c *rockPaperScissorsClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*RockPaperScissorsSubscribeResponse, error) {
+	out := new(RockPaperScissorsSubscribeResponse)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/Subscribe", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // RockPaperScissorsServer is the server API for RockPaperScissors service.
 // All implementations should embed UnimplementedRockPaperScissorsServer
 // for forward compatibility
@@ -110,9 +110,9 @@ type RockPaperScissorsServer interface {
 	GetRound(context.Context, *GetRoundRequest) (*Round, error)
 	GetBets(context.Context, *GetBetsRequest) (*GetBetsResponse, error)
 	UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error)
-	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*RockPaperScissorsAdmin, error)
 	UpdateSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error)
+	Subscribe(context.Context, *SubscribeRequest) (*RockPaperScissorsSubscribeResponse, error)
 }
 
 // UnimplementedRockPaperScissorsServer should be embedded to have forward compatible implementations.
@@ -131,14 +131,14 @@ func (UnimplementedRockPaperScissorsServer) GetBets(context.Context, *GetBetsReq
 func (UnimplementedRockPaperScissorsServer) UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBet not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
-}
 func (UnimplementedRockPaperScissorsServer) GetSettings(context.Context, *GetSettingsRequest) (*RockPaperScissorsAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
 }
 func (UnimplementedRockPaperScissorsServer) UpdateSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSettings not implemented")
+}
+func (UnimplementedRockPaperScissorsServer) Subscribe(context.Context, *SubscribeRequest) (*RockPaperScissorsSubscribeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
 
 // UnsafeRockPaperScissorsServer may be embedded to opt out of forward compatibility for this service.
@@ -224,24 +224,6 @@ func _RockPaperScissors_UpdateBet_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubscribeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).Subscribe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/RockPaperScissors/Subscribe",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).Subscribe(ctx, req.(*SubscribeRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _RockPaperScissors_GetSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetSettingsRequest)
 	if err := dec(in); err != nil {
@@ -278,6 +260,24 @@ func _RockPaperScissors_UpdateSettings_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _RockPaperScissors_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubscribeRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(RockPaperScissorsServer).Subscribe(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/RockPaperScissors/Subscribe",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(RockPaperScissorsServer).Subscribe(ctx, req.(*SubscribeRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // RockPaperScissors_ServiceDesc is the grpc.ServiceDesc for RockPaperScissors service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -302,16 +302,16 @@ var RockPaperScissors_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RockPaperScissors_UpdateBet_Handler,
 		},
 		{
-			MethodName: "Subscribe",
-			Handler:    _RockPaperScissors_Subscribe_Handler,
-		},
-		{
 			MethodName: "GetSettings",
 			Handler:    _RockPaperScissors_GetSettings_Handler,
 		},
 		{
 			MethodName: "UpdateSettings",
 			Handler:    _RockPaperScissors_UpdateSettings_Handler,
+		},
+		{
+			MethodName: "Subscribe",
+			Handler:    _RockPaperScissors_Subscribe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
