@@ -28,7 +28,7 @@ type RockPaperScissorsClient interface {
 	UpdateBet(ctx context.Context, in *UpdateBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error)
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
 	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*RockPaperScissorsAdmin, error)
-	UpdateRpsSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error)
+	UpdateSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error)
 }
 
 type rockPaperScissorsClient struct {
@@ -93,9 +93,9 @@ func (c *rockPaperScissorsClient) GetSettings(ctx context.Context, in *GetSettin
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) UpdateRpsSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error) {
+func (c *rockPaperScissorsClient) UpdateSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error) {
 	out := new(UpdateSettingsResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/UpdateRpsSettings", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/UpdateSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,7 +112,7 @@ type RockPaperScissorsServer interface {
 	UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error)
 	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
 	GetSettings(context.Context, *GetSettingsRequest) (*RockPaperScissorsAdmin, error)
-	UpdateRpsSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error)
+	UpdateSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error)
 }
 
 // UnimplementedRockPaperScissorsServer should be embedded to have forward compatible implementations.
@@ -137,8 +137,8 @@ func (UnimplementedRockPaperScissorsServer) Subscribe(context.Context, *Subscrib
 func (UnimplementedRockPaperScissorsServer) GetSettings(context.Context, *GetSettingsRequest) (*RockPaperScissorsAdmin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) UpdateRpsSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateRpsSettings not implemented")
+func (UnimplementedRockPaperScissorsServer) UpdateSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateSettings not implemented")
 }
 
 // UnsafeRockPaperScissorsServer may be embedded to opt out of forward compatibility for this service.
@@ -260,20 +260,20 @@ func _RockPaperScissors_GetSettings_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_UpdateRpsSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _RockPaperScissors_UpdateSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RockPaperScissorsAdmin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).UpdateRpsSettings(ctx, in)
+		return srv.(RockPaperScissorsServer).UpdateSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/UpdateRpsSettings",
+		FullMethod: "/RockPaperScissors/UpdateSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).UpdateRpsSettings(ctx, req.(*RockPaperScissorsAdmin))
+		return srv.(RockPaperScissorsServer).UpdateSettings(ctx, req.(*RockPaperScissorsAdmin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -310,8 +310,8 @@ var RockPaperScissors_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _RockPaperScissors_GetSettings_Handler,
 		},
 		{
-			MethodName: "UpdateRpsSettings",
-			Handler:    _RockPaperScissors_UpdateRpsSettings_Handler,
+			MethodName: "UpdateSettings",
+			Handler:    _RockPaperScissors_UpdateSettings_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
