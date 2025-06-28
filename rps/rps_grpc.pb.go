@@ -22,13 +22,13 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RockPaperScissorsClient interface {
-	PlaceBet(ctx context.Context, in *Bet, opts ...grpc.CallOption) (*BetUpdateResponse, error)
-	GetRound(ctx context.Context, in *GetRoundRequest, opts ...grpc.CallOption) (*Round, error)
-	GetBets(ctx context.Context, in *GetBetsRequest, opts ...grpc.CallOption) (*GetBetsResponse, error)
-	UpdateBet(ctx context.Context, in *UpdateBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error)
-	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*Admin, error)
-	UpdateSettings(ctx context.Context, in *Admin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error)
-	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
+	RPSPlaceBet(ctx context.Context, in *RPSBet, opts ...grpc.CallOption) (*RPSAdmin, error)
+	RPSGetRound(ctx context.Context, in *RPSGetRoundRequest, opts ...grpc.CallOption) (*RPSRound, error)
+	RPSUpdateBet(ctx context.Context, in *RPSUpdateBetRequest, opts ...grpc.CallOption) (*RPSAdmin, error)
+	RPSGetSettings(ctx context.Context, in *RPSGetSettingsRequest, opts ...grpc.CallOption) (*RPSAdmin, error)
+	RPSGetBets(ctx context.Context, in *RPSGetBetsRequest, opts ...grpc.CallOption) (*RPSGetBetsResponse, error)
+	RPSUpdateSettings(ctx context.Context, in *RPSAdmin, opts ...grpc.CallOption) (*RPSUpdateSettingsResponse, error)
+	RPSSubscribe(ctx context.Context, in *RPSSubscribeRequest, opts ...grpc.CallOption) (*RPSSubscribeResponse, error)
 }
 
 type rockPaperScissorsClient struct {
@@ -39,63 +39,63 @@ func NewRockPaperScissorsClient(cc grpc.ClientConnInterface) RockPaperScissorsCl
 	return &rockPaperScissorsClient{cc}
 }
 
-func (c *rockPaperScissorsClient) PlaceBet(ctx context.Context, in *Bet, opts ...grpc.CallOption) (*BetUpdateResponse, error) {
-	out := new(BetUpdateResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/PlaceBet", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSPlaceBet(ctx context.Context, in *RPSBet, opts ...grpc.CallOption) (*RPSAdmin, error) {
+	out := new(RPSAdmin)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSPlaceBet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) GetRound(ctx context.Context, in *GetRoundRequest, opts ...grpc.CallOption) (*Round, error) {
-	out := new(Round)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/GetRound", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSGetRound(ctx context.Context, in *RPSGetRoundRequest, opts ...grpc.CallOption) (*RPSRound, error) {
+	out := new(RPSRound)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSGetRound", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) GetBets(ctx context.Context, in *GetBetsRequest, opts ...grpc.CallOption) (*GetBetsResponse, error) {
-	out := new(GetBetsResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/GetBets", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSUpdateBet(ctx context.Context, in *RPSUpdateBetRequest, opts ...grpc.CallOption) (*RPSAdmin, error) {
+	out := new(RPSAdmin)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSUpdateBet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) UpdateBet(ctx context.Context, in *UpdateBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error) {
-	out := new(BetUpdateResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/UpdateBet", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSGetSettings(ctx context.Context, in *RPSGetSettingsRequest, opts ...grpc.CallOption) (*RPSAdmin, error) {
+	out := new(RPSAdmin)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSGetSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*Admin, error) {
-	out := new(Admin)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/GetSettings", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSGetBets(ctx context.Context, in *RPSGetBetsRequest, opts ...grpc.CallOption) (*RPSGetBetsResponse, error) {
+	out := new(RPSGetBetsResponse)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSGetBets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) UpdateSettings(ctx context.Context, in *Admin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error) {
-	out := new(UpdateSettingsResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/UpdateSettings", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSUpdateSettings(ctx context.Context, in *RPSAdmin, opts ...grpc.CallOption) (*RPSUpdateSettingsResponse, error) {
+	out := new(RPSUpdateSettingsResponse)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSUpdateSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
-	out := new(SubscribeResponse)
-	err := c.cc.Invoke(ctx, "/RockPaperScissors/Subscribe", in, out, opts...)
+func (c *rockPaperScissorsClient) RPSSubscribe(ctx context.Context, in *RPSSubscribeRequest, opts ...grpc.CallOption) (*RPSSubscribeResponse, error) {
+	out := new(RPSSubscribeResponse)
+	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSSubscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -106,39 +106,39 @@ func (c *rockPaperScissorsClient) Subscribe(ctx context.Context, in *SubscribeRe
 // All implementations should embed UnimplementedRockPaperScissorsServer
 // for forward compatibility
 type RockPaperScissorsServer interface {
-	PlaceBet(context.Context, *Bet) (*BetUpdateResponse, error)
-	GetRound(context.Context, *GetRoundRequest) (*Round, error)
-	GetBets(context.Context, *GetBetsRequest) (*GetBetsResponse, error)
-	UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error)
-	GetSettings(context.Context, *GetSettingsRequest) (*Admin, error)
-	UpdateSettings(context.Context, *Admin) (*UpdateSettingsResponse, error)
-	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
+	RPSPlaceBet(context.Context, *RPSBet) (*RPSAdmin, error)
+	RPSGetRound(context.Context, *RPSGetRoundRequest) (*RPSRound, error)
+	RPSUpdateBet(context.Context, *RPSUpdateBetRequest) (*RPSAdmin, error)
+	RPSGetSettings(context.Context, *RPSGetSettingsRequest) (*RPSAdmin, error)
+	RPSGetBets(context.Context, *RPSGetBetsRequest) (*RPSGetBetsResponse, error)
+	RPSUpdateSettings(context.Context, *RPSAdmin) (*RPSUpdateSettingsResponse, error)
+	RPSSubscribe(context.Context, *RPSSubscribeRequest) (*RPSSubscribeResponse, error)
 }
 
 // UnimplementedRockPaperScissorsServer should be embedded to have forward compatible implementations.
 type UnimplementedRockPaperScissorsServer struct {
 }
 
-func (UnimplementedRockPaperScissorsServer) PlaceBet(context.Context, *Bet) (*BetUpdateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method PlaceBet not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSPlaceBet(context.Context, *RPSBet) (*RPSAdmin, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSPlaceBet not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) GetRound(context.Context, *GetRoundRequest) (*Round, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetRound not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSGetRound(context.Context, *RPSGetRoundRequest) (*RPSRound, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSGetRound not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) GetBets(context.Context, *GetBetsRequest) (*GetBetsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetBets not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSUpdateBet(context.Context, *RPSUpdateBetRequest) (*RPSAdmin, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSUpdateBet not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateBet not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSGetSettings(context.Context, *RPSGetSettingsRequest) (*RPSAdmin, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSGetSettings not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) GetSettings(context.Context, *GetSettingsRequest) (*Admin, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSGetBets(context.Context, *RPSGetBetsRequest) (*RPSGetBetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSGetBets not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) UpdateSettings(context.Context, *Admin) (*UpdateSettingsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateSettings not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSUpdateSettings(context.Context, *RPSAdmin) (*RPSUpdateSettingsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSUpdateSettings not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
+func (UnimplementedRockPaperScissorsServer) RPSSubscribe(context.Context, *RPSSubscribeRequest) (*RPSSubscribeResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RPSSubscribe not implemented")
 }
 
 // UnsafeRockPaperScissorsServer may be embedded to opt out of forward compatibility for this service.
@@ -152,128 +152,128 @@ func RegisterRockPaperScissorsServer(s grpc.ServiceRegistrar, srv RockPaperSciss
 	s.RegisterService(&RockPaperScissors_ServiceDesc, srv)
 }
 
-func _RockPaperScissors_PlaceBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Bet)
+func _RockPaperScissors_RPSPlaceBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).PlaceBet(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSPlaceBet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/PlaceBet",
+		FullMethod: "/RockPaperScissors/RPSPlaceBet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).PlaceBet(ctx, req.(*Bet))
+		return srv.(RockPaperScissorsServer).RPSPlaceBet(ctx, req.(*RPSBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_GetRound_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetRoundRequest)
+func _RockPaperScissors_RPSGetRound_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSGetRoundRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).GetRound(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSGetRound(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/GetRound",
+		FullMethod: "/RockPaperScissors/RPSGetRound",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).GetRound(ctx, req.(*GetRoundRequest))
+		return srv.(RockPaperScissorsServer).RPSGetRound(ctx, req.(*RPSGetRoundRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_GetBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetBetsRequest)
+func _RockPaperScissors_RPSUpdateBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSUpdateBetRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).GetBets(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSUpdateBet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/GetBets",
+		FullMethod: "/RockPaperScissors/RPSUpdateBet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).GetBets(ctx, req.(*GetBetsRequest))
+		return srv.(RockPaperScissorsServer).RPSUpdateBet(ctx, req.(*RPSUpdateBetRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_UpdateBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateBetRequest)
+func _RockPaperScissors_RPSGetSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSGetSettingsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).UpdateBet(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSGetSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/UpdateBet",
+		FullMethod: "/RockPaperScissors/RPSGetSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).UpdateBet(ctx, req.(*UpdateBetRequest))
+		return srv.(RockPaperScissorsServer).RPSGetSettings(ctx, req.(*RPSGetSettingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_GetSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetSettingsRequest)
+func _RockPaperScissors_RPSGetBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSGetBetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).GetSettings(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSGetBets(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/GetSettings",
+		FullMethod: "/RockPaperScissors/RPSGetBets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).GetSettings(ctx, req.(*GetSettingsRequest))
+		return srv.(RockPaperScissorsServer).RPSGetBets(ctx, req.(*RPSGetBetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_UpdateSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(Admin)
+func _RockPaperScissors_RPSUpdateSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSAdmin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).UpdateSettings(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSUpdateSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/UpdateSettings",
+		FullMethod: "/RockPaperScissors/RPSUpdateSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).UpdateSettings(ctx, req.(*Admin))
+		return srv.(RockPaperScissorsServer).RPSUpdateSettings(ctx, req.(*RPSAdmin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _RockPaperScissors_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubscribeRequest)
+func _RockPaperScissors_RPSSubscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RPSSubscribeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(RockPaperScissorsServer).Subscribe(ctx, in)
+		return srv.(RockPaperScissorsServer).RPSSubscribe(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/RockPaperScissors/Subscribe",
+		FullMethod: "/RockPaperScissors/RPSSubscribe",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).Subscribe(ctx, req.(*SubscribeRequest))
+		return srv.(RockPaperScissorsServer).RPSSubscribe(ctx, req.(*RPSSubscribeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -286,32 +286,32 @@ var RockPaperScissors_ServiceDesc = grpc.ServiceDesc{
 	HandlerType: (*RockPaperScissorsServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
-			MethodName: "PlaceBet",
-			Handler:    _RockPaperScissors_PlaceBet_Handler,
+			MethodName: "RPSPlaceBet",
+			Handler:    _RockPaperScissors_RPSPlaceBet_Handler,
 		},
 		{
-			MethodName: "GetRound",
-			Handler:    _RockPaperScissors_GetRound_Handler,
+			MethodName: "RPSGetRound",
+			Handler:    _RockPaperScissors_RPSGetRound_Handler,
 		},
 		{
-			MethodName: "GetBets",
-			Handler:    _RockPaperScissors_GetBets_Handler,
+			MethodName: "RPSUpdateBet",
+			Handler:    _RockPaperScissors_RPSUpdateBet_Handler,
 		},
 		{
-			MethodName: "UpdateBet",
-			Handler:    _RockPaperScissors_UpdateBet_Handler,
+			MethodName: "RPSGetSettings",
+			Handler:    _RockPaperScissors_RPSGetSettings_Handler,
 		},
 		{
-			MethodName: "GetSettings",
-			Handler:    _RockPaperScissors_GetSettings_Handler,
+			MethodName: "RPSGetBets",
+			Handler:    _RockPaperScissors_RPSGetBets_Handler,
 		},
 		{
-			MethodName: "UpdateSettings",
-			Handler:    _RockPaperScissors_UpdateSettings_Handler,
+			MethodName: "RPSUpdateSettings",
+			Handler:    _RockPaperScissors_RPSUpdateSettings_Handler,
 		},
 		{
-			MethodName: "Subscribe",
-			Handler:    _RockPaperScissors_Subscribe_Handler,
+			MethodName: "RPSSubscribe",
+			Handler:    _RockPaperScissors_RPSSubscribe_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
