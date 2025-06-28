@@ -26,9 +26,9 @@ type RockPaperScissorsClient interface {
 	GetRound(ctx context.Context, in *GetRoundRequest, opts ...grpc.CallOption) (*Round, error)
 	GetBets(ctx context.Context, in *GetBetsRequest, opts ...grpc.CallOption) (*GetBetsResponse, error)
 	UpdateBet(ctx context.Context, in *UpdateBetRequest, opts ...grpc.CallOption) (*BetUpdateResponse, error)
-	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*RockPaperScissorsAdmin, error)
-	UpdateSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error)
-	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*RockPaperScissorsSubscribeResponse, error)
+	GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*Admin, error)
+	UpdateSettings(ctx context.Context, in *Admin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error)
+	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
 }
 
 type rockPaperScissorsClient struct {
@@ -75,8 +75,8 @@ func (c *rockPaperScissorsClient) UpdateBet(ctx context.Context, in *UpdateBetRe
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*RockPaperScissorsAdmin, error) {
-	out := new(RockPaperScissorsAdmin)
+func (c *rockPaperScissorsClient) GetSettings(ctx context.Context, in *GetSettingsRequest, opts ...grpc.CallOption) (*Admin, error) {
+	out := new(Admin)
 	err := c.cc.Invoke(ctx, "/RockPaperScissors/GetSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -84,7 +84,7 @@ func (c *rockPaperScissorsClient) GetSettings(ctx context.Context, in *GetSettin
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) UpdateSettings(ctx context.Context, in *RockPaperScissorsAdmin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error) {
+func (c *rockPaperScissorsClient) UpdateSettings(ctx context.Context, in *Admin, opts ...grpc.CallOption) (*UpdateSettingsResponse, error) {
 	out := new(UpdateSettingsResponse)
 	err := c.cc.Invoke(ctx, "/RockPaperScissors/UpdateSettings", in, out, opts...)
 	if err != nil {
@@ -93,8 +93,8 @@ func (c *rockPaperScissorsClient) UpdateSettings(ctx context.Context, in *RockPa
 	return out, nil
 }
 
-func (c *rockPaperScissorsClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*RockPaperScissorsSubscribeResponse, error) {
-	out := new(RockPaperScissorsSubscribeResponse)
+func (c *rockPaperScissorsClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
+	out := new(SubscribeResponse)
 	err := c.cc.Invoke(ctx, "/RockPaperScissors/Subscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -110,9 +110,9 @@ type RockPaperScissorsServer interface {
 	GetRound(context.Context, *GetRoundRequest) (*Round, error)
 	GetBets(context.Context, *GetBetsRequest) (*GetBetsResponse, error)
 	UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error)
-	GetSettings(context.Context, *GetSettingsRequest) (*RockPaperScissorsAdmin, error)
-	UpdateSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error)
-	Subscribe(context.Context, *SubscribeRequest) (*RockPaperScissorsSubscribeResponse, error)
+	GetSettings(context.Context, *GetSettingsRequest) (*Admin, error)
+	UpdateSettings(context.Context, *Admin) (*UpdateSettingsResponse, error)
+	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
 }
 
 // UnimplementedRockPaperScissorsServer should be embedded to have forward compatible implementations.
@@ -131,13 +131,13 @@ func (UnimplementedRockPaperScissorsServer) GetBets(context.Context, *GetBetsReq
 func (UnimplementedRockPaperScissorsServer) UpdateBet(context.Context, *UpdateBetRequest) (*BetUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateBet not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) GetSettings(context.Context, *GetSettingsRequest) (*RockPaperScissorsAdmin, error) {
+func (UnimplementedRockPaperScissorsServer) GetSettings(context.Context, *GetSettingsRequest) (*Admin, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetSettings not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) UpdateSettings(context.Context, *RockPaperScissorsAdmin) (*UpdateSettingsResponse, error) {
+func (UnimplementedRockPaperScissorsServer) UpdateSettings(context.Context, *Admin) (*UpdateSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateSettings not implemented")
 }
-func (UnimplementedRockPaperScissorsServer) Subscribe(context.Context, *SubscribeRequest) (*RockPaperScissorsSubscribeResponse, error) {
+func (UnimplementedRockPaperScissorsServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
 
@@ -243,7 +243,7 @@ func _RockPaperScissors_GetSettings_Handler(srv interface{}, ctx context.Context
 }
 
 func _RockPaperScissors_UpdateSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(RockPaperScissorsAdmin)
+	in := new(Admin)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -255,7 +255,7 @@ func _RockPaperScissors_UpdateSettings_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/RockPaperScissors/UpdateSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(RockPaperScissorsServer).UpdateSettings(ctx, req.(*RockPaperScissorsAdmin))
+		return srv.(RockPaperScissorsServer).UpdateSettings(ctx, req.(*Admin))
 	}
 	return interceptor(ctx, in, info, handler)
 }
