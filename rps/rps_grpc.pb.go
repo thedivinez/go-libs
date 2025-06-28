@@ -22,7 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type RockPaperScissorsClient interface {
-	RPSPlaceBet(ctx context.Context, in *RPSBet, opts ...grpc.CallOption) (*RPSAdmin, error)
+	RPSPlaceBet(ctx context.Context, in *RPSBet, opts ...grpc.CallOption) (*RPSBetUpdateResponse, error)
 	RPSGetRound(ctx context.Context, in *RPSGetRoundRequest, opts ...grpc.CallOption) (*RPSRound, error)
 	RPSUpdateBet(ctx context.Context, in *RPSUpdateBetRequest, opts ...grpc.CallOption) (*RPSAdmin, error)
 	RPSGetSettings(ctx context.Context, in *RPSGetSettingsRequest, opts ...grpc.CallOption) (*RPSAdmin, error)
@@ -39,8 +39,8 @@ func NewRockPaperScissorsClient(cc grpc.ClientConnInterface) RockPaperScissorsCl
 	return &rockPaperScissorsClient{cc}
 }
 
-func (c *rockPaperScissorsClient) RPSPlaceBet(ctx context.Context, in *RPSBet, opts ...grpc.CallOption) (*RPSAdmin, error) {
-	out := new(RPSAdmin)
+func (c *rockPaperScissorsClient) RPSPlaceBet(ctx context.Context, in *RPSBet, opts ...grpc.CallOption) (*RPSBetUpdateResponse, error) {
+	out := new(RPSBetUpdateResponse)
 	err := c.cc.Invoke(ctx, "/RockPaperScissors/RPSPlaceBet", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -106,7 +106,7 @@ func (c *rockPaperScissorsClient) RPSSubscribe(ctx context.Context, in *RPSSubsc
 // All implementations should embed UnimplementedRockPaperScissorsServer
 // for forward compatibility
 type RockPaperScissorsServer interface {
-	RPSPlaceBet(context.Context, *RPSBet) (*RPSAdmin, error)
+	RPSPlaceBet(context.Context, *RPSBet) (*RPSBetUpdateResponse, error)
 	RPSGetRound(context.Context, *RPSGetRoundRequest) (*RPSRound, error)
 	RPSUpdateBet(context.Context, *RPSUpdateBetRequest) (*RPSAdmin, error)
 	RPSGetSettings(context.Context, *RPSGetSettingsRequest) (*RPSAdmin, error)
@@ -119,7 +119,7 @@ type RockPaperScissorsServer interface {
 type UnimplementedRockPaperScissorsServer struct {
 }
 
-func (UnimplementedRockPaperScissorsServer) RPSPlaceBet(context.Context, *RPSBet) (*RPSAdmin, error) {
+func (UnimplementedRockPaperScissorsServer) RPSPlaceBet(context.Context, *RPSBet) (*RPSBetUpdateResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RPSPlaceBet not implemented")
 }
 func (UnimplementedRockPaperScissorsServer) RPSGetRound(context.Context, *RPSGetRoundRequest) (*RPSRound, error) {
