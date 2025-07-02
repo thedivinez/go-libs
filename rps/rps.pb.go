@@ -20,19 +20,19 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
-type RPSGetBetsRequest struct {
+type RPSPlaceBetRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Owner   string `protobuf:"bytes,1,opt,name=Owner,proto3" json:"owner"`      
-	Account string `protobuf:"bytes,2,opt,name=Account,proto3" json:"account"`  
-	Status  string `protobuf:"bytes,3,opt,name=Status,proto3" json:"status"`    
-	Page    string `protobuf:"bytes,4,opt,name=Page,proto3" json:"page"`        
+	Owner      string  `protobuf:"bytes,1,opt,name=Owner,proto3" json:"owner"`            
+	Prediction string  `protobuf:"bytes,2,opt,name=Prediction,proto3" json:"prediction"`  
+	Account    string  `protobuf:"bytes,3,opt,name=Account,proto3" json:"account"`        
+	Stake      float64 `protobuf:"fixed64,4,opt,name=Stake,proto3" json:"stake"`          
 }
 
-func (x *RPSGetBetsRequest) Reset() {
-	*x = RPSGetBetsRequest{}
+func (x *RPSPlaceBetRequest) Reset() {
+	*x = RPSPlaceBetRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rps_proto_msgTypes[0]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -40,13 +40,13 @@ func (x *RPSGetBetsRequest) Reset() {
 	}
 }
 
-func (x *RPSGetBetsRequest) String() string {
+func (x *RPSPlaceBetRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RPSGetBetsRequest) ProtoMessage() {}
+func (*RPSPlaceBetRequest) ProtoMessage() {}
 
-func (x *RPSGetBetsRequest) ProtoReflect() protoreflect.Message {
+func (x *RPSPlaceBetRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_rps_proto_msgTypes[0]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -58,49 +58,53 @@ func (x *RPSGetBetsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RPSGetBetsRequest.ProtoReflect.Descriptor instead.
-func (*RPSGetBetsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use RPSPlaceBetRequest.ProtoReflect.Descriptor instead.
+func (*RPSPlaceBetRequest) Descriptor() ([]byte, []int) {
 	return file_rps_proto_rawDescGZIP(), []int{0}
 }
 
-func (x *RPSGetBetsRequest) GetOwner() string {
+func (x *RPSPlaceBetRequest) GetOwner() string {
 	if x != nil {
 		return x.Owner
 	}
 	return ""
 }
 
-func (x *RPSGetBetsRequest) GetAccount() string {
+func (x *RPSPlaceBetRequest) GetPrediction() string {
+	if x != nil {
+		return x.Prediction
+	}
+	return ""
+}
+
+func (x *RPSPlaceBetRequest) GetAccount() string {
 	if x != nil {
 		return x.Account
 	}
 	return ""
 }
 
-func (x *RPSGetBetsRequest) GetStatus() string {
+func (x *RPSPlaceBetRequest) GetStake() float64 {
 	if x != nil {
-		return x.Status
+		return x.Stake
 	}
-	return ""
+	return 0
 }
 
-func (x *RPSGetBetsRequest) GetPage() string {
-	if x != nil {
-		return x.Page
-	}
-	return ""
-}
-
-type RPSGetBetsResponse struct {
+type RPSPlaceBetResponse struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Bets []*RPSBet `protobuf:"bytes,1,rep,name=Bets,proto3" json:"bets"`  
+	Message      string  `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`            
+	Payout       float64 `protobuf:"fixed64,2,opt,name=Payout,proto3" json:"payout"`            
+	Outcome      string  `protobuf:"bytes,3,opt,name=Outcome,proto3" json:"outcome"`            
+	HouseChoice  string  `protobuf:"bytes,4,opt,name=HouseChoice,proto3" json:"houseChoice"`    
+	PlayerChoice string  `protobuf:"bytes,5,opt,name=PlayerChoice,proto3" json:"playerChoice"`  
 }
 
-func (x *RPSGetBetsResponse) Reset() {
-	*x = RPSGetBetsResponse{}
+func (x *RPSPlaceBetResponse) Reset() {
+	*x = RPSPlaceBetResponse{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_rps_proto_msgTypes[1]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -108,13 +112,13 @@ func (x *RPSGetBetsResponse) Reset() {
 	}
 }
 
-func (x *RPSGetBetsResponse) String() string {
+func (x *RPSPlaceBetResponse) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*RPSGetBetsResponse) ProtoMessage() {}
+func (*RPSPlaceBetResponse) ProtoMessage() {}
 
-func (x *RPSGetBetsResponse) ProtoReflect() protoreflect.Message {
+func (x *RPSPlaceBetResponse) ProtoReflect() protoreflect.Message {
 	mi := &file_rps_proto_msgTypes[1]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -126,929 +130,76 @@ func (x *RPSGetBetsResponse) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use RPSGetBetsResponse.ProtoReflect.Descriptor instead.
-func (*RPSGetBetsResponse) Descriptor() ([]byte, []int) {
+// Deprecated: Use RPSPlaceBetResponse.ProtoReflect.Descriptor instead.
+func (*RPSPlaceBetResponse) Descriptor() ([]byte, []int) {
 	return file_rps_proto_rawDescGZIP(), []int{1}
 }
 
-func (x *RPSGetBetsResponse) GetBets() []*RPSBet {
+func (x *RPSPlaceBetResponse) GetMessage() string {
 	if x != nil {
-		return x.Bets
-	}
-	return nil
-}
-
-type RPSBet struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	BetId       string  `protobuf:"bytes,1,opt,name=BetId,proto3" json:"id" bson:"_id"`                
-	Payout      float64 `protobuf:"fixed64,2,opt,name=Payout,proto3" json:"payout" bson:"payout"`            
-	Owner       string  `protobuf:"bytes,3,opt,name=Owner,proto3" json:"-" bson:"owner,omitempty"`                
-	OrgId       string  `protobuf:"bytes,4,opt,name=OrgId,proto3" json:"orgId" bson:"orgId,omitempty"`                
-	Stake       float64 `protobuf:"fixed64,5,opt,name=Stake,proto3" json:"stake" bson:"stake,omitempty"`              
-	Status      string  `protobuf:"bytes,6,opt,name=Status,proto3" json:"status" bson:"status,omitempty"`              
-	Account     string  `protobuf:"bytes,7,opt,name=Account,proto3" json:"account" bson:"account,omitempty"`            
-	RoundId     string  `protobuf:"bytes,8,opt,name=RoundId,proto3" json:"roundId" bson:"roundId,omitempty"`            
-	Prediction  string  `protobuf:"bytes,9,opt,name=Prediction,proto3" json:"prediction" bson:"prediction,omitempty"`      
-	DateCreated int64   `protobuf:"varint,10,opt,name=DateCreated,proto3" json:"dateCreated" bson:"dateCreated,omitempty"`  
-}
-
-func (x *RPSBet) Reset() {
-	*x = RPSBet{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[2]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSBet) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSBet) ProtoMessage() {}
-
-func (x *RPSBet) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[2]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSBet.ProtoReflect.Descriptor instead.
-func (*RPSBet) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{2}
-}
-
-func (x *RPSBet) GetBetId() string {
-	if x != nil {
-		return x.BetId
+		return x.Message
 	}
 	return ""
 }
 
-func (x *RPSBet) GetPayout() float64 {
+func (x *RPSPlaceBetResponse) GetPayout() float64 {
 	if x != nil {
 		return x.Payout
 	}
 	return 0
 }
 
-func (x *RPSBet) GetOwner() string {
+func (x *RPSPlaceBetResponse) GetOutcome() string {
 	if x != nil {
-		return x.Owner
+		return x.Outcome
 	}
 	return ""
 }
 
-func (x *RPSBet) GetOrgId() string {
+func (x *RPSPlaceBetResponse) GetHouseChoice() string {
 	if x != nil {
-		return x.OrgId
+		return x.HouseChoice
 	}
 	return ""
 }
 
-func (x *RPSBet) GetStake() float64 {
+func (x *RPSPlaceBetResponse) GetPlayerChoice() string {
 	if x != nil {
-		return x.Stake
-	}
-	return 0
-}
-
-func (x *RPSBet) GetStatus() string {
-	if x != nil {
-		return x.Status
+		return x.PlayerChoice
 	}
 	return ""
-}
-
-func (x *RPSBet) GetAccount() string {
-	if x != nil {
-		return x.Account
-	}
-	return ""
-}
-
-func (x *RPSBet) GetRoundId() string {
-	if x != nil {
-		return x.RoundId
-	}
-	return ""
-}
-
-func (x *RPSBet) GetPrediction() string {
-	if x != nil {
-		return x.Prediction
-	}
-	return ""
-}
-
-func (x *RPSBet) GetDateCreated() int64 {
-	if x != nil {
-		return x.DateCreated
-	}
-	return 0
-}
-
-type RPSRound struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ID          string   `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" form:"id" bson:"_id"`                      
-	OrgID       string   `protobuf:"bytes,2,opt,name=OrgID,proto3" json:"orgId" form:"orgId" bson:"orgId,omitempty"`                
-	Odds        *RPSOdds `protobuf:"bytes,3,opt,name=Odds,proto3" json:"odds" form:"odds" bson:"odds,omitempty"`                  
-	Title       string   `protobuf:"bytes,5,opt,name=Title,proto3" json:"title" form:"title" bson:"title,omitempty"`                
-	Status      string   `protobuf:"bytes,7,opt,name=Status,proto3" json:"status" form:"status" bson:"status,omitempty"`              
-	StartTime   int64    `protobuf:"varint,11,opt,name=StartTime,proto3" json:"startTime" form:"startTime" bson:"startTime,omitempty"`      
-	DateCreated int64    `protobuf:"varint,12,opt,name=DateCreated,proto3" json:"dateCreated" form:"dateCreated" bson:"dateCreated,omitempty"`  
-	Result      string   `protobuf:"bytes,13,opt,name=Result,proto3" json:"result,omitempty" form:"result" bson:"results,omitempty"`             
-}
-
-func (x *RPSRound) Reset() {
-	*x = RPSRound{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[3]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSRound) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSRound) ProtoMessage() {}
-
-func (x *RPSRound) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[3]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSRound.ProtoReflect.Descriptor instead.
-func (*RPSRound) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{3}
-}
-
-func (x *RPSRound) GetID() string {
-	if x != nil {
-		return x.ID
-	}
-	return ""
-}
-
-func (x *RPSRound) GetOrgID() string {
-	if x != nil {
-		return x.OrgID
-	}
-	return ""
-}
-
-func (x *RPSRound) GetOdds() *RPSOdds {
-	if x != nil {
-		return x.Odds
-	}
-	return nil
-}
-
-func (x *RPSRound) GetTitle() string {
-	if x != nil {
-		return x.Title
-	}
-	return ""
-}
-
-func (x *RPSRound) GetStatus() string {
-	if x != nil {
-		return x.Status
-	}
-	return ""
-}
-
-func (x *RPSRound) GetStartTime() int64 {
-	if x != nil {
-		return x.StartTime
-	}
-	return 0
-}
-
-func (x *RPSRound) GetDateCreated() int64 {
-	if x != nil {
-		return x.DateCreated
-	}
-	return 0
-}
-
-func (x *RPSRound) GetResult() string {
-	if x != nil {
-		return x.Result
-	}
-	return ""
-}
-
-type RPSOdds struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Rock     float64 `protobuf:"fixed64,1,opt,name=Rock,proto3" json:"rock" bson:"rock"`          
-	Paper    float64 `protobuf:"fixed64,2,opt,name=Paper,proto3" json:"paper" bson:"paper"`        
-	Scissors float64 `protobuf:"fixed64,3,opt,name=Scissors,proto3" json:"scissors" bson:"scissors"`  
-}
-
-func (x *RPSOdds) Reset() {
-	*x = RPSOdds{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[4]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSOdds) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSOdds) ProtoMessage() {}
-
-func (x *RPSOdds) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[4]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSOdds.ProtoReflect.Descriptor instead.
-func (*RPSOdds) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{4}
-}
-
-func (x *RPSOdds) GetRock() float64 {
-	if x != nil {
-		return x.Rock
-	}
-	return 0
-}
-
-func (x *RPSOdds) GetPaper() float64 {
-	if x != nil {
-		return x.Paper
-	}
-	return 0
-}
-
-func (x *RPSOdds) GetScissors() float64 {
-	if x != nil {
-		return x.Scissors
-	}
-	return 0
-}
-
-type RPSBetUpdateResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Message string  `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Balance float64 `protobuf:"fixed64,2,opt,name=Balance,proto3" json:"balance"`  
-}
-
-func (x *RPSBetUpdateResponse) Reset() {
-	*x = RPSBetUpdateResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[5]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSBetUpdateResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSBetUpdateResponse) ProtoMessage() {}
-
-func (x *RPSBetUpdateResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[5]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSBetUpdateResponse.ProtoReflect.Descriptor instead.
-func (*RPSBetUpdateResponse) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{5}
-}
-
-func (x *RPSBetUpdateResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
-func (x *RPSBetUpdateResponse) GetBalance() float64 {
-	if x != nil {
-		return x.Balance
-	}
-	return 0
-}
-
-type RPSUpdateBetRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ID         string  `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"-"`                  
-	Stake      float64 `protobuf:"fixed64,2,opt,name=Stake,proto3" json:"stake" bson:"stake"`          
-	Prediction string  `protobuf:"bytes,3,opt,name=Prediction,proto3" json:"prediction" bson:"prediction"`  
-}
-
-func (x *RPSUpdateBetRequest) Reset() {
-	*x = RPSUpdateBetRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[6]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSUpdateBetRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSUpdateBetRequest) ProtoMessage() {}
-
-func (x *RPSUpdateBetRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[6]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSUpdateBetRequest.ProtoReflect.Descriptor instead.
-func (*RPSUpdateBetRequest) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{6}
-}
-
-func (x *RPSUpdateBetRequest) GetID() string {
-	if x != nil {
-		return x.ID
-	}
-	return ""
-}
-
-func (x *RPSUpdateBetRequest) GetStake() float64 {
-	if x != nil {
-		return x.Stake
-	}
-	return 0
-}
-
-func (x *RPSUpdateBetRequest) GetPrediction() string {
-	if x != nil {
-		return x.Prediction
-	}
-	return ""
-}
-
-type RPSGetRoundRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`  
-}
-
-func (x *RPSGetRoundRequest) Reset() {
-	*x = RPSGetRoundRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[7]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSGetRoundRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSGetRoundRequest) ProtoMessage() {}
-
-func (x *RPSGetRoundRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[7]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSGetRoundRequest.ProtoReflect.Descriptor instead.
-func (*RPSGetRoundRequest) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{7}
-}
-
-func (x *RPSGetRoundRequest) GetID() string {
-	if x != nil {
-		return x.ID
-	}
-	return ""
-}
-
-type RPSGetRoundResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Round *RPSRound `protobuf:"bytes,1,opt,name=Round,proto3" json:"round"`  
-}
-
-func (x *RPSGetRoundResponse) Reset() {
-	*x = RPSGetRoundResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[8]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSGetRoundResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSGetRoundResponse) ProtoMessage() {}
-
-func (x *RPSGetRoundResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[8]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSGetRoundResponse.ProtoReflect.Descriptor instead.
-func (*RPSGetRoundResponse) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{8}
-}
-
-func (x *RPSGetRoundResponse) GetRound() *RPSRound {
-	if x != nil {
-		return x.Round
-	}
-	return nil
-}
-
-type RPSAdmin struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	OrgID       string  `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId" bson:"orgId,omitempty"`                
-	ExpiryDate  int64   `protobuf:"varint,3,opt,name=ExpiryDate,proto3" json:"expiryDate,omitempty" bson:"expiryDate,omitempty"`     
-	LiveBalance float64 `protobuf:"fixed64,4,opt,name=LiveBalance,proto3" json:"liveBalance" bson:"liveBalance,omitempty"`  
-	DemoBalance float64 `protobuf:"fixed64,5,opt,name=DemoBalance,proto3" json:"demoBalance" bson:"demoBalance,omitempty"`  
-}
-
-func (x *RPSAdmin) Reset() {
-	*x = RPSAdmin{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[9]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSAdmin) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSAdmin) ProtoMessage() {}
-
-func (x *RPSAdmin) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[9]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSAdmin.ProtoReflect.Descriptor instead.
-func (*RPSAdmin) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{9}
-}
-
-func (x *RPSAdmin) GetOrgID() string {
-	if x != nil {
-		return x.OrgID
-	}
-	return ""
-}
-
-func (x *RPSAdmin) GetExpiryDate() int64 {
-	if x != nil {
-		return x.ExpiryDate
-	}
-	return 0
-}
-
-func (x *RPSAdmin) GetLiveBalance() float64 {
-	if x != nil {
-		return x.LiveBalance
-	}
-	return 0
-}
-
-func (x *RPSAdmin) GetDemoBalance() float64 {
-	if x != nil {
-		return x.DemoBalance
-	}
-	return 0
-}
-
-type RPSSubscribeRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	OrgID    string `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId"`         
-	Package  string `protobuf:"bytes,2,opt,name=Package,proto3" json:"package"`     
-	Duration int64  `protobuf:"varint,3,opt,name=Duration,proto3" json:"duration"`  
-}
-
-func (x *RPSSubscribeRequest) Reset() {
-	*x = RPSSubscribeRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[10]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSSubscribeRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSSubscribeRequest) ProtoMessage() {}
-
-func (x *RPSSubscribeRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[10]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSSubscribeRequest.ProtoReflect.Descriptor instead.
-func (*RPSSubscribeRequest) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{10}
-}
-
-func (x *RPSSubscribeRequest) GetOrgID() string {
-	if x != nil {
-		return x.OrgID
-	}
-	return ""
-}
-
-func (x *RPSSubscribeRequest) GetPackage() string {
-	if x != nil {
-		return x.Package
-	}
-	return ""
-}
-
-func (x *RPSSubscribeRequest) GetDuration() int64 {
-	if x != nil {
-		return x.Duration
-	}
-	return 0
-}
-
-type RPSSubscribeResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Message  string    `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Settings *RPSAdmin `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
-}
-
-func (x *RPSSubscribeResponse) Reset() {
-	*x = RPSSubscribeResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[11]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSSubscribeResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSSubscribeResponse) ProtoMessage() {}
-
-func (x *RPSSubscribeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[11]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSSubscribeResponse.ProtoReflect.Descriptor instead.
-func (*RPSSubscribeResponse) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{11}
-}
-
-func (x *RPSSubscribeResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
-func (x *RPSSubscribeResponse) GetSettings() *RPSAdmin {
-	if x != nil {
-		return x.Settings
-	}
-	return nil
-}
-
-type RPSGetSettingsRequest struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	OrgID string `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId"`  
-}
-
-func (x *RPSGetSettingsRequest) Reset() {
-	*x = RPSGetSettingsRequest{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[12]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSGetSettingsRequest) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSGetSettingsRequest) ProtoMessage() {}
-
-func (x *RPSGetSettingsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[12]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSGetSettingsRequest.ProtoReflect.Descriptor instead.
-func (*RPSGetSettingsRequest) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{12}
-}
-
-func (x *RPSGetSettingsRequest) GetOrgID() string {
-	if x != nil {
-		return x.OrgID
-	}
-	return ""
-}
-
-type RPSUpdateSettingsResponse struct {
-	state         protoimpl.MessageState
-	sizeCache     protoimpl.SizeCache
-	unknownFields protoimpl.UnknownFields
-
-	Message  string    `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Settings *RPSAdmin `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
-}
-
-func (x *RPSUpdateSettingsResponse) Reset() {
-	*x = RPSUpdateSettingsResponse{}
-	if protoimpl.UnsafeEnabled {
-		mi := &file_rps_proto_msgTypes[13]
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		ms.StoreMessageInfo(mi)
-	}
-}
-
-func (x *RPSUpdateSettingsResponse) String() string {
-	return protoimpl.X.MessageStringOf(x)
-}
-
-func (*RPSUpdateSettingsResponse) ProtoMessage() {}
-
-func (x *RPSUpdateSettingsResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_rps_proto_msgTypes[13]
-	if protoimpl.UnsafeEnabled && x != nil {
-		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
-		if ms.LoadMessageInfo() == nil {
-			ms.StoreMessageInfo(mi)
-		}
-		return ms
-	}
-	return mi.MessageOf(x)
-}
-
-// Deprecated: Use RPSUpdateSettingsResponse.ProtoReflect.Descriptor instead.
-func (*RPSUpdateSettingsResponse) Descriptor() ([]byte, []int) {
-	return file_rps_proto_rawDescGZIP(), []int{13}
-}
-
-func (x *RPSUpdateSettingsResponse) GetMessage() string {
-	if x != nil {
-		return x.Message
-	}
-	return ""
-}
-
-func (x *RPSUpdateSettingsResponse) GetSettings() *RPSAdmin {
-	if x != nil {
-		return x.Settings
-	}
-	return nil
 }
 
 var File_rps_proto protoreflect.FileDescriptor
 
 var file_rps_proto_rawDesc = []byte{
-	0x0a, 0x09, 0x72, 0x70, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x6f, 0x0a, 0x11, 0x52,
-	0x50, 0x53, 0x47, 0x65, 0x74, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x12, 0x14, 0x0a, 0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x18, 0x0a, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e,
-	0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74,
-	0x12, 0x16, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09,
-	0x52, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x50, 0x61, 0x67, 0x65,
-	0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x04, 0x50, 0x61, 0x67, 0x65, 0x22, 0x31, 0x0a, 0x12,
-	0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e,
-	0x73, 0x65, 0x12, 0x1b, 0x0a, 0x04, 0x42, 0x65, 0x74, 0x73, 0x18, 0x01, 0x20, 0x03, 0x28, 0x0b,
-	0x32, 0x07, 0x2e, 0x52, 0x50, 0x53, 0x42, 0x65, 0x74, 0x52, 0x04, 0x42, 0x65, 0x74, 0x73, 0x22,
-	0x86, 0x02, 0x0a, 0x06, 0x52, 0x50, 0x53, 0x42, 0x65, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x42, 0x65,
-	0x74, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x42, 0x65, 0x74, 0x49, 0x64,
-	0x12, 0x16, 0x0a, 0x06, 0x50, 0x61, 0x79, 0x6f, 0x75, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01,
-	0x52, 0x06, 0x50, 0x61, 0x79, 0x6f, 0x75, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x77, 0x6e, 0x65,
-	0x72, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x14,
-	0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x64, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x4f,
-	0x72, 0x67, 0x49, 0x64, 0x12, 0x14, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x6b, 0x65, 0x18, 0x05, 0x20,
-	0x01, 0x28, 0x01, 0x52, 0x05, 0x53, 0x74, 0x61, 0x6b, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x53, 0x74,
-	0x61, 0x74, 0x75, 0x73, 0x18, 0x06, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x53, 0x74, 0x61, 0x74,
-	0x75, 0x73, 0x12, 0x18, 0x0a, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x18, 0x07, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e, 0x74, 0x12, 0x18, 0x0a, 0x07,
-	0x52, 0x6f, 0x75, 0x6e, 0x64, 0x49, 0x64, 0x18, 0x08, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x52,
-	0x6f, 0x75, 0x6e, 0x64, 0x49, 0x64, 0x12, 0x1e, 0x0a, 0x0a, 0x50, 0x72, 0x65, 0x64, 0x69, 0x63,
-	0x74, 0x69, 0x6f, 0x6e, 0x18, 0x09, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x50, 0x72, 0x65, 0x64,
-	0x69, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x20, 0x0a, 0x0b, 0x44, 0x61, 0x74, 0x65, 0x43, 0x72,
-	0x65, 0x61, 0x74, 0x65, 0x64, 0x18, 0x0a, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x44, 0x61, 0x74,
-	0x65, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x22, 0xd4, 0x01, 0x0a, 0x08, 0x52, 0x50, 0x53,
-	0x52, 0x6f, 0x75, 0x6e, 0x64, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28,
-	0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x18, 0x02,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x12, 0x1c, 0x0a, 0x04, 0x4f,
-	0x64, 0x64, 0x73, 0x18, 0x03, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x08, 0x2e, 0x52, 0x50, 0x53, 0x4f,
-	0x64, 0x64, 0x73, 0x52, 0x04, 0x4f, 0x64, 0x64, 0x73, 0x12, 0x14, 0x0a, 0x05, 0x54, 0x69, 0x74,
-	0x6c, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x54, 0x69, 0x74, 0x6c, 0x65, 0x12,
-	0x16, 0x0a, 0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x18, 0x07, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x06, 0x53, 0x74, 0x61, 0x74, 0x75, 0x73, 0x12, 0x1c, 0x0a, 0x09, 0x53, 0x74, 0x61, 0x72, 0x74,
-	0x54, 0x69, 0x6d, 0x65, 0x18, 0x0b, 0x20, 0x01, 0x28, 0x03, 0x52, 0x09, 0x53, 0x74, 0x61, 0x72,
-	0x74, 0x54, 0x69, 0x6d, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x44, 0x61, 0x74, 0x65, 0x43, 0x72, 0x65,
-	0x61, 0x74, 0x65, 0x64, 0x18, 0x0c, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0b, 0x44, 0x61, 0x74, 0x65,
-	0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x64, 0x12, 0x16, 0x0a, 0x06, 0x52, 0x65, 0x73, 0x75, 0x6c,
-	0x74, 0x18, 0x0d, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x52, 0x65, 0x73, 0x75, 0x6c, 0x74, 0x22,
-	0x4f, 0x0a, 0x07, 0x52, 0x50, 0x53, 0x4f, 0x64, 0x64, 0x73, 0x12, 0x12, 0x0a, 0x04, 0x52, 0x6f,
-	0x63, 0x6b, 0x18, 0x01, 0x20, 0x01, 0x28, 0x01, 0x52, 0x04, 0x52, 0x6f, 0x63, 0x6b, 0x12, 0x14,
-	0x0a, 0x05, 0x50, 0x61, 0x70, 0x65, 0x72, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x05, 0x50,
-	0x61, 0x70, 0x65, 0x72, 0x12, 0x1a, 0x0a, 0x08, 0x53, 0x63, 0x69, 0x73, 0x73, 0x6f, 0x72, 0x73,
-	0x18, 0x03, 0x20, 0x01, 0x28, 0x01, 0x52, 0x08, 0x53, 0x63, 0x69, 0x73, 0x73, 0x6f, 0x72, 0x73,
-	0x22, 0x4a, 0x0a, 0x14, 0x52, 0x50, 0x53, 0x42, 0x65, 0x74, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65,
-	0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61,
-	0x67, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x18, 0x02, 0x20,
-	0x01, 0x28, 0x01, 0x52, 0x07, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x22, 0x5b, 0x0a, 0x13,
-	0x52, 0x50, 0x53, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x02, 0x49, 0x44, 0x12, 0x14, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x6b, 0x65, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x01, 0x52, 0x05, 0x53, 0x74, 0x61, 0x6b, 0x65, 0x12, 0x1e, 0x0a, 0x0a, 0x50, 0x72, 0x65,
-	0x64, 0x69, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x50,
-	0x72, 0x65, 0x64, 0x69, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x22, 0x24, 0x0a, 0x12, 0x52, 0x50, 0x53,
-	0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
-	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x22,
-	0x36, 0x0a, 0x13, 0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x1f, 0x0a, 0x05, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x18,
-	0x01, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x52, 0x50, 0x53, 0x52, 0x6f, 0x75, 0x6e, 0x64,
-	0x52, 0x05, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x22, 0x84, 0x01, 0x0a, 0x08, 0x52, 0x50, 0x53, 0x41,
-	0x64, 0x6d, 0x69, 0x6e, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x18, 0x01, 0x20,
-	0x01, 0x28, 0x09, 0x52, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x12, 0x1e, 0x0a, 0x0a, 0x45, 0x78,
-	0x70, 0x69, 0x72, 0x79, 0x44, 0x61, 0x74, 0x65, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x0a,
-	0x45, 0x78, 0x70, 0x69, 0x72, 0x79, 0x44, 0x61, 0x74, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x4c, 0x69,
-	0x76, 0x65, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x01, 0x52,
-	0x0b, 0x4c, 0x69, 0x76, 0x65, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x12, 0x20, 0x0a, 0x0b,
-	0x44, 0x65, 0x6d, 0x6f, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x18, 0x05, 0x20, 0x01, 0x28,
-	0x01, 0x52, 0x0b, 0x44, 0x65, 0x6d, 0x6f, 0x42, 0x61, 0x6c, 0x61, 0x6e, 0x63, 0x65, 0x22, 0x61,
-	0x0a, 0x13, 0x52, 0x50, 0x53, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x18, 0x01,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x12, 0x18, 0x0a, 0x07, 0x50,
-	0x61, 0x63, 0x6b, 0x61, 0x67, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x50, 0x61,
-	0x63, 0x6b, 0x61, 0x67, 0x65, 0x12, 0x1a, 0x0a, 0x08, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x18, 0x03, 0x20, 0x01, 0x28, 0x03, 0x52, 0x08, 0x44, 0x75, 0x72, 0x61, 0x74, 0x69, 0x6f,
-	0x6e, 0x22, 0x57, 0x0a, 0x14, 0x52, 0x50, 0x53, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62,
-	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x73,
-	0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x73, 0x73,
-	0x61, 0x67, 0x65, 0x12, 0x25, 0x0a, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x18,
-	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x09, 0x2e, 0x52, 0x50, 0x53, 0x41, 0x64, 0x6d, 0x69, 0x6e,
-	0x52, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x22, 0x2d, 0x0a, 0x15, 0x52, 0x50,
-	0x53, 0x47, 0x65, 0x74, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x71, 0x75,
-	0x65, 0x73, 0x74, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x4f, 0x72, 0x67, 0x49, 0x44, 0x22, 0x5c, 0x0a, 0x19, 0x52, 0x50, 0x53,
-	0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65,
-	0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
-	0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65,
-	0x12, 0x25, 0x0a, 0x08, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x18, 0x02, 0x20, 0x01,
-	0x28, 0x0b, 0x32, 0x09, 0x2e, 0x52, 0x50, 0x53, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x52, 0x08, 0x53,
-	0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x32, 0x93, 0x03, 0x0a, 0x11, 0x52, 0x6f, 0x63, 0x6b,
-	0x50, 0x61, 0x70, 0x65, 0x72, 0x53, 0x63, 0x69, 0x73, 0x73, 0x6f, 0x72, 0x73, 0x12, 0x2d, 0x0a,
-	0x0b, 0x52, 0x50, 0x53, 0x50, 0x6c, 0x61, 0x63, 0x65, 0x42, 0x65, 0x74, 0x12, 0x07, 0x2e, 0x52,
-	0x50, 0x53, 0x42, 0x65, 0x74, 0x1a, 0x15, 0x2e, 0x52, 0x50, 0x53, 0x42, 0x65, 0x74, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x2d, 0x0a, 0x0b,
-	0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x12, 0x13, 0x2e, 0x52, 0x50,
-	0x53, 0x47, 0x65, 0x74, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74,
-	0x1a, 0x09, 0x2e, 0x52, 0x50, 0x53, 0x52, 0x6f, 0x75, 0x6e, 0x64, 0x12, 0x33, 0x0a, 0x0e, 0x52,
-	0x50, 0x53, 0x47, 0x65, 0x74, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x16, 0x2e,
-	0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x09, 0x2e, 0x52, 0x50, 0x53, 0x41, 0x64, 0x6d, 0x69, 0x6e,
-	0x12, 0x35, 0x0a, 0x0a, 0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x42, 0x65, 0x74, 0x73, 0x12, 0x12,
-	0x2e, 0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x42, 0x65, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x1a, 0x13, 0x2e, 0x52, 0x50, 0x53, 0x47, 0x65, 0x74, 0x42, 0x65, 0x74, 0x73, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a, 0x11, 0x52, 0x50, 0x53, 0x55, 0x70,
-	0x64, 0x61, 0x74, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x12, 0x09, 0x2e, 0x52,
-	0x50, 0x53, 0x41, 0x64, 0x6d, 0x69, 0x6e, 0x1a, 0x1a, 0x2e, 0x52, 0x50, 0x53, 0x55, 0x70, 0x64,
-	0x61, 0x74, 0x65, 0x53, 0x65, 0x74, 0x74, 0x69, 0x6e, 0x67, 0x73, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x12, 0x3b, 0x0a, 0x0c, 0x52, 0x50, 0x53, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72,
-	0x69, 0x62, 0x65, 0x12, 0x14, 0x2e, 0x52, 0x50, 0x53, 0x53, 0x75, 0x62, 0x73, 0x63, 0x72, 0x69,
-	0x62, 0x65, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x52, 0x50, 0x53, 0x53,
-	0x75, 0x62, 0x73, 0x63, 0x72, 0x69, 0x62, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
-	0x12, 0x3b, 0x0a, 0x0c, 0x52, 0x50, 0x53, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x65, 0x74,
-	0x12, 0x14, 0x2e, 0x52, 0x50, 0x53, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x42, 0x65, 0x74, 0x52,
-	0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x15, 0x2e, 0x52, 0x50, 0x53, 0x42, 0x65, 0x74, 0x55,
-	0x70, 0x64, 0x61, 0x74, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x23, 0x5a,
-	0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x74, 0x68, 0x65, 0x64,
-	0x69, 0x76, 0x69, 0x6e, 0x65, 0x7a, 0x2f, 0x67, 0x6f, 0x2d, 0x6c, 0x69, 0x62, 0x73, 0x2f, 0x72,
-	0x70, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x0a, 0x09, 0x72, 0x70, 0x73, 0x2e, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x22, 0x7a, 0x0a, 0x12, 0x52,
+	0x50, 0x53, 0x50, 0x6c, 0x61, 0x63, 0x65, 0x42, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x14, 0x0a, 0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x05, 0x4f, 0x77, 0x6e, 0x65, 0x72, 0x12, 0x1e, 0x0a, 0x0a, 0x50, 0x72, 0x65, 0x64, 0x69,
+	0x63, 0x74, 0x69, 0x6f, 0x6e, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x0a, 0x50, 0x72, 0x65,
+	0x64, 0x69, 0x63, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x18, 0x0a, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75,
+	0x6e, 0x74, 0x18, 0x03, 0x20, 0x01, 0x28, 0x09, 0x52, 0x07, 0x41, 0x63, 0x63, 0x6f, 0x75, 0x6e,
+	0x74, 0x12, 0x14, 0x0a, 0x05, 0x53, 0x74, 0x61, 0x6b, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x01,
+	0x52, 0x05, 0x53, 0x74, 0x61, 0x6b, 0x65, 0x22, 0xa7, 0x01, 0x0a, 0x13, 0x52, 0x50, 0x53, 0x50,
+	0x6c, 0x61, 0x63, 0x65, 0x42, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12,
+	0x18, 0x0a, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x07, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x12, 0x16, 0x0a, 0x06, 0x50, 0x61, 0x79,
+	0x6f, 0x75, 0x74, 0x18, 0x02, 0x20, 0x01, 0x28, 0x01, 0x52, 0x06, 0x50, 0x61, 0x79, 0x6f, 0x75,
+	0x74, 0x12, 0x18, 0x0a, 0x07, 0x4f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x18, 0x03, 0x20, 0x01,
+	0x28, 0x09, 0x52, 0x07, 0x4f, 0x75, 0x74, 0x63, 0x6f, 0x6d, 0x65, 0x12, 0x20, 0x0a, 0x0b, 0x48,
+	0x6f, 0x75, 0x73, 0x65, 0x43, 0x68, 0x6f, 0x69, 0x63, 0x65, 0x18, 0x04, 0x20, 0x01, 0x28, 0x09,
+	0x52, 0x0b, 0x48, 0x6f, 0x75, 0x73, 0x65, 0x43, 0x68, 0x6f, 0x69, 0x63, 0x65, 0x12, 0x22, 0x0a,
+	0x0c, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x43, 0x68, 0x6f, 0x69, 0x63, 0x65, 0x18, 0x05, 0x20,
+	0x01, 0x28, 0x09, 0x52, 0x0c, 0x50, 0x6c, 0x61, 0x79, 0x65, 0x72, 0x43, 0x68, 0x6f, 0x69, 0x63,
+	0x65, 0x32, 0x4d, 0x0a, 0x11, 0x52, 0x6f, 0x63, 0x6b, 0x50, 0x61, 0x70, 0x65, 0x72, 0x53, 0x63,
+	0x69, 0x73, 0x73, 0x6f, 0x72, 0x73, 0x12, 0x38, 0x0a, 0x0b, 0x52, 0x50, 0x53, 0x50, 0x6c, 0x61,
+	0x63, 0x65, 0x42, 0x65, 0x74, 0x12, 0x13, 0x2e, 0x52, 0x50, 0x53, 0x50, 0x6c, 0x61, 0x63, 0x65,
+	0x42, 0x65, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x14, 0x2e, 0x52, 0x50, 0x53,
+	0x50, 0x6c, 0x61, 0x63, 0x65, 0x42, 0x65, 0x74, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65,
+	0x42, 0x23, 0x5a, 0x21, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x74,
+	0x68, 0x65, 0x64, 0x69, 0x76, 0x69, 0x6e, 0x65, 0x7a, 0x2f, 0x67, 0x6f, 0x2d, 0x6c, 0x69, 0x62,
+	0x73, 0x2f, 0x72, 0x70, 0x73, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -1063,48 +214,19 @@ func file_rps_proto_rawDescGZIP() []byte {
 	return file_rps_proto_rawDescData
 }
 
-var file_rps_proto_msgTypes = make([]protoimpl.MessageInfo, 14)
+var file_rps_proto_msgTypes = make([]protoimpl.MessageInfo, 2)
 var file_rps_proto_goTypes = []interface{}{
-	(*RPSGetBetsRequest)(nil),         // 0: RPSGetBetsRequest
-	(*RPSGetBetsResponse)(nil),        // 1: RPSGetBetsResponse
-	(*RPSBet)(nil),                    // 2: RPSBet
-	(*RPSRound)(nil),                  // 3: RPSRound
-	(*RPSOdds)(nil),                   // 4: RPSOdds
-	(*RPSBetUpdateResponse)(nil),      // 5: RPSBetUpdateResponse
-	(*RPSUpdateBetRequest)(nil),       // 6: RPSUpdateBetRequest
-	(*RPSGetRoundRequest)(nil),        // 7: RPSGetRoundRequest
-	(*RPSGetRoundResponse)(nil),       // 8: RPSGetRoundResponse
-	(*RPSAdmin)(nil),                  // 9: RPSAdmin
-	(*RPSSubscribeRequest)(nil),       // 10: RPSSubscribeRequest
-	(*RPSSubscribeResponse)(nil),      // 11: RPSSubscribeResponse
-	(*RPSGetSettingsRequest)(nil),     // 12: RPSGetSettingsRequest
-	(*RPSUpdateSettingsResponse)(nil), // 13: RPSUpdateSettingsResponse
+	(*RPSPlaceBetRequest)(nil),  // 0: RPSPlaceBetRequest
+	(*RPSPlaceBetResponse)(nil), // 1: RPSPlaceBetResponse
 }
 var file_rps_proto_depIdxs = []int32{
-	2,  // 0: RPSGetBetsResponse.Bets:type_name -> RPSBet
-	4,  // 1: RPSRound.Odds:type_name -> RPSOdds
-	3,  // 2: RPSGetRoundResponse.Round:type_name -> RPSRound
-	9,  // 3: RPSSubscribeResponse.Settings:type_name -> RPSAdmin
-	9,  // 4: RPSUpdateSettingsResponse.Settings:type_name -> RPSAdmin
-	2,  // 5: RockPaperScissors.RPSPlaceBet:input_type -> RPSBet
-	7,  // 6: RockPaperScissors.RPSGetRound:input_type -> RPSGetRoundRequest
-	12, // 7: RockPaperScissors.RPSGetSettings:input_type -> RPSGetSettingsRequest
-	0,  // 8: RockPaperScissors.RPSGetBets:input_type -> RPSGetBetsRequest
-	9,  // 9: RockPaperScissors.RPSUpdateSettings:input_type -> RPSAdmin
-	10, // 10: RockPaperScissors.RPSSubscribe:input_type -> RPSSubscribeRequest
-	6,  // 11: RockPaperScissors.RPSUpdateBet:input_type -> RPSUpdateBetRequest
-	5,  // 12: RockPaperScissors.RPSPlaceBet:output_type -> RPSBetUpdateResponse
-	3,  // 13: RockPaperScissors.RPSGetRound:output_type -> RPSRound
-	9,  // 14: RockPaperScissors.RPSGetSettings:output_type -> RPSAdmin
-	1,  // 15: RockPaperScissors.RPSGetBets:output_type -> RPSGetBetsResponse
-	13, // 16: RockPaperScissors.RPSUpdateSettings:output_type -> RPSUpdateSettingsResponse
-	11, // 17: RockPaperScissors.RPSSubscribe:output_type -> RPSSubscribeResponse
-	5,  // 18: RockPaperScissors.RPSUpdateBet:output_type -> RPSBetUpdateResponse
-	12, // [12:19] is the sub-list for method output_type
-	5,  // [5:12] is the sub-list for method input_type
-	5,  // [5:5] is the sub-list for extension type_name
-	5,  // [5:5] is the sub-list for extension extendee
-	0,  // [0:5] is the sub-list for field type_name
+	0, // 0: RockPaperScissors.RPSPlaceBet:input_type -> RPSPlaceBetRequest
+	1, // 1: RockPaperScissors.RPSPlaceBet:output_type -> RPSPlaceBetResponse
+	1, // [1:2] is the sub-list for method output_type
+	0, // [0:1] is the sub-list for method input_type
+	0, // [0:0] is the sub-list for extension type_name
+	0, // [0:0] is the sub-list for extension extendee
+	0, // [0:0] is the sub-list for field type_name
 }
 
 func init() { file_rps_proto_init() }
@@ -1114,7 +236,7 @@ func file_rps_proto_init() {
 	}
 	if !protoimpl.UnsafeEnabled {
 		file_rps_proto_msgTypes[0].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSGetBetsRequest); i {
+			switch v := v.(*RPSPlaceBetRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1126,151 +248,7 @@ func file_rps_proto_init() {
 			}
 		}
 		file_rps_proto_msgTypes[1].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSGetBetsResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[2].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSBet); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[3].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSRound); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[4].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSOdds); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[5].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSBetUpdateResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[6].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSUpdateBetRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[7].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSGetRoundRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[8].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSGetRoundResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[9].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSAdmin); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[10].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSSubscribeRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[11].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSSubscribeResponse); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[12].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSGetSettingsRequest); i {
-			case 0:
-				return &v.state
-			case 1:
-				return &v.sizeCache
-			case 2:
-				return &v.unknownFields
-			default:
-				return nil
-			}
-		}
-		file_rps_proto_msgTypes[13].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*RPSUpdateSettingsResponse); i {
+			switch v := v.(*RPSPlaceBetResponse); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -1288,7 +266,7 @@ func file_rps_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_rps_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   14,
+			NumMessages:   2,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
