@@ -7,13 +7,13 @@ import (
 	"crypto/cipher"
 	"crypto/rand"
 	"encoding/base64"
+	"encoding/binary"
 	"encoding/hex"
 	"encoding/json"
 	"fmt"
 	"io"
 	"math"
 	"math/big"
-	mrand "math/rand/v2"
 	"mime/multipart"
 	"slices"
 	"time"
@@ -209,21 +209,54 @@ func ReadMultipartFile(fileHeader *multipart.FileHeader) ([]byte, error) {
 	}
 }
 
-func RandFloat(min, max float64) float64 {
-	seed := uint64(time.Now().UnixNano())
-	localRand := mrand.New(mrand.NewPCG(mrand.Uint64(), seed))
-	return min + localRand.Float64()*(max-min)
+func RandInt(min, max int64) (int64, error) {
+	if min > max {
+		return 0, errors.New("min must be less than or equal to max")
+	}
+	if min == max {
+		return min, nil
+	}
+	var buf [8]byte
+	if _, err := rand.Read(buf[:]); err != nil {
+		return 0, fmt.Errorf("failed to generate random number: %v", err)
+	}
+	randVal := binary.BigEndian.Uint64(buf[:])
+	rangeSize := uint64(max - min + 1)
+	return min + int64(randVal%rangeSize), nil
 }
 
-func RandInt(min, max int) int {
-	localRand := mrand.New(mrand.NewPCG(mrand.Uint64(), mrand.Uint64()))
-	return localRand.IntN(max-min) + min
+// FairRandomFloat generates a cryptographically secure random float64 in [min, max)
+// Uses crypto/rand for true randomness suitable for gambling applications
+func RandFloat(min, max float64) (float64, error) {
+	if min >= max {
+		return 0, fmt.Errorf("invalid range: min must be less than max")
+	}
+
+	// Generate a cryptographically secure random uint64
+	var buf [8]byte
+	_, err := rand.Read(buf[:])
+	if err != nil {
+		return 0, fmt.Errorf("failed to generate random number: %v", err)
+	}
+
+	// Convert to uint64
+	randUint := binary.BigEndian.Uint64(buf[:])
+
+	// The maximum value for a uint64 (for normalization)
+	const maxUint64 = float64(^uint64(0))
+
+	// Normalize to [0,1) and scale to desired range
+	normalized := float64(randUint) / (maxUint64 + 1.0) // +1 to ensure we never get 1.0
+	scaled := min + normalized*(max-min)
+
+	return scaled, nil
 }
 
 func CalculateLisenseExpiration(currentExp time.Time, subscription string, duration int64) int64 {
-	if subscription == "monthly" {
+	switch subscription {
+	case "monthly":
 		return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 30).Unix()
-	} else if subscription == "yearly" {
+	case "yearly":
 		return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 365).Unix()
 	}
 	return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 7).Unix()
