@@ -16,6 +16,7 @@ import (
 	"math/big"
 	"mime/multipart"
 	"slices"
+	"sync"
 	"time"
 
 	"github.com/go-resty/resty/v2"
@@ -209,49 +210,6 @@ func ReadMultipartFile(fileHeader *multipart.FileHeader) ([]byte, error) {
 	}
 }
 
-func RandInt(min, max int64) (int64, error) {
-	if min > max {
-		return 0, errors.New("min must be less than or equal to max")
-	}
-	if min == max {
-		return min, nil
-	}
-	var buf [8]byte
-	if _, err := rand.Read(buf[:]); err != nil {
-		return 0, fmt.Errorf("failed to generate random number: %v", err)
-	}
-	randVal := binary.BigEndian.Uint64(buf[:])
-	rangeSize := uint64(max - min + 1)
-	return min + int64(randVal%rangeSize), nil
-}
-
-// FairRandomFloat generates a cryptographically secure random float64 in [min, max)
-// Uses crypto/rand for true randomness suitable for gambling applications
-func RandFloat(min, max float64) (float64, error) {
-	if min >= max {
-		return 0, fmt.Errorf("invalid range: min must be less than max")
-	}
-
-	// Generate a cryptographically secure random uint64
-	var buf [8]byte
-	_, err := rand.Read(buf[:])
-	if err != nil {
-		return 0, fmt.Errorf("failed to generate random number: %v", err)
-	}
-
-	// Convert to uint64
-	randUint := binary.BigEndian.Uint64(buf[:])
-
-	// The maximum value for a uint64 (for normalization)
-	const maxUint64 = float64(^uint64(0))
-
-	// Normalize to [0,1) and scale to desired range
-	normalized := float64(randUint) / (maxUint64 + 1.0) // +1 to ensure we never get 1.0
-	scaled := min + normalized*(max-min)
-
-	return scaled, nil
-}
-
 func CalculateLisenseExpiration(currentExp time.Time, subscription string, duration int64) int64 {
 	switch subscription {
 	case "monthly":
@@ -260,4 +218,83 @@ func CalculateLisenseExpiration(currentExp time.Time, subscription string, durat
 		return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 365).Unix()
 	}
 	return currentExp.Add(time.Duration(duration) * time.Hour * 24 * 7).Unix()
+}
+
+var (
+	fallbackSeed  uint64
+	fallbackMutex sync.Mutex
+	seedOnce      sync.Once
+)
+
+func initFallbackSeed() {
+	// Try to get a crypto seed first
+	var seedBuf [8]byte
+	_, err := rand.Read(seedBuf[:])
+	if err == nil {
+		fallbackSeed = binary.LittleEndian.Uint64(seedBuf[:])
+		return
+	}
+
+	// Final fallback to time-based seed
+	fallbackSeed = uint64(time.Now().UnixNano())
+}
+
+// xorshift64* pseudo-random number generator
+func xorshiftStar64() uint64 {
+	seedOnce.Do(initFallbackSeed)
+
+	fallbackMutex.Lock()
+	defer fallbackMutex.Unlock()
+
+	fallbackSeed ^= fallbackSeed >> 12
+	fallbackSeed ^= fallbackSeed << 25
+	fallbackSeed ^= fallbackSeed >> 27
+	return fallbackSeed * 0x2545F4914F6CDD1D
+}
+
+// SecureRandomFloat generates a random float64 in [min, max) that never fails
+func RandFloat(min, max float64) float64 {
+	if min >= max {
+		return (min + max) / 2
+	}
+
+	var buf [8]byte
+	_, err := rand.Read(buf[:])
+	if err == nil {
+		randUint := binary.BigEndian.Uint64(buf[:])
+		normalized := float64(randUint) / (math.MaxUint64 + 1.0)
+		return min + normalized*(max-min)
+	}
+
+	// Fallback using xorshift
+	randUint := xorshiftStar64()
+	normalized := float64(randUint) / (math.MaxUint64 + 1.0)
+	return min + normalized*(max-min)
+}
+
+// SecureRandomInt generates a random int64 in [min, max] that never fails
+func RandInt(min, max int64) int64 {
+	if min > max {
+		min, max = max, min
+	}
+	if min == max {
+		return min
+	}
+
+	rangeSize := uint64(max - min + 1)
+	var buf [8]byte
+	_, err := rand.Read(buf[:])
+	if err == nil {
+		randVal := binary.BigEndian.Uint64(buf[:])
+		return min + int64(randVal%rangeSize)
+	}
+
+	// Fallback using xorshift with rejection sampling
+	maxVal := ^uint64(0) - (^uint64(0) % rangeSize)
+	for {
+		randVal := xorshiftStar64()
+		if randVal <= maxVal {
+			return min + int64(randVal%rangeSize)
+		}
+	}
 }
