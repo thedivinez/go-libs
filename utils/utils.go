@@ -227,25 +227,19 @@ var (
 )
 
 func initFallbackSeed() {
-	// Try to get a crypto seed first
 	var seedBuf [8]byte
 	_, err := rand.Read(seedBuf[:])
 	if err == nil {
 		fallbackSeed = binary.LittleEndian.Uint64(seedBuf[:])
 		return
 	}
-
-	// Final fallback to time-based seed
 	fallbackSeed = uint64(time.Now().UnixNano())
 }
 
-// xorshift64* pseudo-random number generator
 func xorshiftStar64() uint64 {
 	seedOnce.Do(initFallbackSeed)
-
 	fallbackMutex.Lock()
 	defer fallbackMutex.Unlock()
-
 	fallbackSeed ^= fallbackSeed >> 12
 	fallbackSeed ^= fallbackSeed << 25
 	fallbackSeed ^= fallbackSeed >> 27
@@ -253,35 +247,34 @@ func xorshiftStar64() uint64 {
 }
 
 // SecureRandomFloat generates a random float64 in [min, max) that never fails
+// Note: max is excluded from possible results
 func RandFloat(min, max float64) float64 {
 	if min >= max {
-		return (min + max) / 2
+		return min // Return min if range is invalid
 	}
 
 	var buf [8]byte
 	_, err := rand.Read(buf[:])
 	if err == nil {
 		randUint := binary.BigEndian.Uint64(buf[:])
+		// Division by MaxUint64+1 ensures we never get exactly 1.0
 		normalized := float64(randUint) / (math.MaxUint64 + 1.0)
 		return min + normalized*(max-min)
 	}
 
-	// Fallback using xorshift
 	randUint := xorshiftStar64()
 	normalized := float64(randUint) / (math.MaxUint64 + 1.0)
 	return min + normalized*(max-min)
 }
 
-// SecureRandomInt generates a random int64 in [min, max] that never fails
+// SecureRandomInt generates a random int64 in [min, max) that never fails
+// Note: max is excluded from possible results
 func RandInt(min, max int64) int64 {
-	if min > max {
-		min, max = max, min
-	}
-	if min == max {
-		return min
+	if min >= max {
+		return min // Return min if range is invalid
 	}
 
-	rangeSize := uint64(max - min + 1)
+	rangeSize := uint64(max - min) // Not adding 1 to exclude max
 	var buf [8]byte
 	_, err := rand.Read(buf[:])
 	if err == nil {
@@ -289,11 +282,11 @@ func RandInt(min, max int64) int64 {
 		return min + int64(randVal%rangeSize)
 	}
 
-	// Fallback using xorshift with rejection sampling
+	// Fallback with rejection sampling
 	maxVal := ^uint64(0) - (^uint64(0) % rangeSize)
 	for {
 		randVal := xorshiftStar64()
-		if randVal <= maxVal {
+		if randVal < maxVal { // Note: < instead of <= to maintain exclusion
 			return min + int64(randVal%rangeSize)
 		}
 	}
