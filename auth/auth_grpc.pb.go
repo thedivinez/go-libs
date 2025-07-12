@@ -48,12 +48,12 @@ type AuthenticationClient interface {
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error)
 	AuthenticateAdmin(ctx context.Context, in *AdminAuthRequest, opts ...grpc.CallOption) (*AuthenticationConfig, error)
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
+	DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
 	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error)
 	UpdateOnlineStatus(ctx context.Context, in *UpdateOnlineStatusRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	AddToAccountBalance(ctx context.Context, in *AddToAccountBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error)
-	CryptoDepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error)
 	SwitchUserAccount(ctx context.Context, in *SwitchUserAccountRequest, opts ...grpc.CallOption) (*SwitchUserAccountResponse, error)
 }
@@ -282,6 +282,15 @@ func (c *authenticationClient) ValidateToken(ctx context.Context, in *ValidateTo
 	return out, nil
 }
 
+func (c *authenticationClient) DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
+	out := new(empty.Empty)
+	err := c.cc.Invoke(ctx, "/Authentication/DepositWebhook", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error) {
 	out := new(WithdrawalResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/MakeWithdrawalRequest", in, out, opts...)
@@ -321,15 +330,6 @@ func (c *authenticationClient) AddToAccountBalance(ctx context.Context, in *AddT
 func (c *authenticationClient) SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/SendVerificationLink", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authenticationClient) CryptoDepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error) {
-	out := new(empty.Empty)
-	err := c.cc.Invoke(ctx, "/Authentication/CryptoDepositWebhook", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -382,12 +382,12 @@ type AuthenticationServer interface {
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
 	AuthenticateAdmin(context.Context, *AdminAuthRequest) (*AuthenticationConfig, error)
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
+	DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
 	MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
 	GetTransactions(context.Context, *GetTransactionsRequest) (*TransactionsResponse, error)
 	UpdateOnlineStatus(context.Context, *UpdateOnlineStatusRequest) (*MessageResponse, error)
 	AddToAccountBalance(context.Context, *AddToAccountBalanceRequest) (*MessageResponse, error)
 	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error)
-	CryptoDepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
 	TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error)
 	SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error)
 }
@@ -468,6 +468,9 @@ func (UnimplementedAuthenticationServer) AuthenticateAdmin(context.Context, *Adm
 func (UnimplementedAuthenticationServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
 }
+func (UnimplementedAuthenticationServer) DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method DepositWebhook not implemented")
+}
 func (UnimplementedAuthenticationServer) MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method MakeWithdrawalRequest not implemented")
 }
@@ -482,9 +485,6 @@ func (UnimplementedAuthenticationServer) AddToAccountBalance(context.Context, *A
 }
 func (UnimplementedAuthenticationServer) SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendVerificationLink not implemented")
-}
-func (UnimplementedAuthenticationServer) CryptoDepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method CryptoDepositWebhook not implemented")
 }
 func (UnimplementedAuthenticationServer) TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TopupDemoBalance not implemented")
@@ -936,6 +936,24 @@ func _Authentication_ValidateToken_Handler(srv interface{}, ctx context.Context,
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_DepositWebhook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(DepositWebhookRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).DepositWebhook(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/DepositWebhook",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).DepositWebhook(ctx, req.(*DepositWebhookRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_MakeWithdrawalRequest_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(WithdrawalRequest)
 	if err := dec(in); err != nil {
@@ -1022,24 +1040,6 @@ func _Authentication_SendVerificationLink_Handler(srv interface{}, ctx context.C
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).SendVerificationLink(ctx, req.(*SendVerificationLinkRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_CryptoDepositWebhook_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(DepositWebhookRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).CryptoDepositWebhook(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/Authentication/CryptoDepositWebhook",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).CryptoDepositWebhook(ctx, req.(*DepositWebhookRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1184,6 +1184,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_ValidateToken_Handler,
 		},
 		{
+			MethodName: "DepositWebhook",
+			Handler:    _Authentication_DepositWebhook_Handler,
+		},
+		{
 			MethodName: "MakeWithdrawalRequest",
 			Handler:    _Authentication_MakeWithdrawalRequest_Handler,
 		},
@@ -1202,10 +1206,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SendVerificationLink",
 			Handler:    _Authentication_SendVerificationLink_Handler,
-		},
-		{
-			MethodName: "CryptoDepositWebhook",
-			Handler:    _Authentication_CryptoDepositWebhook_Handler,
 		},
 		{
 			MethodName: "TopupDemoBalance",
