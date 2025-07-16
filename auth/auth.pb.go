@@ -3645,7 +3645,7 @@ var file_auth_proto_rawDesc = []byte{
 	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12,
 	0x14, 0x0a, 0x05, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05,
 	0x50, 0x68, 0x6f, 0x6e, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x03,
-	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x32, 0xc5, 0x0f, 0x0a, 0x0e,
+	0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x32, 0x8b, 0x10, 0x0a, 0x0e,
 	0x41, 0x75, 0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x17,
 	0x0a, 0x07, 0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x12, 0x05, 0x2e, 0x55, 0x73, 0x65, 0x72,
 	0x1a, 0x05, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x12, 0x20, 0x0a, 0x06, 0x53, 0x69, 0x67, 0x6e, 0x49,
@@ -3770,10 +3770,14 @@ var file_auth_proto_rawDesc = []byte{
 	0x74, 0x68, 0x6f, 0x64, 0x73, 0x12, 0x1a, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67,
 	0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
 	0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
-	0x6e, 0x73, 0x65, 0x42, 0x24, 0x5a, 0x22, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
-	0x6d, 0x2f, 0x74, 0x68, 0x65, 0x64, 0x69, 0x76, 0x69, 0x6e, 0x65, 0x7a, 0x2f, 0x67, 0x6f, 0x2d,
-	0x6c, 0x69, 0x62, 0x73, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
-	0x33,
+	0x6e, 0x73, 0x65, 0x12, 0x44, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65,
+	0x6e, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x12, 0x1b, 0x2e, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x24, 0x5a, 0x22, 0x67, 0x69, 0x74,
+	0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x74, 0x68, 0x65, 0x64, 0x69, 0x76, 0x69, 0x6e,
+	0x65, 0x7a, 0x2f, 0x67, 0x6f, 0x2d, 0x6c, 0x69, 0x62, 0x73, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x62,
+	0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f, 0x33,
 }
 
 var (
@@ -3889,44 +3893,46 @@ var file_auth_proto_depIdxs = []int32{
 	43, // 42: Authentication.GetAgents:input_type -> GetAgentsRequest
 	46, // 43: Authentication.CreateAgent:input_type -> CreateAgentRequest
 	47, // 44: Authentication.UpdateAgentMethods:input_type -> UpdateAgentMethodsRequest
-	0,  // 45: Authentication.GetUser:output_type -> User
-	2,  // 46: Authentication.SignIn:output_type -> UserAuthTokens
-	2,  // 47: Authentication.SignUp:output_type -> UserAuthTokens
-	38, // 48: Authentication.GetGame:output_type -> Game
-	41, // 49: Authentication.AddGame:output_type -> AddGameResponse
-	31, // 50: Authentication.UpdateUser:output_type -> UpdateUserResponse
-	0,  // 51: Authentication.FindUserById:output_type -> User
-	40, // 52: Authentication.GetGames:output_type -> GetGamesResponse
-	30, // 53: Authentication.ChangePassword:output_type -> MessageResponse
-	6,  // 54: Authentication.FindDeviceById:output_type -> Device
-	8,  // 55: Authentication.GetDevices:output_type -> DevicesResponse
-	50, // 56: Authentication.SignOut:output_type -> google.protobuf.Empty
-	30, // 57: Authentication.VerifyEmail:output_type -> MessageResponse
-	30, // 58: Authentication.DeleteAccount:output_type -> MessageResponse
-	30, // 59: Authentication.ResetPassword:output_type -> MessageResponse
-	30, // 60: Authentication.DeleteAvatar:output_type -> MessageResponse
-	2,  // 61: Authentication.RefreshToken:output_type -> UserAuthTokens
-	51, // 62: Authentication.InitiateDeposit:output_type -> google.protobuf.Any
-	0,  // 63: Authentication.GetOrganizationtAccount:output_type -> User
-	30, // 64: Authentication.ForgotPassword:output_type -> MessageResponse
-	30, // 65: Authentication.UploadDocument:output_type -> MessageResponse
-	29, // 66: Authentication.UpdateAvatar:output_type -> UpdateAvatarResponse
-	34, // 67: Authentication.AuthenticateAdmin:output_type -> AuthenticationConfig
-	10, // 68: Authentication.ValidateToken:output_type -> ValidateTokenResponse
-	50, // 69: Authentication.DepositWebhook:output_type -> google.protobuf.Empty
-	27, // 70: Authentication.MakeWithdrawalRequest:output_type -> WithdrawalResponse
-	22, // 71: Authentication.GetTransactions:output_type -> TransactionsResponse
-	30, // 72: Authentication.UpdateOnlineStatus:output_type -> MessageResponse
-	30, // 73: Authentication.AddToAccountBalance:output_type -> MessageResponse
-	30, // 74: Authentication.SendVerificationLink:output_type -> MessageResponse
-	18, // 75: Authentication.TopupDemoBalance:output_type -> TopupDemoBalanceResponse
-	37, // 76: Authentication.SwitchUserAccount:output_type -> SwitchUserAccountResponse
-	44, // 77: Authentication.GetAgent:output_type -> Agent
-	45, // 78: Authentication.GetAgents:output_type -> AgentsResponse
-	30, // 79: Authentication.CreateAgent:output_type -> MessageResponse
-	30, // 80: Authentication.UpdateAgentMethods:output_type -> MessageResponse
-	45, // [45:81] is the sub-list for method output_type
-	9,  // [9:45] is the sub-list for method input_type
+	49, // 45: Authentication.UpdateAgentContacts:input_type -> UpdateAgentContactsRequest
+	0,  // 46: Authentication.GetUser:output_type -> User
+	2,  // 47: Authentication.SignIn:output_type -> UserAuthTokens
+	2,  // 48: Authentication.SignUp:output_type -> UserAuthTokens
+	38, // 49: Authentication.GetGame:output_type -> Game
+	41, // 50: Authentication.AddGame:output_type -> AddGameResponse
+	31, // 51: Authentication.UpdateUser:output_type -> UpdateUserResponse
+	0,  // 52: Authentication.FindUserById:output_type -> User
+	40, // 53: Authentication.GetGames:output_type -> GetGamesResponse
+	30, // 54: Authentication.ChangePassword:output_type -> MessageResponse
+	6,  // 55: Authentication.FindDeviceById:output_type -> Device
+	8,  // 56: Authentication.GetDevices:output_type -> DevicesResponse
+	50, // 57: Authentication.SignOut:output_type -> google.protobuf.Empty
+	30, // 58: Authentication.VerifyEmail:output_type -> MessageResponse
+	30, // 59: Authentication.DeleteAccount:output_type -> MessageResponse
+	30, // 60: Authentication.ResetPassword:output_type -> MessageResponse
+	30, // 61: Authentication.DeleteAvatar:output_type -> MessageResponse
+	2,  // 62: Authentication.RefreshToken:output_type -> UserAuthTokens
+	51, // 63: Authentication.InitiateDeposit:output_type -> google.protobuf.Any
+	0,  // 64: Authentication.GetOrganizationtAccount:output_type -> User
+	30, // 65: Authentication.ForgotPassword:output_type -> MessageResponse
+	30, // 66: Authentication.UploadDocument:output_type -> MessageResponse
+	29, // 67: Authentication.UpdateAvatar:output_type -> UpdateAvatarResponse
+	34, // 68: Authentication.AuthenticateAdmin:output_type -> AuthenticationConfig
+	10, // 69: Authentication.ValidateToken:output_type -> ValidateTokenResponse
+	50, // 70: Authentication.DepositWebhook:output_type -> google.protobuf.Empty
+	27, // 71: Authentication.MakeWithdrawalRequest:output_type -> WithdrawalResponse
+	22, // 72: Authentication.GetTransactions:output_type -> TransactionsResponse
+	30, // 73: Authentication.UpdateOnlineStatus:output_type -> MessageResponse
+	30, // 74: Authentication.AddToAccountBalance:output_type -> MessageResponse
+	30, // 75: Authentication.SendVerificationLink:output_type -> MessageResponse
+	18, // 76: Authentication.TopupDemoBalance:output_type -> TopupDemoBalanceResponse
+	37, // 77: Authentication.SwitchUserAccount:output_type -> SwitchUserAccountResponse
+	44, // 78: Authentication.GetAgent:output_type -> Agent
+	45, // 79: Authentication.GetAgents:output_type -> AgentsResponse
+	30, // 80: Authentication.CreateAgent:output_type -> MessageResponse
+	30, // 81: Authentication.UpdateAgentMethods:output_type -> MessageResponse
+	30, // 82: Authentication.UpdateAgentContacts:output_type -> MessageResponse
+	46, // [46:83] is the sub-list for method output_type
+	9,  // [9:46] is the sub-list for method input_type
 	9,  // [9:9] is the sub-list for extension type_name
 	9,  // [9:9] is the sub-list for extension extendee
 	0,  // [0:9] is the sub-list for field type_name

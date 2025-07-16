@@ -60,6 +60,7 @@ type AuthenticationClient interface {
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentMethods(ctx context.Context, in *UpdateAgentMethodsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 }
 
 type authenticationClient struct {
@@ -394,6 +395,15 @@ func (c *authenticationClient) UpdateAgentMethods(ctx context.Context, in *Updat
 	return out, nil
 }
 
+func (c *authenticationClient) UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/UpdateAgentContacts", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations should embed UnimplementedAuthenticationServer
 // for forward compatibility
@@ -434,6 +444,7 @@ type AuthenticationServer interface {
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
 	UpdateAgentMethods(context.Context, *UpdateAgentMethodsRequest) (*MessageResponse, error)
+	UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error)
 }
 
 // UnimplementedAuthenticationServer should be embedded to have forward compatible implementations.
@@ -547,6 +558,9 @@ func (UnimplementedAuthenticationServer) CreateAgent(context.Context, *CreateAge
 }
 func (UnimplementedAuthenticationServer) UpdateAgentMethods(context.Context, *UpdateAgentMethodsRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentMethods not implemented")
+}
+func (UnimplementedAuthenticationServer) UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentContacts not implemented")
 }
 
 // UnsafeAuthenticationServer may be embedded to opt out of forward compatibility for this service.
@@ -1208,6 +1222,24 @@ func _Authentication_UpdateAgentMethods_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_UpdateAgentContacts_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAgentContactsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).UpdateAgentContacts(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/UpdateAgentContacts",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).UpdateAgentContacts(ctx, req.(*UpdateAgentContactsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1358,6 +1390,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAgentMethods",
 			Handler:    _Authentication_UpdateAgentMethods_Handler,
+		},
+		{
+			MethodName: "UpdateAgentContacts",
+			Handler:    _Authentication_UpdateAgentContacts_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
