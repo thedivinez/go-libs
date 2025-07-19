@@ -29,7 +29,7 @@ type User struct {
 
 	Online          bool     `protobuf:"varint,1,opt,name=Online,proto3" json:"online" bson:"-"`                    
 	ID              string   `protobuf:"bytes,2,opt,name=ID,proto3" json:"id" bson:"_id"`                             
-	Email           string   `protobuf:"bytes,3,opt,name=Email,proto3" json:"email" bson:"email"`                       
+	Email           string   `protobuf:"bytes,3,opt,name=Email,proto3" json:"email" bson:"email,omitempty"`                       
 	Verified        bool     `protobuf:"varint,4,opt,name=Verified,proto3" json:"verified" bson:"-"`                
 	CurrentAccount  string   `protobuf:"bytes,5,opt,name=CurrentAccount,proto3" json:"currentAccount" bson:"-"`     
 	LastSeen        int64    `protobuf:"varint,6,opt,name=LastSeen,proto3" json:"lastSeen" bson:"-"`                
