@@ -3270,17 +3270,17 @@ func (x *CreateAgentRequest) GetName() string {
 	return ""
 }
 
-type UpdateAgentMethodsRequest struct {
+type AddAgentMethodRequest struct {
 	state         protoimpl.MessageState
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID      string   `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`            
-	Methods []string `protobuf:"bytes,2,rep,name=Methods,proto3" json:"methods" bson:"methods"`  
+	ID     string        `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`          
+	Method *PaymetMethod `protobuf:"bytes,2,opt,name=Method,proto3" json:"method" bson:"method"`  
 }
 
-func (x *UpdateAgentMethodsRequest) Reset() {
-	*x = UpdateAgentMethodsRequest{}
+func (x *AddAgentMethodRequest) Reset() {
+	*x = AddAgentMethodRequest{}
 	if protoimpl.UnsafeEnabled {
 		mi := &file_auth_proto_msgTypes[48]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3288,13 +3288,13 @@ func (x *UpdateAgentMethodsRequest) Reset() {
 	}
 }
 
-func (x *UpdateAgentMethodsRequest) String() string {
+func (x *AddAgentMethodRequest) String() string {
 	return protoimpl.X.MessageStringOf(x)
 }
 
-func (*UpdateAgentMethodsRequest) ProtoMessage() {}
+func (*AddAgentMethodRequest) ProtoMessage() {}
 
-func (x *UpdateAgentMethodsRequest) ProtoReflect() protoreflect.Message {
+func (x *AddAgentMethodRequest) ProtoReflect() protoreflect.Message {
 	mi := &file_auth_proto_msgTypes[48]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
@@ -3306,21 +3306,131 @@ func (x *UpdateAgentMethodsRequest) ProtoReflect() protoreflect.Message {
 	return mi.MessageOf(x)
 }
 
-// Deprecated: Use UpdateAgentMethodsRequest.ProtoReflect.Descriptor instead.
-func (*UpdateAgentMethodsRequest) Descriptor() ([]byte, []int) {
+// Deprecated: Use AddAgentMethodRequest.ProtoReflect.Descriptor instead.
+func (*AddAgentMethodRequest) Descriptor() ([]byte, []int) {
 	return file_auth_proto_rawDescGZIP(), []int{48}
 }
 
-func (x *UpdateAgentMethodsRequest) GetID() string {
+func (x *AddAgentMethodRequest) GetID() string {
 	if x != nil {
 		return x.ID
 	}
 	return ""
 }
 
-func (x *UpdateAgentMethodsRequest) GetMethods() []string {
+func (x *AddAgentMethodRequest) GetMethod() *PaymetMethod {
 	if x != nil {
-		return x.Methods
+		return x.Method
+	}
+	return nil
+}
+
+type RemoveAgentMethodRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID     string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`          
+	Method string `protobuf:"bytes,2,opt,name=Method,proto3" json:"method" bson:"method"`  
+}
+
+func (x *RemoveAgentMethodRequest) Reset() {
+	*x = RemoveAgentMethodRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_auth_proto_msgTypes[49]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *RemoveAgentMethodRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*RemoveAgentMethodRequest) ProtoMessage() {}
+
+func (x *RemoveAgentMethodRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_proto_msgTypes[49]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use RemoveAgentMethodRequest.ProtoReflect.Descriptor instead.
+func (*RemoveAgentMethodRequest) Descriptor() ([]byte, []int) {
+	return file_auth_proto_rawDescGZIP(), []int{49}
+}
+
+func (x *RemoveAgentMethodRequest) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *RemoveAgentMethodRequest) GetMethod() string {
+	if x != nil {
+		return x.Method
+	}
+	return ""
+}
+
+type UpdateAgentMethodRequest struct {
+	state         protoimpl.MessageState
+	sizeCache     protoimpl.SizeCache
+	unknownFields protoimpl.UnknownFields
+
+	ID     string        `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`          
+	Method *PaymetMethod `protobuf:"bytes,2,opt,name=Method,proto3" json:"method" bson:"method"`  
+}
+
+func (x *UpdateAgentMethodRequest) Reset() {
+	*x = UpdateAgentMethodRequest{}
+	if protoimpl.UnsafeEnabled {
+		mi := &file_auth_proto_msgTypes[50]
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		ms.StoreMessageInfo(mi)
+	}
+}
+
+func (x *UpdateAgentMethodRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*UpdateAgentMethodRequest) ProtoMessage() {}
+
+func (x *UpdateAgentMethodRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_auth_proto_msgTypes[50]
+	if protoimpl.UnsafeEnabled && x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use UpdateAgentMethodRequest.ProtoReflect.Descriptor instead.
+func (*UpdateAgentMethodRequest) Descriptor() ([]byte, []int) {
+	return file_auth_proto_rawDescGZIP(), []int{50}
+}
+
+func (x *UpdateAgentMethodRequest) GetID() string {
+	if x != nil {
+		return x.ID
+	}
+	return ""
+}
+
+func (x *UpdateAgentMethodRequest) GetMethod() *PaymetMethod {
+	if x != nil {
+		return x.Method
 	}
 	return nil
 }
@@ -3336,7 +3446,7 @@ type GetAgentRequest struct {
 func (x *GetAgentRequest) Reset() {
 	*x = GetAgentRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_proto_msgTypes[49]
+		mi := &file_auth_proto_msgTypes[51]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3349,7 +3459,7 @@ func (x *GetAgentRequest) String() string {
 func (*GetAgentRequest) ProtoMessage() {}
 
 func (x *GetAgentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_proto_msgTypes[49]
+	mi := &file_auth_proto_msgTypes[51]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3362,7 +3472,7 @@ func (x *GetAgentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GetAgentRequest.ProtoReflect.Descriptor instead.
 func (*GetAgentRequest) Descriptor() ([]byte, []int) {
-	return file_auth_proto_rawDescGZIP(), []int{49}
+	return file_auth_proto_rawDescGZIP(), []int{51}
 }
 
 func (x *GetAgentRequest) GetID() string {
@@ -3385,7 +3495,7 @@ type UpdateAgentContactsRequest struct {
 func (x *UpdateAgentContactsRequest) Reset() {
 	*x = UpdateAgentContactsRequest{}
 	if protoimpl.UnsafeEnabled {
-		mi := &file_auth_proto_msgTypes[50]
+		mi := &file_auth_proto_msgTypes[52]
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		ms.StoreMessageInfo(mi)
 	}
@@ -3398,7 +3508,7 @@ func (x *UpdateAgentContactsRequest) String() string {
 func (*UpdateAgentContactsRequest) ProtoMessage() {}
 
 func (x *UpdateAgentContactsRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_auth_proto_msgTypes[50]
+	mi := &file_auth_proto_msgTypes[52]
 	if protoimpl.UnsafeEnabled && x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -3411,7 +3521,7 @@ func (x *UpdateAgentContactsRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use UpdateAgentContactsRequest.ProtoReflect.Descriptor instead.
 func (*UpdateAgentContactsRequest) Descriptor() ([]byte, []int) {
-	return file_auth_proto_rawDescGZIP(), []int{50}
+	return file_auth_proto_rawDescGZIP(), []int{52}
 }
 
 func (x *UpdateAgentContactsRequest) GetID() string {
@@ -3804,11 +3914,21 @@ var file_auth_proto_rawDesc = []byte{
 	0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x16, 0x0a, 0x06, 0x55, 0x73, 0x65,
 	0x72, 0x49, 0x64, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x06, 0x55, 0x73, 0x65, 0x72, 0x49,
 	0x64, 0x12, 0x12, 0x0a, 0x04, 0x4e, 0x61, 0x6d, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52,
-	0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x45, 0x0a, 0x19, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41,
-	0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65,
-	0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02,
-	0x49, 0x44, 0x12, 0x18, 0x0a, 0x07, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x73, 0x18, 0x02, 0x20,
-	0x03, 0x28, 0x09, 0x52, 0x07, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x73, 0x22, 0x21, 0x0a, 0x0f,
+	0x04, 0x4e, 0x61, 0x6d, 0x65, 0x22, 0x4e, 0x0a, 0x15, 0x41, 0x64, 0x64, 0x41, 0x67, 0x65, 0x6e,
+	0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e,
+	0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x25,
+	0x0a, 0x06, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d,
+	0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x06, 0x4d,
+	0x65, 0x74, 0x68, 0x6f, 0x64, 0x22, 0x42, 0x0a, 0x18, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x41,
+	0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49,
+	0x44, 0x12, 0x16, 0x0a, 0x06, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x18, 0x02, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x06, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x22, 0x51, 0x0a, 0x18, 0x55, 0x70, 0x64,
+	0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x52, 0x65,
+	0x71, 0x75, 0x65, 0x73, 0x74, 0x12, 0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28,
+	0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x25, 0x0a, 0x06, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x18,
+	0x02, 0x20, 0x01, 0x28, 0x0b, 0x32, 0x0d, 0x2e, 0x50, 0x61, 0x79, 0x6d, 0x65, 0x74, 0x4d, 0x65,
+	0x74, 0x68, 0x6f, 0x64, 0x52, 0x06, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x22, 0x21, 0x0a, 0x0f,
 	0x47, 0x65, 0x74, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x12,
 	0x0e, 0x0a, 0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x22,
 	0x58, 0x0a, 0x1a, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f,
@@ -3816,7 +3936,7 @@ var file_auth_proto_rawDesc = []byte{
 	0x02, 0x49, 0x44, 0x18, 0x01, 0x20, 0x01, 0x28, 0x09, 0x52, 0x02, 0x49, 0x44, 0x12, 0x14, 0x0a,
 	0x05, 0x50, 0x68, 0x6f, 0x6e, 0x65, 0x18, 0x02, 0x20, 0x01, 0x28, 0x09, 0x52, 0x05, 0x50, 0x68,
 	0x6f, 0x6e, 0x65, 0x12, 0x14, 0x0a, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x18, 0x03, 0x20, 0x01,
-	0x28, 0x09, 0x52, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x32, 0x8b, 0x10, 0x0a, 0x0e, 0x41, 0x75,
+	0x28, 0x09, 0x52, 0x05, 0x45, 0x6d, 0x61, 0x69, 0x6c, 0x32, 0x87, 0x11, 0x0a, 0x0e, 0x41, 0x75,
 	0x74, 0x68, 0x65, 0x6e, 0x74, 0x69, 0x63, 0x61, 0x74, 0x69, 0x6f, 0x6e, 0x12, 0x17, 0x0a, 0x07,
 	0x47, 0x65, 0x74, 0x55, 0x73, 0x65, 0x72, 0x12, 0x05, 0x2e, 0x55, 0x73, 0x65, 0x72, 0x1a, 0x05,
 	0x2e, 0x55, 0x73, 0x65, 0x72, 0x12, 0x20, 0x0a, 0x06, 0x53, 0x69, 0x67, 0x6e, 0x49, 0x6e, 0x12,
@@ -3936,19 +4056,27 @@ var file_auth_proto_rawDesc = []byte{
 	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x34, 0x0a, 0x0b, 0x43, 0x72, 0x65, 0x61, 0x74,
 	0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x12, 0x13, 0x2e, 0x43, 0x72, 0x65, 0x61, 0x74, 0x65, 0x41,
 	0x67, 0x65, 0x6e, 0x74, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65,
-	0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x42, 0x0a,
-	0x12, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68,
-	0x6f, 0x64, 0x73, 0x12, 0x1a, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e,
-	0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a,
-	0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73,
-	0x65, 0x12, 0x44, 0x0a, 0x13, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74,
-	0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x12, 0x1b, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74,
-	0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x52, 0x65,
-	0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52,
-	0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x42, 0x24, 0x5a, 0x22, 0x67, 0x69, 0x74, 0x68, 0x75,
-	0x62, 0x2e, 0x63, 0x6f, 0x6d, 0x2f, 0x74, 0x68, 0x65, 0x64, 0x69, 0x76, 0x69, 0x6e, 0x65, 0x7a,
-	0x2f, 0x67, 0x6f, 0x2d, 0x6c, 0x69, 0x62, 0x73, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x62, 0x06, 0x70,
-	0x72, 0x6f, 0x74, 0x6f, 0x33,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x3a, 0x0a,
+	0x0e, 0x41, 0x64, 0x64, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12,
+	0x16, 0x2e, 0x41, 0x64, 0x64, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64,
+	0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67,
+	0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x40, 0x0a, 0x11, 0x52, 0x65, 0x6d,
+	0x6f, 0x76, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64, 0x12, 0x19,
+	0x2e, 0x52, 0x65, 0x6d, 0x6f, 0x76, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68,
+	0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73,
+	0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x40, 0x0a, 0x11, 0x55,
+	0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65, 0x74, 0x68, 0x6f, 0x64,
+	0x12, 0x19, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x4d, 0x65,
+	0x74, 0x68, 0x6f, 0x64, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73, 0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65,
+	0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f, 0x6e, 0x73, 0x65, 0x12, 0x44, 0x0a,
+	0x13, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65, 0x6e, 0x74, 0x43, 0x6f, 0x6e, 0x74,
+	0x61, 0x63, 0x74, 0x73, 0x12, 0x1b, 0x2e, 0x55, 0x70, 0x64, 0x61, 0x74, 0x65, 0x41, 0x67, 0x65,
+	0x6e, 0x74, 0x43, 0x6f, 0x6e, 0x74, 0x61, 0x63, 0x74, 0x73, 0x52, 0x65, 0x71, 0x75, 0x65, 0x73,
+	0x74, 0x1a, 0x10, 0x2e, 0x4d, 0x65, 0x73, 0x73, 0x61, 0x67, 0x65, 0x52, 0x65, 0x73, 0x70, 0x6f,
+	0x6e, 0x73, 0x65, 0x42, 0x24, 0x5a, 0x22, 0x67, 0x69, 0x74, 0x68, 0x75, 0x62, 0x2e, 0x63, 0x6f,
+	0x6d, 0x2f, 0x74, 0x68, 0x65, 0x64, 0x69, 0x76, 0x69, 0x6e, 0x65, 0x7a, 0x2f, 0x67, 0x6f, 0x2d,
+	0x6c, 0x69, 0x62, 0x73, 0x2f, 0x61, 0x75, 0x74, 0x68, 0x62, 0x06, 0x70, 0x72, 0x6f, 0x74, 0x6f,
+	0x33,
 }
 
 var (
@@ -3963,7 +4091,7 @@ func file_auth_proto_rawDescGZIP() []byte {
 	return file_auth_proto_rawDescData
 }
 
-var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 51)
+var file_auth_proto_msgTypes = make([]protoimpl.MessageInfo, 53)
 var file_auth_proto_goTypes = []interface{}{
 	(*User)(nil),                        // 0: User
 	(*UpdateOnlineStatusRequest)(nil),   // 1: UpdateOnlineStatusRequest
@@ -4013,11 +4141,13 @@ var file_auth_proto_goTypes = []interface{}{
 	(*Agent)(nil),                       // 45: Agent
 	(*AgentsResponse)(nil),              // 46: AgentsResponse
 	(*CreateAgentRequest)(nil),          // 47: CreateAgentRequest
-	(*UpdateAgentMethodsRequest)(nil),   // 48: UpdateAgentMethodsRequest
-	(*GetAgentRequest)(nil),             // 49: GetAgentRequest
-	(*UpdateAgentContactsRequest)(nil),  // 50: UpdateAgentContactsRequest
-	(*empty.Empty)(nil),                 // 51: google.protobuf.Empty
-	(*any1.Any)(nil),                    // 52: google.protobuf.Any
+	(*AddAgentMethodRequest)(nil),       // 48: AddAgentMethodRequest
+	(*RemoveAgentMethodRequest)(nil),    // 49: RemoveAgentMethodRequest
+	(*UpdateAgentMethodRequest)(nil),    // 50: UpdateAgentMethodRequest
+	(*GetAgentRequest)(nil),             // 51: GetAgentRequest
+	(*UpdateAgentContactsRequest)(nil),  // 52: UpdateAgentContactsRequest
+	(*empty.Empty)(nil),                 // 53: google.protobuf.Empty
+	(*any1.Any)(nil),                    // 54: google.protobuf.Any
 }
 var file_auth_proto_depIdxs = []int32{
 	0,  // 0: DeleteAccountBody.user:type_name -> User
@@ -4030,85 +4160,91 @@ var file_auth_proto_depIdxs = []int32{
 	38, // 7: GetGamesResponse.Games:type_name -> Game
 	44, // 8: Agent.Methods:type_name -> PaymetMethod
 	45, // 9: AgentsResponse.Agents:type_name -> Agent
-	0,  // 10: Authentication.GetUser:input_type -> User
-	0,  // 11: Authentication.SignIn:input_type -> User
-	0,  // 12: Authentication.SignUp:input_type -> User
-	42, // 13: Authentication.GetGame:input_type -> GetGameRequest
-	38, // 14: Authentication.AddGame:input_type -> Game
-	0,  // 15: Authentication.UpdateUser:input_type -> User
-	15, // 16: Authentication.FindUserById:input_type -> FindUserByIdRequest
-	39, // 17: Authentication.GetGames:input_type -> GetGamesRequest
-	3,  // 18: Authentication.ChangePassword:input_type -> Credentials
-	16, // 19: Authentication.FindDeviceById:input_type -> FindDeviceByIdRequest
-	7,  // 20: Authentication.GetDevices:input_type -> GetDevicesRequest
-	11, // 21: Authentication.SignOut:input_type -> SignOutRequest
-	12, // 22: Authentication.VerifyEmail:input_type -> VerifyEmailRequest
-	5,  // 23: Authentication.DeleteAccount:input_type -> DeleteAccountBody
-	4,  // 24: Authentication.ResetPassword:input_type -> ResetPasswordBody
-	32, // 25: Authentication.DeleteAvatar:input_type -> DeleteAvatarRequest
-	51, // 26: Authentication.RefreshToken:input_type -> google.protobuf.Empty
-	24, // 27: Authentication.InitiateDeposit:input_type -> DepositRequest
-	51, // 28: Authentication.GetOrganizationtAccount:input_type -> google.protobuf.Empty
-	13, // 29: Authentication.ForgotPassword:input_type -> ForgotPasswordRequest
-	33, // 30: Authentication.UploadDocument:input_type -> UploadDocumentRequest
-	28, // 31: Authentication.UpdateAvatar:input_type -> UpdateAvatarRequest
-	35, // 32: Authentication.AuthenticateAdmin:input_type -> AdminAuthRequest
-	9,  // 33: Authentication.ValidateToken:input_type -> ValidateTokenRequest
-	25, // 34: Authentication.DepositWebhook:input_type -> DepositWebhookRequest
-	26, // 35: Authentication.MakeWithdrawalRequest:input_type -> WithdrawalRequest
-	23, // 36: Authentication.GetTransactions:input_type -> GetTransactionsRequest
-	1,  // 37: Authentication.UpdateOnlineStatus:input_type -> UpdateOnlineStatusRequest
-	20, // 38: Authentication.AddToAccountBalance:input_type -> AddToAccountBalanceRequest
-	14, // 39: Authentication.SendVerificationLink:input_type -> SendVerificationLinkRequest
-	17, // 40: Authentication.TopupDemoBalance:input_type -> TopupDemoBalanceRequest
-	36, // 41: Authentication.SwitchUserAccount:input_type -> SwitchUserAccountRequest
-	49, // 42: Authentication.GetAgent:input_type -> GetAgentRequest
-	43, // 43: Authentication.GetAgents:input_type -> GetAgentsRequest
-	47, // 44: Authentication.CreateAgent:input_type -> CreateAgentRequest
-	48, // 45: Authentication.UpdateAgentMethods:input_type -> UpdateAgentMethodsRequest
-	50, // 46: Authentication.UpdateAgentContacts:input_type -> UpdateAgentContactsRequest
-	0,  // 47: Authentication.GetUser:output_type -> User
-	2,  // 48: Authentication.SignIn:output_type -> UserAuthTokens
-	2,  // 49: Authentication.SignUp:output_type -> UserAuthTokens
-	38, // 50: Authentication.GetGame:output_type -> Game
-	41, // 51: Authentication.AddGame:output_type -> AddGameResponse
-	31, // 52: Authentication.UpdateUser:output_type -> UpdateUserResponse
-	0,  // 53: Authentication.FindUserById:output_type -> User
-	40, // 54: Authentication.GetGames:output_type -> GetGamesResponse
-	30, // 55: Authentication.ChangePassword:output_type -> MessageResponse
-	6,  // 56: Authentication.FindDeviceById:output_type -> Device
-	8,  // 57: Authentication.GetDevices:output_type -> DevicesResponse
-	51, // 58: Authentication.SignOut:output_type -> google.protobuf.Empty
-	30, // 59: Authentication.VerifyEmail:output_type -> MessageResponse
-	30, // 60: Authentication.DeleteAccount:output_type -> MessageResponse
-	30, // 61: Authentication.ResetPassword:output_type -> MessageResponse
-	30, // 62: Authentication.DeleteAvatar:output_type -> MessageResponse
-	2,  // 63: Authentication.RefreshToken:output_type -> UserAuthTokens
-	52, // 64: Authentication.InitiateDeposit:output_type -> google.protobuf.Any
-	0,  // 65: Authentication.GetOrganizationtAccount:output_type -> User
-	30, // 66: Authentication.ForgotPassword:output_type -> MessageResponse
-	30, // 67: Authentication.UploadDocument:output_type -> MessageResponse
-	29, // 68: Authentication.UpdateAvatar:output_type -> UpdateAvatarResponse
-	34, // 69: Authentication.AuthenticateAdmin:output_type -> AuthenticationConfig
-	10, // 70: Authentication.ValidateToken:output_type -> ValidateTokenResponse
-	51, // 71: Authentication.DepositWebhook:output_type -> google.protobuf.Empty
-	27, // 72: Authentication.MakeWithdrawalRequest:output_type -> WithdrawalResponse
-	22, // 73: Authentication.GetTransactions:output_type -> TransactionsResponse
-	30, // 74: Authentication.UpdateOnlineStatus:output_type -> MessageResponse
-	30, // 75: Authentication.AddToAccountBalance:output_type -> MessageResponse
-	30, // 76: Authentication.SendVerificationLink:output_type -> MessageResponse
-	18, // 77: Authentication.TopupDemoBalance:output_type -> TopupDemoBalanceResponse
-	37, // 78: Authentication.SwitchUserAccount:output_type -> SwitchUserAccountResponse
-	45, // 79: Authentication.GetAgent:output_type -> Agent
-	46, // 80: Authentication.GetAgents:output_type -> AgentsResponse
-	30, // 81: Authentication.CreateAgent:output_type -> MessageResponse
-	30, // 82: Authentication.UpdateAgentMethods:output_type -> MessageResponse
-	30, // 83: Authentication.UpdateAgentContacts:output_type -> MessageResponse
-	47, // [47:84] is the sub-list for method output_type
-	10, // [10:47] is the sub-list for method input_type
-	10, // [10:10] is the sub-list for extension type_name
-	10, // [10:10] is the sub-list for extension extendee
-	0,  // [0:10] is the sub-list for field type_name
+	44, // 10: AddAgentMethodRequest.Method:type_name -> PaymetMethod
+	44, // 11: UpdateAgentMethodRequest.Method:type_name -> PaymetMethod
+	0,  // 12: Authentication.GetUser:input_type -> User
+	0,  // 13: Authentication.SignIn:input_type -> User
+	0,  // 14: Authentication.SignUp:input_type -> User
+	42, // 15: Authentication.GetGame:input_type -> GetGameRequest
+	38, // 16: Authentication.AddGame:input_type -> Game
+	0,  // 17: Authentication.UpdateUser:input_type -> User
+	15, // 18: Authentication.FindUserById:input_type -> FindUserByIdRequest
+	39, // 19: Authentication.GetGames:input_type -> GetGamesRequest
+	3,  // 20: Authentication.ChangePassword:input_type -> Credentials
+	16, // 21: Authentication.FindDeviceById:input_type -> FindDeviceByIdRequest
+	7,  // 22: Authentication.GetDevices:input_type -> GetDevicesRequest
+	11, // 23: Authentication.SignOut:input_type -> SignOutRequest
+	12, // 24: Authentication.VerifyEmail:input_type -> VerifyEmailRequest
+	5,  // 25: Authentication.DeleteAccount:input_type -> DeleteAccountBody
+	4,  // 26: Authentication.ResetPassword:input_type -> ResetPasswordBody
+	32, // 27: Authentication.DeleteAvatar:input_type -> DeleteAvatarRequest
+	53, // 28: Authentication.RefreshToken:input_type -> google.protobuf.Empty
+	24, // 29: Authentication.InitiateDeposit:input_type -> DepositRequest
+	53, // 30: Authentication.GetOrganizationtAccount:input_type -> google.protobuf.Empty
+	13, // 31: Authentication.ForgotPassword:input_type -> ForgotPasswordRequest
+	33, // 32: Authentication.UploadDocument:input_type -> UploadDocumentRequest
+	28, // 33: Authentication.UpdateAvatar:input_type -> UpdateAvatarRequest
+	35, // 34: Authentication.AuthenticateAdmin:input_type -> AdminAuthRequest
+	9,  // 35: Authentication.ValidateToken:input_type -> ValidateTokenRequest
+	25, // 36: Authentication.DepositWebhook:input_type -> DepositWebhookRequest
+	26, // 37: Authentication.MakeWithdrawalRequest:input_type -> WithdrawalRequest
+	23, // 38: Authentication.GetTransactions:input_type -> GetTransactionsRequest
+	1,  // 39: Authentication.UpdateOnlineStatus:input_type -> UpdateOnlineStatusRequest
+	20, // 40: Authentication.AddToAccountBalance:input_type -> AddToAccountBalanceRequest
+	14, // 41: Authentication.SendVerificationLink:input_type -> SendVerificationLinkRequest
+	17, // 42: Authentication.TopupDemoBalance:input_type -> TopupDemoBalanceRequest
+	36, // 43: Authentication.SwitchUserAccount:input_type -> SwitchUserAccountRequest
+	51, // 44: Authentication.GetAgent:input_type -> GetAgentRequest
+	43, // 45: Authentication.GetAgents:input_type -> GetAgentsRequest
+	47, // 46: Authentication.CreateAgent:input_type -> CreateAgentRequest
+	48, // 47: Authentication.AddAgentMethod:input_type -> AddAgentMethodRequest
+	49, // 48: Authentication.RemoveAgentMethod:input_type -> RemoveAgentMethodRequest
+	50, // 49: Authentication.UpdateAgentMethod:input_type -> UpdateAgentMethodRequest
+	52, // 50: Authentication.UpdateAgentContacts:input_type -> UpdateAgentContactsRequest
+	0,  // 51: Authentication.GetUser:output_type -> User
+	2,  // 52: Authentication.SignIn:output_type -> UserAuthTokens
+	2,  // 53: Authentication.SignUp:output_type -> UserAuthTokens
+	38, // 54: Authentication.GetGame:output_type -> Game
+	41, // 55: Authentication.AddGame:output_type -> AddGameResponse
+	31, // 56: Authentication.UpdateUser:output_type -> UpdateUserResponse
+	0,  // 57: Authentication.FindUserById:output_type -> User
+	40, // 58: Authentication.GetGames:output_type -> GetGamesResponse
+	30, // 59: Authentication.ChangePassword:output_type -> MessageResponse
+	6,  // 60: Authentication.FindDeviceById:output_type -> Device
+	8,  // 61: Authentication.GetDevices:output_type -> DevicesResponse
+	53, // 62: Authentication.SignOut:output_type -> google.protobuf.Empty
+	30, // 63: Authentication.VerifyEmail:output_type -> MessageResponse
+	30, // 64: Authentication.DeleteAccount:output_type -> MessageResponse
+	30, // 65: Authentication.ResetPassword:output_type -> MessageResponse
+	30, // 66: Authentication.DeleteAvatar:output_type -> MessageResponse
+	2,  // 67: Authentication.RefreshToken:output_type -> UserAuthTokens
+	54, // 68: Authentication.InitiateDeposit:output_type -> google.protobuf.Any
+	0,  // 69: Authentication.GetOrganizationtAccount:output_type -> User
+	30, // 70: Authentication.ForgotPassword:output_type -> MessageResponse
+	30, // 71: Authentication.UploadDocument:output_type -> MessageResponse
+	29, // 72: Authentication.UpdateAvatar:output_type -> UpdateAvatarResponse
+	34, // 73: Authentication.AuthenticateAdmin:output_type -> AuthenticationConfig
+	10, // 74: Authentication.ValidateToken:output_type -> ValidateTokenResponse
+	53, // 75: Authentication.DepositWebhook:output_type -> google.protobuf.Empty
+	27, // 76: Authentication.MakeWithdrawalRequest:output_type -> WithdrawalResponse
+	22, // 77: Authentication.GetTransactions:output_type -> TransactionsResponse
+	30, // 78: Authentication.UpdateOnlineStatus:output_type -> MessageResponse
+	30, // 79: Authentication.AddToAccountBalance:output_type -> MessageResponse
+	30, // 80: Authentication.SendVerificationLink:output_type -> MessageResponse
+	18, // 81: Authentication.TopupDemoBalance:output_type -> TopupDemoBalanceResponse
+	37, // 82: Authentication.SwitchUserAccount:output_type -> SwitchUserAccountResponse
+	45, // 83: Authentication.GetAgent:output_type -> Agent
+	46, // 84: Authentication.GetAgents:output_type -> AgentsResponse
+	30, // 85: Authentication.CreateAgent:output_type -> MessageResponse
+	30, // 86: Authentication.AddAgentMethod:output_type -> MessageResponse
+	30, // 87: Authentication.RemoveAgentMethod:output_type -> MessageResponse
+	30, // 88: Authentication.UpdateAgentMethod:output_type -> MessageResponse
+	30, // 89: Authentication.UpdateAgentContacts:output_type -> MessageResponse
+	51, // [51:90] is the sub-list for method output_type
+	12, // [12:51] is the sub-list for method input_type
+	12, // [12:12] is the sub-list for extension type_name
+	12, // [12:12] is the sub-list for extension extendee
+	0,  // [0:12] is the sub-list for field type_name
 }
 
 func init() { file_auth_proto_init() }
@@ -4694,7 +4830,7 @@ func file_auth_proto_init() {
 			}
 		}
 		file_auth_proto_msgTypes[48].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*UpdateAgentMethodsRequest); i {
+			switch v := v.(*AddAgentMethodRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4706,7 +4842,7 @@ func file_auth_proto_init() {
 			}
 		}
 		file_auth_proto_msgTypes[49].Exporter = func(v interface{}, i int) interface{} {
-			switch v := v.(*GetAgentRequest); i {
+			switch v := v.(*RemoveAgentMethodRequest); i {
 			case 0:
 				return &v.state
 			case 1:
@@ -4718,6 +4854,30 @@ func file_auth_proto_init() {
 			}
 		}
 		file_auth_proto_msgTypes[50].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*UpdateAgentMethodRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_auth_proto_msgTypes[51].Exporter = func(v interface{}, i int) interface{} {
+			switch v := v.(*GetAgentRequest); i {
+			case 0:
+				return &v.state
+			case 1:
+				return &v.sizeCache
+			case 2:
+				return &v.unknownFields
+			default:
+				return nil
+			}
+		}
+		file_auth_proto_msgTypes[52].Exporter = func(v interface{}, i int) interface{} {
 			switch v := v.(*UpdateAgentContactsRequest); i {
 			case 0:
 				return &v.state
@@ -4736,7 +4896,7 @@ func file_auth_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: file_auth_proto_rawDesc,
 			NumEnums:      0,
-			NumMessages:   51,
+			NumMessages:   53,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

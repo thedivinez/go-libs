@@ -59,7 +59,9 @@ type AuthenticationClient interface {
 	GetAgent(ctx context.Context, in *GetAgentRequest, opts ...grpc.CallOption) (*Agent, error)
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
-	UpdateAgentMethods(ctx context.Context, in *UpdateAgentMethodsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	AddAgentMethod(ctx context.Context, in *AddAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	RemoveAgentMethod(ctx context.Context, in *RemoveAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	UpdateAgentMethod(ctx context.Context, in *UpdateAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 }
 
@@ -386,9 +388,27 @@ func (c *authenticationClient) CreateAgent(ctx context.Context, in *CreateAgentR
 	return out, nil
 }
 
-func (c *authenticationClient) UpdateAgentMethods(ctx context.Context, in *UpdateAgentMethodsRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+func (c *authenticationClient) AddAgentMethod(ctx context.Context, in *AddAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
-	err := c.cc.Invoke(ctx, "/Authentication/UpdateAgentMethods", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/Authentication/AddAgentMethod", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) RemoveAgentMethod(ctx context.Context, in *RemoveAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/RemoveAgentMethod", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) UpdateAgentMethod(ctx context.Context, in *UpdateAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/UpdateAgentMethod", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -443,7 +463,9 @@ type AuthenticationServer interface {
 	GetAgent(context.Context, *GetAgentRequest) (*Agent, error)
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
-	UpdateAgentMethods(context.Context, *UpdateAgentMethodsRequest) (*MessageResponse, error)
+	AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error)
+	RemoveAgentMethod(context.Context, *RemoveAgentMethodRequest) (*MessageResponse, error)
+	UpdateAgentMethod(context.Context, *UpdateAgentMethodRequest) (*MessageResponse, error)
 	UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error)
 }
 
@@ -556,8 +578,14 @@ func (UnimplementedAuthenticationServer) GetAgents(context.Context, *GetAgentsRe
 func (UnimplementedAuthenticationServer) CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAgent not implemented")
 }
-func (UnimplementedAuthenticationServer) UpdateAgentMethods(context.Context, *UpdateAgentMethodsRequest) (*MessageResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentMethods not implemented")
+func (UnimplementedAuthenticationServer) AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddAgentMethod not implemented")
+}
+func (UnimplementedAuthenticationServer) RemoveAgentMethod(context.Context, *RemoveAgentMethodRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method RemoveAgentMethod not implemented")
+}
+func (UnimplementedAuthenticationServer) UpdateAgentMethod(context.Context, *UpdateAgentMethodRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentMethod not implemented")
 }
 func (UnimplementedAuthenticationServer) UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentContacts not implemented")
@@ -1204,20 +1232,56 @@ func _Authentication_CreateAgent_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Authentication_UpdateAgentMethods_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(UpdateAgentMethodsRequest)
+func _Authentication_AddAgentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(AddAgentMethodRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AuthenticationServer).UpdateAgentMethods(ctx, in)
+		return srv.(AuthenticationServer).AddAgentMethod(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Authentication/UpdateAgentMethods",
+		FullMethod: "/Authentication/AddAgentMethod",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).UpdateAgentMethods(ctx, req.(*UpdateAgentMethodsRequest))
+		return srv.(AuthenticationServer).AddAgentMethod(ctx, req.(*AddAgentMethodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_RemoveAgentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(RemoveAgentMethodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).RemoveAgentMethod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/RemoveAgentMethod",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).RemoveAgentMethod(ctx, req.(*RemoveAgentMethodRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_UpdateAgentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdateAgentMethodRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).UpdateAgentMethod(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/UpdateAgentMethod",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).UpdateAgentMethod(ctx, req.(*UpdateAgentMethodRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1388,8 +1452,16 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_CreateAgent_Handler,
 		},
 		{
-			MethodName: "UpdateAgentMethods",
-			Handler:    _Authentication_UpdateAgentMethods_Handler,
+			MethodName: "AddAgentMethod",
+			Handler:    _Authentication_AddAgentMethod_Handler,
+		},
+		{
+			MethodName: "RemoveAgentMethod",
+			Handler:    _Authentication_RemoveAgentMethod_Handler,
+		},
+		{
+			MethodName: "UpdateAgentMethod",
+			Handler:    _Authentication_UpdateAgentMethod_Handler,
 		},
 		{
 			MethodName: "UpdateAgentContacts",
