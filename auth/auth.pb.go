@@ -33,7 +33,7 @@ type User struct {
 	Verified        bool     `protobuf:"varint,4,opt,name=Verified,proto3" json:"verified" bson:"-"`                
 	CurrentAccount  string   `protobuf:"bytes,5,opt,name=CurrentAccount,proto3" json:"currentAccount" bson:"-"`     
 	LastSeen        int64    `protobuf:"varint,6,opt,name=LastSeen,proto3" json:"lastSeen" bson:"-"`                
-	Password        string   `protobuf:"bytes,7,opt,name=Password,proto3" json:"password" bson:"-"`                 
+	Password        string   `protobuf:"bytes,7,opt,name=Password,proto3" json:"password,omitempty" bson:"-"`                 
 	NationalID      string   `protobuf:"bytes,8,opt,name=NationalID,proto3" json:"nationalId" bson:"nationalId,omitempty"`             
 	OrgID           string   `protobuf:"bytes,9,opt,name=OrgID,proto3" json:"-" bson:"orgId,omitempty"`                       
 	Permissions     []string `protobuf:"bytes,10,rep,name=Permissions,proto3" json:"-" bson:"permissions,omitempty"`          
