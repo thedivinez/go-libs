@@ -3044,7 +3044,7 @@ type Agent struct {
 	Status      string          `protobuf:"bytes,4,opt,name=Status,proto3" json:"status" bson:"status,omitempty"`             
 	Deposits    int64           `protobuf:"varint,5,opt,name=Deposits,proto3" json:"deposits" bson:"deposits,omitempty"`        
 	Withdrawals int64           `protobuf:"varint,6,opt,name=Withdrawals,proto3" json:"withdrawals" bson:"withdrawals,omitempty"`  
-	Methods     []*PaymetMethod `protobuf:"bytes,7,rep,name=Methods,proto3" json:"methods" bson:"methods,omitempty"`           
+	Methods     []*PaymetMethod `protobuf:"bytes,7,rep,name=Methods,proto3" json:"methods" bson:"methods"`           
 	Rating      int64           `protobuf:"varint,9,opt,name=Rating,proto3" json:"rating" bson:"rating,omitempty"`            
 	Failures    int64           `protobuf:"varint,10,opt,name=Failures,proto3" json:"failures" bson:"failures,omitempty"`       
 	Success     int64           `protobuf:"varint,11,opt,name=Success,proto3" json:"success" bson:"success,omitempty"`         
