@@ -3039,17 +3039,17 @@ type Agent struct {
 	unknownFields protoimpl.UnknownFields
 
 	ID          string          `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`                     
-	Name        string          `protobuf:"bytes,2,opt,name=Name,proto3" json:"name" bson:"name"`                 
-	OrgId       string          `protobuf:"bytes,3,opt,name=OrgId,proto3" json:"orgId" bson:"orgId"`               
-	Status      string          `protobuf:"bytes,4,opt,name=Status,proto3" json:"status" bson:"status"`             
-	Deposits    int64           `protobuf:"varint,5,opt,name=Deposits,proto3" json:"deposits" bson:"deposits"`        
-	Withdrawals int64           `protobuf:"varint,6,opt,name=Withdrawals,proto3" json:"withdrawals" bson:"withdrawals"`  
-	Methods     []*PaymetMethod `protobuf:"bytes,7,rep,name=Methods,proto3" json:"methods" bson:"methods"`           
-	Rating      int64           `protobuf:"varint,9,opt,name=Rating,proto3" json:"rating" bson:"rating"`            
-	Failures    int64           `protobuf:"varint,10,opt,name=Failures,proto3" json:"failures" bson:"failures"`       
-	Success     int64           `protobuf:"varint,11,opt,name=Success,proto3" json:"success" bson:"success"`         
-	Phone       string          `protobuf:"bytes,12,opt,name=Phone,proto3" json:"phone" bson:"phone"`              
-	Email       string          `protobuf:"bytes,13,opt,name=Email,proto3" json:"email" bson:"email"`              
+	Name        string          `protobuf:"bytes,2,opt,name=Name,proto3" json:"name" bson:"name,omitempty"`                 
+	OrgId       string          `protobuf:"bytes,3,opt,name=OrgId,proto3" json:"orgId" bson:"orgId,omitempty"`               
+	Status      string          `protobuf:"bytes,4,opt,name=Status,proto3" json:"status" bson:"status,omitempty"`             
+	Deposits    int64           `protobuf:"varint,5,opt,name=Deposits,proto3" json:"deposits" bson:"deposits,omitempty"`        
+	Withdrawals int64           `protobuf:"varint,6,opt,name=Withdrawals,proto3" json:"withdrawals" bson:"withdrawals,omitempty"`  
+	Methods     []*PaymetMethod `protobuf:"bytes,7,rep,name=Methods,proto3" json:"methods" bson:"methods,omitempty"`           
+	Rating      int64           `protobuf:"varint,9,opt,name=Rating,proto3" json:"rating" bson:"rating,omitempty"`            
+	Failures    int64           `protobuf:"varint,10,opt,name=Failures,proto3" json:"failures" bson:"failures,omitempty"`       
+	Success     int64           `protobuf:"varint,11,opt,name=Success,proto3" json:"success" bson:"success,omitempty"`         
+	Phone       string          `protobuf:"bytes,12,opt,name=Phone,proto3" json:"phone" bson:"phone,omitempty"`              
+	Email       string          `protobuf:"bytes,13,opt,name=Email,proto3" json:"email" bson:"email,omitempty"`              
 }
 
 func (x *Agent) Reset() {
@@ -3487,9 +3487,9 @@ type UpdateAgentContactsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID    string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`        
-	Phone string `protobuf:"bytes,2,opt,name=Phone,proto3" json:"phone" bson:"phone"`  
-	Email string `protobuf:"bytes,3,opt,name=Email,proto3" json:"email" bson:"email"`  
+	ID    string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id,omitempty"`        
+	Phone string `protobuf:"bytes,2,opt,name=Phone,proto3" json:"phone" bson:"phone,omitempty"`  
+	Email string `protobuf:"bytes,3,opt,name=Email,proto3" json:"email" bson:"email,omitempty"`  
 }
 
 func (x *UpdateAgentContactsRequest) Reset() {
