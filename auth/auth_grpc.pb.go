@@ -63,6 +63,7 @@ type AuthenticationClient interface {
 	RemoveAgentMethod(ctx context.Context, in *RemoveAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentMethod(ctx context.Context, in *UpdateAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*TransferBalanceResponse, error)
 }
 
 type authenticationClient struct {
@@ -424,6 +425,15 @@ func (c *authenticationClient) UpdateAgentContacts(ctx context.Context, in *Upda
 	return out, nil
 }
 
+func (c *authenticationClient) TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*TransferBalanceResponse, error) {
+	out := new(TransferBalanceResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/TransferBalance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations should embed UnimplementedAuthenticationServer
 // for forward compatibility
@@ -467,6 +477,7 @@ type AuthenticationServer interface {
 	RemoveAgentMethod(context.Context, *RemoveAgentMethodRequest) (*MessageResponse, error)
 	UpdateAgentMethod(context.Context, *UpdateAgentMethodRequest) (*MessageResponse, error)
 	UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error)
+	TransferBalance(context.Context, *TransferBalanceRequest) (*TransferBalanceResponse, error)
 }
 
 // UnimplementedAuthenticationServer should be embedded to have forward compatible implementations.
@@ -589,6 +600,9 @@ func (UnimplementedAuthenticationServer) UpdateAgentMethod(context.Context, *Upd
 }
 func (UnimplementedAuthenticationServer) UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentContacts not implemented")
+}
+func (UnimplementedAuthenticationServer) TransferBalance(context.Context, *TransferBalanceRequest) (*TransferBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferBalance not implemented")
 }
 
 // UnsafeAuthenticationServer may be embedded to opt out of forward compatibility for this service.
@@ -1304,6 +1318,24 @@ func _Authentication_UpdateAgentContacts_Handler(srv interface{}, ctx context.Co
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_TransferBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).TransferBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/TransferBalance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).TransferBalance(ctx, req.(*TransferBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1466,6 +1498,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAgentContacts",
 			Handler:    _Authentication_UpdateAgentContacts_Handler,
+		},
+		{
+			MethodName: "TransferBalance",
+			Handler:    _Authentication_TransferBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
