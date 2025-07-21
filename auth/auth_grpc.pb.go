@@ -60,10 +60,10 @@ type AuthenticationClient interface {
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	AddAgentMethod(ctx context.Context, in *AddAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	RemoveAgentMethod(ctx context.Context, in *RemoveAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentMethod(ctx context.Context, in *UpdateAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
-	TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*TransferBalanceResponse, error)
 }
 
 type authenticationClient struct {
@@ -398,6 +398,15 @@ func (c *authenticationClient) AddAgentMethod(ctx context.Context, in *AddAgentM
 	return out, nil
 }
 
+func (c *authenticationClient) TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
+	out := new(MessageResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/TransferBalance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) RemoveAgentMethod(ctx context.Context, in *RemoveAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/RemoveAgentMethod", in, out, opts...)
@@ -419,15 +428,6 @@ func (c *authenticationClient) UpdateAgentMethod(ctx context.Context, in *Update
 func (c *authenticationClient) UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/UpdateAgentContacts", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *authenticationClient) TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*TransferBalanceResponse, error) {
-	out := new(TransferBalanceResponse)
-	err := c.cc.Invoke(ctx, "/Authentication/TransferBalance", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -474,10 +474,10 @@ type AuthenticationServer interface {
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
 	AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error)
+	TransferBalance(context.Context, *TransferBalanceRequest) (*MessageResponse, error)
 	RemoveAgentMethod(context.Context, *RemoveAgentMethodRequest) (*MessageResponse, error)
 	UpdateAgentMethod(context.Context, *UpdateAgentMethodRequest) (*MessageResponse, error)
 	UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error)
-	TransferBalance(context.Context, *TransferBalanceRequest) (*TransferBalanceResponse, error)
 }
 
 // UnimplementedAuthenticationServer should be embedded to have forward compatible implementations.
@@ -592,6 +592,9 @@ func (UnimplementedAuthenticationServer) CreateAgent(context.Context, *CreateAge
 func (UnimplementedAuthenticationServer) AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAgentMethod not implemented")
 }
+func (UnimplementedAuthenticationServer) TransferBalance(context.Context, *TransferBalanceRequest) (*MessageResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method TransferBalance not implemented")
+}
 func (UnimplementedAuthenticationServer) RemoveAgentMethod(context.Context, *RemoveAgentMethodRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RemoveAgentMethod not implemented")
 }
@@ -600,9 +603,6 @@ func (UnimplementedAuthenticationServer) UpdateAgentMethod(context.Context, *Upd
 }
 func (UnimplementedAuthenticationServer) UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAgentContacts not implemented")
-}
-func (UnimplementedAuthenticationServer) TransferBalance(context.Context, *TransferBalanceRequest) (*TransferBalanceResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method TransferBalance not implemented")
 }
 
 // UnsafeAuthenticationServer may be embedded to opt out of forward compatibility for this service.
@@ -1264,6 +1264,24 @@ func _Authentication_AddAgentMethod_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_TransferBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(TransferBalanceRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).TransferBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/TransferBalance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).TransferBalance(ctx, req.(*TransferBalanceRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_RemoveAgentMethod_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RemoveAgentMethodRequest)
 	if err := dec(in); err != nil {
@@ -1314,24 +1332,6 @@ func _Authentication_UpdateAgentContacts_Handler(srv interface{}, ctx context.Co
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).UpdateAgentContacts(ctx, req.(*UpdateAgentContactsRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _Authentication_TransferBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(TransferBalanceRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).TransferBalance(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/Authentication/TransferBalance",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).TransferBalance(ctx, req.(*TransferBalanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1488,6 +1488,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_AddAgentMethod_Handler,
 		},
 		{
+			MethodName: "TransferBalance",
+			Handler:    _Authentication_TransferBalance_Handler,
+		},
+		{
 			MethodName: "RemoveAgentMethod",
 			Handler:    _Authentication_RemoveAgentMethod_Handler,
 		},
@@ -1498,10 +1502,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAgentContacts",
 			Handler:    _Authentication_UpdateAgentContacts_Handler,
-		},
-		{
-			MethodName: "TransferBalance",
-			Handler:    _Authentication_TransferBalance_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
