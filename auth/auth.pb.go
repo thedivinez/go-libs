@@ -43,11 +43,11 @@ type User struct {
 	DOB             string   `protobuf:"bytes,14,opt,name=DOB,proto3" json:"dob" bson:"dob,omitempty"`                          
 	City            string   `protobuf:"bytes,15,opt,name=City,proto3" json:"city" bson:"city,omitempty"`                        
 	Phone           string   `protobuf:"bytes,16,opt,name=Phone,proto3" json:"phone" bson:"phone,omitempty"`                      
-	DemoBalance     float64  `protobuf:"fixed64,17,opt,name=DemoBalance,proto3" json:"demoBalance" bson:"demoBalance"`        
-	LiveBalance     float64  `protobuf:"fixed64,18,opt,name=LiveBalance,proto3" json:"liveBalance" bson:"liveBalance"`        
+	DemoBalance     float64  `protobuf:"fixed64,17,opt,name=DemoBalance,proto3" json:"demoBalance" bson:"demoBalance,omitempty"`        
+	LiveBalance     float64  `protobuf:"fixed64,18,opt,name=LiveBalance,proto3" json:"liveBalance" bson:"liveBalance,omitempty"`        
 	Country         string   `protobuf:"bytes,19,opt,name=Country,proto3" json:"country" bson:"country,omitempty"`                  
 	Address         string   `protobuf:"bytes,20,opt,name=Address,proto3" json:"address" bson:"address,omitempty"`                  
-	LastName        string   `protobuf:"bytes,21,opt,name=LastName,proto3" json:"lastName" bson:"lastname,omitempty"`                
+	LastName        string   `protobuf:"bytes,21,opt,name=LastName,proto3" json:"lastName" bson:"lastName,omitempty"`                
 	FirstName       string   `protobuf:"bytes,22,opt,name=FirstName,proto3" json:"firstName" bson:"firstName,omitempty"`              
 	DocumentsStatus string   `protobuf:"bytes,23,opt,name=DocumentsStatus,proto3" json:"documentStatus" bson:"documentStatus,omitempty"`  
 	Documents       string   `protobuf:"bytes,24,opt,name=Documents,proto3" json:"documents" bson:"documents,omitempty"`              
