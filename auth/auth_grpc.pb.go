@@ -60,6 +60,7 @@ type AuthenticationClient interface {
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	AddAgentMethod(ctx context.Context, in *AddAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	GetRecipient(ctx context.Context, in *GetRecipientRequest, opts ...grpc.CallOption) (*GetRecipientResponse, error)
 	TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	RemoveAgentMethod(ctx context.Context, in *RemoveAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAgentMethod(ctx context.Context, in *UpdateAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
@@ -398,6 +399,15 @@ func (c *authenticationClient) AddAgentMethod(ctx context.Context, in *AddAgentM
 	return out, nil
 }
 
+func (c *authenticationClient) GetRecipient(ctx context.Context, in *GetRecipientRequest, opts ...grpc.CallOption) (*GetRecipientResponse, error) {
+	out := new(GetRecipientResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/GetRecipient", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/TransferBalance", in, out, opts...)
@@ -474,6 +484,7 @@ type AuthenticationServer interface {
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
 	AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error)
+	GetRecipient(context.Context, *GetRecipientRequest) (*GetRecipientResponse, error)
 	TransferBalance(context.Context, *TransferBalanceRequest) (*MessageResponse, error)
 	RemoveAgentMethod(context.Context, *RemoveAgentMethodRequest) (*MessageResponse, error)
 	UpdateAgentMethod(context.Context, *UpdateAgentMethodRequest) (*MessageResponse, error)
@@ -591,6 +602,9 @@ func (UnimplementedAuthenticationServer) CreateAgent(context.Context, *CreateAge
 }
 func (UnimplementedAuthenticationServer) AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAgentMethod not implemented")
+}
+func (UnimplementedAuthenticationServer) GetRecipient(context.Context, *GetRecipientRequest) (*GetRecipientResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRecipient not implemented")
 }
 func (UnimplementedAuthenticationServer) TransferBalance(context.Context, *TransferBalanceRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method TransferBalance not implemented")
@@ -1264,6 +1278,24 @@ func _Authentication_AddAgentMethod_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_GetRecipient_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRecipientRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).GetRecipient(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/GetRecipient",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).GetRecipient(ctx, req.(*GetRecipientRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_TransferBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(TransferBalanceRequest)
 	if err := dec(in); err != nil {
@@ -1486,6 +1518,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "AddAgentMethod",
 			Handler:    _Authentication_AddAgentMethod_Handler,
+		},
+		{
+			MethodName: "GetRecipient",
+			Handler:    _Authentication_GetRecipient_Handler,
 		},
 		{
 			MethodName: "TransferBalance",
