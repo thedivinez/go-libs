@@ -7,5 +7,6 @@ func Connect(addr string) (SpeedNCashClient, error) {
 	if err != nil {
 		return nil, err
 	}
+	//
 	return NewSpeedNCashClient(conn), nil
 }
