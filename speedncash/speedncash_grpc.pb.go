@@ -24,12 +24,12 @@ const _ = grpc.SupportPackageIsVersion7
 type SpeedNCashClient interface {
 	RaceCashout(ctx context.Context, in *RaceBet, opts ...grpc.CallOption) (*RaceCashoutResponse, error)
 	PlaceRaceBet(ctx context.Context, in *RaceBet, opts ...grpc.CallOption) (*PlaceRaceBetResponse, error)
-	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
 	CancelRaceBet(ctx context.Context, in *RaceBet, opts ...grpc.CallOption) (*CancelRaceBetResponse, error)
 	GetRaceBets(ctx context.Context, in *GetRaceBetsRequest, opts ...grpc.CallOption) (*GetRaceBetsResponse, error)
 	GetRaceSettings(ctx context.Context, in *GetRaceSettingsRequest, opts ...grpc.CallOption) (*RaceSettings, error)
-	GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error)
+	SubscribeGame(ctx context.Context, in *SubscribeGameRequest, opts ...grpc.CallOption) (*SubscribeGameResponse, error)
 	UpdateRaceSettings(ctx context.Context, in *RaceSettings, opts ...grpc.CallOption) (*UpdateRaceSettingsResponse, error)
+	GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error)
 }
 
 type speedNCashClient struct {
@@ -52,15 +52,6 @@ func (c *speedNCashClient) RaceCashout(ctx context.Context, in *RaceBet, opts ..
 func (c *speedNCashClient) PlaceRaceBet(ctx context.Context, in *RaceBet, opts ...grpc.CallOption) (*PlaceRaceBetResponse, error) {
 	out := new(PlaceRaceBetResponse)
 	err := c.cc.Invoke(ctx, "/SpeedNCash/PlaceRaceBet", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
-func (c *speedNCashClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
-	out := new(SubscribeResponse)
-	err := c.cc.Invoke(ctx, "/SpeedNCash/Subscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -94,9 +85,9 @@ func (c *speedNCashClient) GetRaceSettings(ctx context.Context, in *GetRaceSetti
 	return out, nil
 }
 
-func (c *speedNCashClient) GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error) {
-	out := new(GetActiveRaceBetsResponse)
-	err := c.cc.Invoke(ctx, "/SpeedNCash/GetActiveBets", in, out, opts...)
+func (c *speedNCashClient) SubscribeGame(ctx context.Context, in *SubscribeGameRequest, opts ...grpc.CallOption) (*SubscribeGameResponse, error) {
+	out := new(SubscribeGameResponse)
+	err := c.cc.Invoke(ctx, "/SpeedNCash/SubscribeGame", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -112,18 +103,27 @@ func (c *speedNCashClient) UpdateRaceSettings(ctx context.Context, in *RaceSetti
 	return out, nil
 }
 
+func (c *speedNCashClient) GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error) {
+	out := new(GetActiveRaceBetsResponse)
+	err := c.cc.Invoke(ctx, "/SpeedNCash/GetActiveBets", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SpeedNCashServer is the server API for SpeedNCash service.
 // All implementations should embed UnimplementedSpeedNCashServer
 // for forward compatibility
 type SpeedNCashServer interface {
 	RaceCashout(context.Context, *RaceBet) (*RaceCashoutResponse, error)
 	PlaceRaceBet(context.Context, *RaceBet) (*PlaceRaceBetResponse, error)
-	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
 	CancelRaceBet(context.Context, *RaceBet) (*CancelRaceBetResponse, error)
 	GetRaceBets(context.Context, *GetRaceBetsRequest) (*GetRaceBetsResponse, error)
 	GetRaceSettings(context.Context, *GetRaceSettingsRequest) (*RaceSettings, error)
-	GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error)
+	SubscribeGame(context.Context, *SubscribeGameRequest) (*SubscribeGameResponse, error)
 	UpdateRaceSettings(context.Context, *RaceSettings) (*UpdateRaceSettingsResponse, error)
+	GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error)
 }
 
 // UnimplementedSpeedNCashServer should be embedded to have forward compatible implementations.
@@ -136,9 +136,6 @@ func (UnimplementedSpeedNCashServer) RaceCashout(context.Context, *RaceBet) (*Ra
 func (UnimplementedSpeedNCashServer) PlaceRaceBet(context.Context, *RaceBet) (*PlaceRaceBetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceRaceBet not implemented")
 }
-func (UnimplementedSpeedNCashServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
-}
 func (UnimplementedSpeedNCashServer) CancelRaceBet(context.Context, *RaceBet) (*CancelRaceBetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelRaceBet not implemented")
 }
@@ -148,11 +145,14 @@ func (UnimplementedSpeedNCashServer) GetRaceBets(context.Context, *GetRaceBetsRe
 func (UnimplementedSpeedNCashServer) GetRaceSettings(context.Context, *GetRaceSettingsRequest) (*RaceSettings, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRaceSettings not implemented")
 }
-func (UnimplementedSpeedNCashServer) GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
+func (UnimplementedSpeedNCashServer) SubscribeGame(context.Context, *SubscribeGameRequest) (*SubscribeGameResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SubscribeGame not implemented")
 }
 func (UnimplementedSpeedNCashServer) UpdateRaceSettings(context.Context, *RaceSettings) (*UpdateRaceSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRaceSettings not implemented")
+}
+func (UnimplementedSpeedNCashServer) GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
 }
 
 // UnsafeSpeedNCashServer may be embedded to opt out of forward compatibility for this service.
@@ -198,24 +198,6 @@ func _SpeedNCash_PlaceRaceBet_Handler(srv interface{}, ctx context.Context, dec 
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(SpeedNCashServer).PlaceRaceBet(ctx, req.(*RaceBet))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
-func _SpeedNCash_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SubscribeRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(SpeedNCashServer).Subscribe(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/SpeedNCash/Subscribe",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpeedNCashServer).Subscribe(ctx, req.(*SubscribeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -274,20 +256,20 @@ func _SpeedNCash_GetRaceSettings_Handler(srv interface{}, ctx context.Context, d
 	return interceptor(ctx, in, info, handler)
 }
 
-func _SpeedNCash_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetActiveRaceBetsRequest)
+func _SpeedNCash_SubscribeGame_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SubscribeGameRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(SpeedNCashServer).GetActiveBets(ctx, in)
+		return srv.(SpeedNCashServer).SubscribeGame(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/SpeedNCash/GetActiveBets",
+		FullMethod: "/SpeedNCash/SubscribeGame",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpeedNCashServer).GetActiveBets(ctx, req.(*GetActiveRaceBetsRequest))
+		return srv.(SpeedNCashServer).SubscribeGame(ctx, req.(*SubscribeGameRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -310,6 +292,24 @@ func _SpeedNCash_UpdateRaceSettings_Handler(srv interface{}, ctx context.Context
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpeedNCash_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetActiveRaceBetsRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpeedNCashServer).GetActiveBets(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/SpeedNCash/GetActiveBets",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpeedNCashServer).GetActiveBets(ctx, req.(*GetActiveRaceBetsRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SpeedNCash_ServiceDesc is the grpc.ServiceDesc for SpeedNCash service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -326,10 +326,6 @@ var SpeedNCash_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SpeedNCash_PlaceRaceBet_Handler,
 		},
 		{
-			MethodName: "Subscribe",
-			Handler:    _SpeedNCash_Subscribe_Handler,
-		},
-		{
 			MethodName: "CancelRaceBet",
 			Handler:    _SpeedNCash_CancelRaceBet_Handler,
 		},
@@ -342,12 +338,16 @@ var SpeedNCash_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _SpeedNCash_GetRaceSettings_Handler,
 		},
 		{
-			MethodName: "GetActiveBets",
-			Handler:    _SpeedNCash_GetActiveBets_Handler,
+			MethodName: "SubscribeGame",
+			Handler:    _SpeedNCash_SubscribeGame_Handler,
 		},
 		{
 			MethodName: "UpdateRaceSettings",
 			Handler:    _SpeedNCash_UpdateRaceSettings_Handler,
+		},
+		{
+			MethodName: "GetActiveBets",
+			Handler:    _SpeedNCash_GetActiveBets_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
