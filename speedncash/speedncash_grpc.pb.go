@@ -28,7 +28,7 @@ type SpeedNCashClient interface {
 	CancelRaceBet(ctx context.Context, in *RaceBet, opts ...grpc.CallOption) (*CancelRaceBetResponse, error)
 	GetRaceBets(ctx context.Context, in *GetRaceBetsRequest, opts ...grpc.CallOption) (*GetRaceBetsResponse, error)
 	GetRaceSettings(ctx context.Context, in *GetRaceSettingsRequest, opts ...grpc.CallOption) (*RaceSettings, error)
-	GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error)
+	GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error)
 	UpdateRaceSettings(ctx context.Context, in *RaceSettings, opts ...grpc.CallOption) (*UpdateRaceSettingsResponse, error)
 }
 
@@ -94,8 +94,8 @@ func (c *speedNCashClient) GetRaceSettings(ctx context.Context, in *GetRaceSetti
 	return out, nil
 }
 
-func (c *speedNCashClient) GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error) {
-	out := new(GetActiveBetsResponse)
+func (c *speedNCashClient) GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error) {
+	out := new(GetActiveRaceBetsResponse)
 	err := c.cc.Invoke(ctx, "/SpeedNCash/GetActiveBets", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -122,7 +122,7 @@ type SpeedNCashServer interface {
 	CancelRaceBet(context.Context, *RaceBet) (*CancelRaceBetResponse, error)
 	GetRaceBets(context.Context, *GetRaceBetsRequest) (*GetRaceBetsResponse, error)
 	GetRaceSettings(context.Context, *GetRaceSettingsRequest) (*RaceSettings, error)
-	GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error)
+	GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error)
 	UpdateRaceSettings(context.Context, *RaceSettings) (*UpdateRaceSettingsResponse, error)
 }
 
@@ -148,7 +148,7 @@ func (UnimplementedSpeedNCashServer) GetRaceBets(context.Context, *GetRaceBetsRe
 func (UnimplementedSpeedNCashServer) GetRaceSettings(context.Context, *GetRaceSettingsRequest) (*RaceSettings, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRaceSettings not implemented")
 }
-func (UnimplementedSpeedNCashServer) GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error) {
+func (UnimplementedSpeedNCashServer) GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
 }
 func (UnimplementedSpeedNCashServer) UpdateRaceSettings(context.Context, *RaceSettings) (*UpdateRaceSettingsResponse, error) {
@@ -275,7 +275,7 @@ func _SpeedNCash_GetRaceSettings_Handler(srv interface{}, ctx context.Context, d
 }
 
 func _SpeedNCash_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetActiveBetsRequest)
+	in := new(GetActiveRaceBetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -287,7 +287,7 @@ func _SpeedNCash_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec
 		FullMethod: "/SpeedNCash/GetActiveBets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(SpeedNCashServer).GetActiveBets(ctx, req.(*GetActiveBetsRequest))
+		return srv.(SpeedNCashServer).GetActiveBets(ctx, req.(*GetActiveRaceBetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
