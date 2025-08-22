@@ -30,6 +30,7 @@ type SpeedNCashClient interface {
 	SubscribeGame(ctx context.Context, in *SubscribeGameRequest, opts ...grpc.CallOption) (*SubscribeGameResponse, error)
 	UpdateRaceSettings(ctx context.Context, in *RaceSettings, opts ...grpc.CallOption) (*UpdateRaceSettingsResponse, error)
 	GetActiveBets(ctx context.Context, in *GetActiveRaceBetsRequest, opts ...grpc.CallOption) (*GetActiveRaceBetsResponse, error)
+	GetRacingHistory(ctx context.Context, in *GetRacingHistoryRequest, opts ...grpc.CallOption) (*GetRacingHistoryResponse, error)
 }
 
 type speedNCashClient struct {
@@ -112,6 +113,15 @@ func (c *speedNCashClient) GetActiveBets(ctx context.Context, in *GetActiveRaceB
 	return out, nil
 }
 
+func (c *speedNCashClient) GetRacingHistory(ctx context.Context, in *GetRacingHistoryRequest, opts ...grpc.CallOption) (*GetRacingHistoryResponse, error) {
+	out := new(GetRacingHistoryResponse)
+	err := c.cc.Invoke(ctx, "/SpeedNCash/GetRacingHistory", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SpeedNCashServer is the server API for SpeedNCash service.
 // All implementations should embed UnimplementedSpeedNCashServer
 // for forward compatibility
@@ -124,6 +134,7 @@ type SpeedNCashServer interface {
 	SubscribeGame(context.Context, *SubscribeGameRequest) (*SubscribeGameResponse, error)
 	UpdateRaceSettings(context.Context, *RaceSettings) (*UpdateRaceSettingsResponse, error)
 	GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error)
+	GetRacingHistory(context.Context, *GetRacingHistoryRequest) (*GetRacingHistoryResponse, error)
 }
 
 // UnimplementedSpeedNCashServer should be embedded to have forward compatible implementations.
@@ -153,6 +164,9 @@ func (UnimplementedSpeedNCashServer) UpdateRaceSettings(context.Context, *RaceSe
 }
 func (UnimplementedSpeedNCashServer) GetActiveBets(context.Context, *GetActiveRaceBetsRequest) (*GetActiveRaceBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
+}
+func (UnimplementedSpeedNCashServer) GetRacingHistory(context.Context, *GetRacingHistoryRequest) (*GetRacingHistoryResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetRacingHistory not implemented")
 }
 
 // UnsafeSpeedNCashServer may be embedded to opt out of forward compatibility for this service.
@@ -310,6 +324,24 @@ func _SpeedNCash_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _SpeedNCash_GetRacingHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetRacingHistoryRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SpeedNCashServer).GetRacingHistory(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/SpeedNCash/GetRacingHistory",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SpeedNCashServer).GetRacingHistory(ctx, req.(*GetRacingHistoryRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // SpeedNCash_ServiceDesc is the grpc.ServiceDesc for SpeedNCash service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -348,6 +380,10 @@ var SpeedNCash_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetActiveBets",
 			Handler:    _SpeedNCash_GetActiveBets_Handler,
+		},
+		{
+			MethodName: "GetRacingHistory",
+			Handler:    _SpeedNCash_GetRacingHistory_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
