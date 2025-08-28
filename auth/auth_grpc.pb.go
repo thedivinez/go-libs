@@ -46,7 +46,6 @@ type AuthenticationClient interface {
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error)
-	AuthenticateAdmin(ctx context.Context, in *AdminAuthRequest, opts ...grpc.CallOption) (*AuthenticationConfig, error)
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
 	DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
@@ -273,15 +272,6 @@ func (c *authenticationClient) UpdateAvatar(ctx context.Context, in *UpdateAvata
 	return out, nil
 }
 
-func (c *authenticationClient) AuthenticateAdmin(ctx context.Context, in *AdminAuthRequest, opts ...grpc.CallOption) (*AuthenticationConfig, error) {
-	out := new(AuthenticationConfig)
-	err := c.cc.Invoke(ctx, "/Authentication/AuthenticateAdmin", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authenticationClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
 	out := new(ValidateTokenResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/ValidateToken", in, out, opts...)
@@ -470,7 +460,6 @@ type AuthenticationServer interface {
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error)
 	UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error)
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
-	AuthenticateAdmin(context.Context, *AdminAuthRequest) (*AuthenticationConfig, error)
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
 	DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
 	MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
@@ -560,9 +549,6 @@ func (UnimplementedAuthenticationServer) UploadDocument(context.Context, *Upload
 }
 func (UnimplementedAuthenticationServer) UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateAvatar not implemented")
-}
-func (UnimplementedAuthenticationServer) AuthenticateAdmin(context.Context, *AdminAuthRequest) (*AuthenticationConfig, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method AuthenticateAdmin not implemented")
 }
 func (UnimplementedAuthenticationServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
@@ -1026,24 +1012,6 @@ func _Authentication_UpdateAvatar_Handler(srv interface{}, ctx context.Context, 
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Authentication_AuthenticateAdmin_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(AdminAuthRequest)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).AuthenticateAdmin(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/Authentication/AuthenticateAdmin",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).AuthenticateAdmin(ctx, req.(*AdminAuthRequest))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Authentication_ValidateToken_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ValidateTokenRequest)
 	if err := dec(in); err != nil {
@@ -1462,10 +1430,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "UpdateAvatar",
 			Handler:    _Authentication_UpdateAvatar_Handler,
-		},
-		{
-			MethodName: "AuthenticateAdmin",
-			Handler:    _Authentication_AuthenticateAdmin_Handler,
 		},
 		{
 			MethodName: "ValidateToken",
