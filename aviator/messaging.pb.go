@@ -307,7 +307,7 @@ type RoundSettings struct {
 	MinRiskPercentage  float64 `protobuf:"fixed64,11,opt,name=MinRiskPercentage,proto3" json:"minRiskPercentage" bson:"minRiskPercentage,omitempty"`    
 	MaxRiskPercentage  float64 `protobuf:"fixed64,12,opt,name=MaxRiskPercentage,proto3" json:"maxRiskPercentage" bson:"maxRiskPercentage,omitempty"`    
 	MaxMultiplierShift float64 `protobuf:"fixed64,13,opt,name=MaxMultiplierShift,proto3" json:"maxMultiplierShift" bson:"maxMultiplierShift,omitempty"`  
-	OrgID              string  `protobuf:"bytes,14,opt,name=OrgID,proto3" json:"-" bson:"orgId,omitempty"`                              
+	OrgID              string  `protobuf:"bytes,14,opt,name=OrgID,proto3" json:"orgId" bson:"orgId,omitempty"`                              
 	LisenseExpiration  int64   `protobuf:"varint,15,opt,name=LisenseExpiration,proto3" json:"licenseExpiry" bson:"licenseExpiry,omitempty"`     
 }
 
