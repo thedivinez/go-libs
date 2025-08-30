@@ -112,7 +112,7 @@ type Round struct {
 	Multiplier  float64             `protobuf:"fixed64,6,opt,name=Multiplier,proto3" json:"multiplier" bson:"multiplier"`    
 	DateCreated int64               `protobuf:"varint,7,opt,name=DateCreated,proto3" json:"dateCreated" bson:"dateCreated"`   
 	ProfitBlown float64             `protobuf:"fixed64,8,opt,name=ProfitBlown,proto3" json:"profitBlown" bson:"profitBlown"`  
-	OrgID       string              `protobuf:"bytes,9,opt,name=OrgID,proto3" json:"-" bson:"orgId"`                
+	OrgID       string              `protobuf:"bytes,9,opt,name=OrgID,proto3" json:"orgId" bson:"orgId"`                
 }
 
 func (x *Round) Reset() {
