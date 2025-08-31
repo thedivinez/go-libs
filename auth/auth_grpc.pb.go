@@ -55,6 +55,7 @@ type AuthenticationClient interface {
 	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error)
 	SwitchUserAccount(ctx context.Context, in *SwitchUserAccountRequest, opts ...grpc.CallOption) (*SwitchUserAccountResponse, error)
+	SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceResponse, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error)
 	GetAgent(ctx context.Context, in *GetAgentRequest, opts ...grpc.CallOption) (*Agent, error)
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
@@ -353,6 +354,15 @@ func (c *authenticationClient) SwitchUserAccount(ctx context.Context, in *Switch
 	return out, nil
 }
 
+func (c *authenticationClient) SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceResponse, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error) {
+	out := new(SwitchShowBalanceResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/SwitchShowBalance", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) GetAgent(ctx context.Context, in *GetAgentRequest, opts ...grpc.CallOption) (*Agent, error) {
 	out := new(Agent)
 	err := c.cc.Invoke(ctx, "/Authentication/GetAgent", in, out, opts...)
@@ -469,6 +479,7 @@ type AuthenticationServer interface {
 	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error)
 	TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error)
 	SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error)
+	SwitchShowBalance(context.Context, *SwitchShowBalanceResponse) (*SwitchShowBalanceResponse, error)
 	GetAgent(context.Context, *GetAgentRequest) (*Agent, error)
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
@@ -576,6 +587,9 @@ func (UnimplementedAuthenticationServer) TopupDemoBalance(context.Context, *Topu
 }
 func (UnimplementedAuthenticationServer) SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SwitchUserAccount not implemented")
+}
+func (UnimplementedAuthenticationServer) SwitchShowBalance(context.Context, *SwitchShowBalanceResponse) (*SwitchShowBalanceResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SwitchShowBalance not implemented")
 }
 func (UnimplementedAuthenticationServer) GetAgent(context.Context, *GetAgentRequest) (*Agent, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgent not implemented")
@@ -1174,6 +1188,24 @@ func _Authentication_SwitchUserAccount_Handler(srv interface{}, ctx context.Cont
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_SwitchShowBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(SwitchShowBalanceResponse)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).SwitchShowBalance(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/SwitchShowBalance",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).SwitchShowBalance(ctx, req.(*SwitchShowBalanceResponse))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_GetAgent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAgentRequest)
 	if err := dec(in); err != nil {
@@ -1466,6 +1498,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "SwitchUserAccount",
 			Handler:    _Authentication_SwitchUserAccount_Handler,
+		},
+		{
+			MethodName: "SwitchShowBalance",
+			Handler:    _Authentication_SwitchShowBalance_Handler,
 		},
 		{
 			MethodName: "GetAgent",
