@@ -42,11 +42,11 @@ type AuthenticationClient interface {
 	DeleteAvatar(ctx context.Context, in *DeleteAvatarRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	RefreshToken(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*UserAuthTokens, error)
 	InitiateDeposit(ctx context.Context, in *DepositRequest, opts ...grpc.CallOption) (*any1.Any, error)
-	GetOrganizationtAccount(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*User, error)
 	ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UploadDocument(ctx context.Context, in *UploadDocumentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	UpdateAvatar(ctx context.Context, in *UpdateAvatarRequest, opts ...grpc.CallOption) (*UpdateAvatarResponse, error)
 	ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error)
+	GetOrganizationAccount(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*Organization, error)
 	DepositWebhook(ctx context.Context, in *DepositWebhookRequest, opts ...grpc.CallOption) (*empty.Empty, error)
 	MakeWithdrawalRequest(ctx context.Context, in *WithdrawalRequest, opts ...grpc.CallOption) (*WithdrawalResponse, error)
 	GetTransactions(ctx context.Context, in *GetTransactionsRequest, opts ...grpc.CallOption) (*TransactionsResponse, error)
@@ -236,15 +236,6 @@ func (c *authenticationClient) InitiateDeposit(ctx context.Context, in *DepositR
 	return out, nil
 }
 
-func (c *authenticationClient) GetOrganizationtAccount(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*User, error) {
-	out := new(User)
-	err := c.cc.Invoke(ctx, "/Authentication/GetOrganizationtAccount", in, out, opts...)
-	if err != nil {
-		return nil, err
-	}
-	return out, nil
-}
-
 func (c *authenticationClient) ForgotPassword(ctx context.Context, in *ForgotPasswordRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/ForgotPassword", in, out, opts...)
@@ -275,6 +266,15 @@ func (c *authenticationClient) UpdateAvatar(ctx context.Context, in *UpdateAvata
 func (c *authenticationClient) ValidateToken(ctx context.Context, in *ValidateTokenRequest, opts ...grpc.CallOption) (*ValidateTokenResponse, error) {
 	out := new(ValidateTokenResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/ValidateToken", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) GetOrganizationAccount(ctx context.Context, in *empty.Empty, opts ...grpc.CallOption) (*Organization, error) {
+	out := new(Organization)
+	err := c.cc.Invoke(ctx, "/Authentication/GetOrganizationAccount", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -456,11 +456,11 @@ type AuthenticationServer interface {
 	DeleteAvatar(context.Context, *DeleteAvatarRequest) (*MessageResponse, error)
 	RefreshToken(context.Context, *empty.Empty) (*UserAuthTokens, error)
 	InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error)
-	GetOrganizationtAccount(context.Context, *empty.Empty) (*User, error)
 	ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error)
 	UploadDocument(context.Context, *UploadDocumentRequest) (*MessageResponse, error)
 	UpdateAvatar(context.Context, *UpdateAvatarRequest) (*UpdateAvatarResponse, error)
 	ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error)
+	GetOrganizationAccount(context.Context, *empty.Empty) (*Organization, error)
 	DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error)
 	MakeWithdrawalRequest(context.Context, *WithdrawalRequest) (*WithdrawalResponse, error)
 	GetTransactions(context.Context, *GetTransactionsRequest) (*TransactionsResponse, error)
@@ -538,9 +538,6 @@ func (UnimplementedAuthenticationServer) RefreshToken(context.Context, *empty.Em
 func (UnimplementedAuthenticationServer) InitiateDeposit(context.Context, *DepositRequest) (*any1.Any, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method InitiateDeposit not implemented")
 }
-func (UnimplementedAuthenticationServer) GetOrganizationtAccount(context.Context, *empty.Empty) (*User, error) {
-	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationtAccount not implemented")
-}
 func (UnimplementedAuthenticationServer) ForgotPassword(context.Context, *ForgotPasswordRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ForgotPassword not implemented")
 }
@@ -552,6 +549,9 @@ func (UnimplementedAuthenticationServer) UpdateAvatar(context.Context, *UpdateAv
 }
 func (UnimplementedAuthenticationServer) ValidateToken(context.Context, *ValidateTokenRequest) (*ValidateTokenResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ValidateToken not implemented")
+}
+func (UnimplementedAuthenticationServer) GetOrganizationAccount(context.Context, *empty.Empty) (*Organization, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetOrganizationAccount not implemented")
 }
 func (UnimplementedAuthenticationServer) DepositWebhook(context.Context, *DepositWebhookRequest) (*empty.Empty, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method DepositWebhook not implemented")
@@ -940,24 +940,6 @@ func _Authentication_InitiateDeposit_Handler(srv interface{}, ctx context.Contex
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Authentication_GetOrganizationtAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(empty.Empty)
-	if err := dec(in); err != nil {
-		return nil, err
-	}
-	if interceptor == nil {
-		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, in)
-	}
-	info := &grpc.UnaryServerInfo{
-		Server:     srv,
-		FullMethod: "/Authentication/GetOrganizationtAccount",
-	}
-	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).GetOrganizationtAccount(ctx, req.(*empty.Empty))
-	}
-	return interceptor(ctx, in, info, handler)
-}
-
 func _Authentication_ForgotPassword_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(ForgotPasswordRequest)
 	if err := dec(in); err != nil {
@@ -1026,6 +1008,24 @@ func _Authentication_ValidateToken_Handler(srv interface{}, ctx context.Context,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).ValidateToken(ctx, req.(*ValidateTokenRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_GetOrganizationAccount_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(empty.Empty)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).GetOrganizationAccount(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/GetOrganizationAccount",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).GetOrganizationAccount(ctx, req.(*empty.Empty))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1416,10 +1416,6 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_InitiateDeposit_Handler,
 		},
 		{
-			MethodName: "GetOrganizationtAccount",
-			Handler:    _Authentication_GetOrganizationtAccount_Handler,
-		},
-		{
 			MethodName: "ForgotPassword",
 			Handler:    _Authentication_ForgotPassword_Handler,
 		},
@@ -1434,6 +1430,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "ValidateToken",
 			Handler:    _Authentication_ValidateToken_Handler,
+		},
+		{
+			MethodName: "GetOrganizationAccount",
+			Handler:    _Authentication_GetOrganizationAccount_Handler,
 		},
 		{
 			MethodName: "DepositWebhook",
