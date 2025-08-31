@@ -55,7 +55,7 @@ type AuthenticationClient interface {
 	SendVerificationLink(ctx context.Context, in *SendVerificationLinkRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	TopupDemoBalance(ctx context.Context, in *TopupDemoBalanceRequest, opts ...grpc.CallOption) (*TopupDemoBalanceResponse, error)
 	SwitchUserAccount(ctx context.Context, in *SwitchUserAccountRequest, opts ...grpc.CallOption) (*SwitchUserAccountResponse, error)
-	SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceResponse, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error)
+	SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceRequest, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error)
 	GetAgent(ctx context.Context, in *GetAgentRequest, opts ...grpc.CallOption) (*Agent, error)
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
@@ -354,7 +354,7 @@ func (c *authenticationClient) SwitchUserAccount(ctx context.Context, in *Switch
 	return out, nil
 }
 
-func (c *authenticationClient) SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceResponse, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error) {
+func (c *authenticationClient) SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceRequest, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error) {
 	out := new(SwitchShowBalanceResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/SwitchShowBalance", in, out, opts...)
 	if err != nil {
@@ -479,7 +479,7 @@ type AuthenticationServer interface {
 	SendVerificationLink(context.Context, *SendVerificationLinkRequest) (*MessageResponse, error)
 	TopupDemoBalance(context.Context, *TopupDemoBalanceRequest) (*TopupDemoBalanceResponse, error)
 	SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error)
-	SwitchShowBalance(context.Context, *SwitchShowBalanceResponse) (*SwitchShowBalanceResponse, error)
+	SwitchShowBalance(context.Context, *SwitchShowBalanceRequest) (*SwitchShowBalanceResponse, error)
 	GetAgent(context.Context, *GetAgentRequest) (*Agent, error)
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
@@ -588,7 +588,7 @@ func (UnimplementedAuthenticationServer) TopupDemoBalance(context.Context, *Topu
 func (UnimplementedAuthenticationServer) SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SwitchUserAccount not implemented")
 }
-func (UnimplementedAuthenticationServer) SwitchShowBalance(context.Context, *SwitchShowBalanceResponse) (*SwitchShowBalanceResponse, error) {
+func (UnimplementedAuthenticationServer) SwitchShowBalance(context.Context, *SwitchShowBalanceRequest) (*SwitchShowBalanceResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SwitchShowBalance not implemented")
 }
 func (UnimplementedAuthenticationServer) GetAgent(context.Context, *GetAgentRequest) (*Agent, error) {
@@ -1189,7 +1189,7 @@ func _Authentication_SwitchUserAccount_Handler(srv interface{}, ctx context.Cont
 }
 
 func _Authentication_SwitchShowBalance_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(SwitchShowBalanceResponse)
+	in := new(SwitchShowBalanceRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -1201,7 +1201,7 @@ func _Authentication_SwitchShowBalance_Handler(srv interface{}, ctx context.Cont
 		FullMethod: "/Authentication/SwitchShowBalance",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AuthenticationServer).SwitchShowBalance(ctx, req.(*SwitchShowBalanceResponse))
+		return srv.(AuthenticationServer).SwitchShowBalance(ctx, req.(*SwitchShowBalanceRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
