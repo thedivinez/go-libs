@@ -67,6 +67,7 @@ type AuthenticationClient interface {
 	AddPaymentGateway(ctx context.Context, in *PaymentGateway, opts ...grpc.CallOption) (*AddPaymentGatewayResponse, error)
 	UpdateAgentContacts(ctx context.Context, in *UpdateAgentContactsRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	GetPaymentGateways(ctx context.Context, in *GetGatewaysRequest, opts ...grpc.CallOption) (*GetPaymentGatewaysResponse, error)
+	UpdatePaymentGateway(ctx context.Context, in *UpdatePaymentGatewayRequest, opts ...grpc.CallOption) (*UpdatePaymentGatewayResponse, error)
 }
 
 type authenticationClient struct {
@@ -464,6 +465,15 @@ func (c *authenticationClient) GetPaymentGateways(ctx context.Context, in *GetGa
 	return out, nil
 }
 
+func (c *authenticationClient) UpdatePaymentGateway(ctx context.Context, in *UpdatePaymentGatewayRequest, opts ...grpc.CallOption) (*UpdatePaymentGatewayResponse, error) {
+	out := new(UpdatePaymentGatewayResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/UpdatePaymentGateway", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // AuthenticationServer is the server API for Authentication service.
 // All implementations should embed UnimplementedAuthenticationServer
 // for forward compatibility
@@ -511,6 +521,7 @@ type AuthenticationServer interface {
 	AddPaymentGateway(context.Context, *PaymentGateway) (*AddPaymentGatewayResponse, error)
 	UpdateAgentContacts(context.Context, *UpdateAgentContactsRequest) (*MessageResponse, error)
 	GetPaymentGateways(context.Context, *GetGatewaysRequest) (*GetPaymentGatewaysResponse, error)
+	UpdatePaymentGateway(context.Context, *UpdatePaymentGatewayRequest) (*UpdatePaymentGatewayResponse, error)
 }
 
 // UnimplementedAuthenticationServer should be embedded to have forward compatible implementations.
@@ -645,6 +656,9 @@ func (UnimplementedAuthenticationServer) UpdateAgentContacts(context.Context, *U
 }
 func (UnimplementedAuthenticationServer) GetPaymentGateways(context.Context, *GetGatewaysRequest) (*GetPaymentGatewaysResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetPaymentGateways not implemented")
+}
+func (UnimplementedAuthenticationServer) UpdatePaymentGateway(context.Context, *UpdatePaymentGatewayRequest) (*UpdatePaymentGatewayResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method UpdatePaymentGateway not implemented")
 }
 
 // UnsafeAuthenticationServer may be embedded to opt out of forward compatibility for this service.
@@ -1432,6 +1446,24 @@ func _Authentication_GetPaymentGateways_Handler(srv interface{}, ctx context.Con
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_UpdatePaymentGateway_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(UpdatePaymentGatewayRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).UpdatePaymentGateway(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/UpdatePaymentGateway",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).UpdatePaymentGateway(ctx, req.(*UpdatePaymentGatewayRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // Authentication_ServiceDesc is the grpc.ServiceDesc for Authentication service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -1610,6 +1642,10 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GetPaymentGateways",
 			Handler:    _Authentication_GetPaymentGateways_Handler,
+		},
+		{
+			MethodName: "UpdatePaymentGateway",
+			Handler:    _Authentication_UpdatePaymentGateway_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},
