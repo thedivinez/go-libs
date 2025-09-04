@@ -7,11 +7,12 @@
 package quicksoccer
 
 import (
+	reflect "reflect"
+	sync "sync"
+
 	empty "github.com/golang/protobuf/ptypes/empty"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
-	reflect "reflect"
-	sync "sync"
 )
 
 const (
@@ -26,10 +27,10 @@ type GetBetsRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Owner   string `protobuf:"bytes,1,opt,name=Owner,proto3" json:"owner"`      
-	Account string `protobuf:"bytes,2,opt,name=Account,proto3" json:"account"`  
-	Status  string `protobuf:"bytes,3,opt,name=Status,proto3" json:"status"`    
-	Page    string `protobuf:"bytes,4,opt,name=Page,proto3" json:"page"`        
+	Owner   string `protobuf:"bytes,1,opt,name=Owner,proto3" json:"owner"`
+	Account string `protobuf:"bytes,2,opt,name=Account,proto3" json:"account"`
+	Status  string `protobuf:"bytes,3,opt,name=Status,proto3" json:"status"`
+	Page    string `protobuf:"bytes,4,opt,name=Page,proto3" json:"page"`
 }
 
 func (x *GetBetsRequest) Reset() {
@@ -97,7 +98,7 @@ type GetBetsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Bets []*Bet `protobuf:"bytes,1,rep,name=Bets,proto3" json:"bets"`  
+	Bets []*Bet `protobuf:"bytes,1,rep,name=Bets,proto3" json:"bets"`
 }
 
 func (x *GetBetsResponse) Reset() {
@@ -144,17 +145,17 @@ type Bet struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	BetId       string  `protobuf:"bytes,1,opt,name=BetId,proto3" json:"id" bson:"_id"`                
-	Payout      float64 `protobuf:"fixed64,2,opt,name=Payout,proto3" json:"payout" bson:"payout"`            
-	Owner       string  `protobuf:"bytes,3,opt,name=Owner,proto3" json:"-" bson:"owner,omitempty"`                
-	Type        string  `protobuf:"bytes,4,opt,name=Type,proto3" json:"type" bson:"type,omitempty"`                  
-	Stake       float64 `protobuf:"fixed64,5,opt,name=Stake,proto3" json:"stake" bson:"stake,omitempty"`              
-	Status      string  `protobuf:"bytes,6,opt,name=Status,proto3" json:"status" bson:"status,omitempty"`              
-	Account     string  `protobuf:"bytes,7,opt,name=Account,proto3" json:"account" bson:"account,omitempty"`            
-	MatchId     string  `protobuf:"bytes,8,opt,name=MatchId,proto3" json:"matchId" bson:"matchId,omitempty"`            
-	Prediction  string  `protobuf:"bytes,9,opt,name=Prediction,proto3" json:"prediction" bson:"prediction,omitempty"`      
-	DateCreated int64   `protobuf:"varint,10,opt,name=DateCreated,proto3" json:"dateCreated" bson:"dateCreated,omitempty"`  
-	OrgId       string  `protobuf:"bytes,11,opt,name=OrgId,proto3" json:"orgId" bson:"orgId,omitempty"`               
+	BetId       string  `protobuf:"bytes,1,opt,name=BetId,proto3" json:"id" bson:"_id"`
+	Payout      float64 `protobuf:"fixed64,2,opt,name=Payout,proto3" json:"payout" bson:"payout"`
+	Owner       string  `protobuf:"bytes,3,opt,name=Owner,proto3" json:"-" bson:"owner,omitempty"`
+	Type        string  `protobuf:"bytes,4,opt,name=Type,proto3" json:"type" bson:"type,omitempty"`
+	Stake       float64 `protobuf:"fixed64,5,opt,name=Stake,proto3" json:"stake" bson:"stake,omitempty"`
+	Status      string  `protobuf:"bytes,6,opt,name=Status,proto3" json:"status" bson:"status,omitempty"`
+	Account     string  `protobuf:"bytes,7,opt,name=Account,proto3" json:"account" bson:"account,omitempty"`
+	MatchId     string  `protobuf:"bytes,8,opt,name=MatchId,proto3" json:"matchId" bson:"matchId,omitempty"`
+	Prediction  string  `protobuf:"bytes,9,opt,name=Prediction,proto3" json:"prediction" bson:"prediction,omitempty"`
+	DateCreated int64   `protobuf:"varint,10,opt,name=DateCreated,proto3" json:"dateCreated" bson:"dateCreated,omitempty"`
+	OrgId       string  `protobuf:"bytes,11,opt,name=OrgId,proto3" json:"orgId" bson:"orgId,omitempty"`
 }
 
 func (x *Bet) Reset() {
@@ -271,19 +272,19 @@ type Match struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID          string     `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" form:"id" bson:"_id"`                      
-	Type        string     `protobuf:"bytes,2,opt,name=Type,proto3" json:"type" form:"type" bson:"type"`                  
-	Odds        *Odds      `protobuf:"bytes,3,opt,name=Odds,proto3" json:"odds" form:"odds" bson:"odds,omitempty"`                  
-	OrgID       string     `protobuf:"bytes,4,opt,name=OrgID,proto3" json:"orgId" form:"orgId" bson:"orgId,omitempty"`                
-	Title       string     `protobuf:"bytes,5,opt,name=Title,proto3" json:"title" form:"title" bson:"title,omitempty"`                
-	League      *League    `protobuf:"bytes,6,opt,name=League,proto3" json:"league" form:"league" bson:"league,omitempty"`              
-	Status      string     `protobuf:"bytes,7,opt,name=Status,proto3" json:"status" form:"status" bson:"status,omitempty"`              
-	HomeTeam    *Team      `protobuf:"bytes,8,opt,name=HomeTeam,proto3" json:"homeTeam" form:"homeTeam" bson:"homeTeam,omitempty"`          
-	AwayTeam    *Team      `protobuf:"bytes,9,opt,name=AwayTeam,proto3" json:"awayTeam" form:"awayTeam" bson:"awayTeam,omitempty"`          
-	ScoreLine   *ScoreLine `protobuf:"bytes,10,opt,name=ScoreLine,proto3" json:"scoreline" form:"scoreline" bson:"scoreline,omitempty"`       
-	StartTime   int64      `protobuf:"varint,11,opt,name=StartTime,proto3" json:"startTime" form:"startTime" bson:"startTime,omitempty"`      
-	DateCreated int64      `protobuf:"varint,12,opt,name=DateCreated,proto3" json:"dateCreated" form:"dateCreated" bson:"dateCreated,omitempty"`  
-	Outcomes    *Outcomes  `protobuf:"bytes,13,opt,name=Outcomes,proto3" json:"outcomes,omitempty" form:"outcomes" bson:"outcomes,omitempty"`         
+	ID          string     `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" form:"id" bson:"_id"`
+	Type        string     `protobuf:"bytes,2,opt,name=Type,proto3" json:"type" form:"type" bson:"type"`
+	Odds        *Odds      `protobuf:"bytes,3,opt,name=Odds,proto3" json:"odds" form:"odds" bson:"odds,omitempty"`
+	OrgID       string     `protobuf:"bytes,4,opt,name=OrgID,proto3" json:"orgId" form:"orgId" bson:"orgId,omitempty"`
+	Title       string     `protobuf:"bytes,5,opt,name=Title,proto3" json:"title" form:"title" bson:"title,omitempty"`
+	League      *League    `protobuf:"bytes,6,opt,name=League,proto3" json:"league" form:"league" bson:"league,omitempty"`
+	Status      string     `protobuf:"bytes,7,opt,name=Status,proto3" json:"status" form:"status" bson:"status,omitempty"`
+	HomeTeam    *Team      `protobuf:"bytes,8,opt,name=HomeTeam,proto3" json:"homeTeam" form:"homeTeam" bson:"homeTeam,omitempty"`
+	AwayTeam    *Team      `protobuf:"bytes,9,opt,name=AwayTeam,proto3" json:"awayTeam" form:"awayTeam" bson:"awayTeam,omitempty"`
+	ScoreLine   *ScoreLine `protobuf:"bytes,10,opt,name=ScoreLine,proto3" json:"scoreline" form:"scoreline" bson:"scoreline,omitempty"`
+	StartTime   int64      `protobuf:"varint,11,opt,name=StartTime,proto3" json:"startTime" form:"startTime" bson:"startTime,omitempty"`
+	DateCreated int64      `protobuf:"varint,12,opt,name=DateCreated,proto3" json:"dateCreated" form:"dateCreated" bson:"dateCreated,omitempty"`
+	Outcomes    *Outcomes  `protobuf:"bytes,13,opt,name=Outcomes,proto3" json:"outcomes,omitempty" form:"outcomes" bson:"outcomes,omitempty"`
 }
 
 func (x *Match) Reset() {
@@ -414,9 +415,9 @@ type Odds struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Draw        float64 `protobuf:"fixed64,1,opt,name=Draw,proto3" json:"draw" bson:"draw"`                
-	HomeTeamWin float64 `protobuf:"fixed64,2,opt,name=HomeTeamWin,proto3" json:"homeTeamWin" bson:"homeTeamWin"`  
-	AwayTeamWin float64 `protobuf:"fixed64,3,opt,name=AwayTeamWin,proto3" json:"awayTeamWin" bson:"awayTeamWin"`  
+	Draw        float64 `protobuf:"fixed64,1,opt,name=Draw,proto3" json:"draw" bson:"draw"`
+	HomeTeamWin float64 `protobuf:"fixed64,2,opt,name=HomeTeamWin,proto3" json:"homeTeamWin" bson:"homeTeamWin"`
+	AwayTeamWin float64 `protobuf:"fixed64,3,opt,name=AwayTeamWin,proto3" json:"awayTeamWin" bson:"awayTeamWin"`
 }
 
 func (x *Odds) Reset() {
@@ -477,8 +478,8 @@ type ScoreLine struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	HomeTeam int64 `protobuf:"varint,1,opt,name=HomeTeam,proto3" json:"homeTeam" bson:"homeTeam"`  
-	AwayTeam int64 `protobuf:"varint,2,opt,name=AwayTeam,proto3" json:"awayTeam" bson:"awayTeam"`  
+	HomeTeam int64 `protobuf:"varint,1,opt,name=HomeTeam,proto3" json:"homeTeam" bson:"homeTeam"`
+	AwayTeam int64 `protobuf:"varint,2,opt,name=AwayTeam,proto3" json:"awayTeam" bson:"awayTeam"`
 }
 
 func (x *ScoreLine) Reset() {
@@ -532,9 +533,9 @@ type Score struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	HomeTeam int64 `protobuf:"varint,1,opt,name=HomeTeam,proto3" json:"homeTeam" bson:"homeTeam"`  
-	AwayTeam int64 `protobuf:"varint,2,opt,name=AwayTeam,proto3" json:"awayTeam" bson:"awayTeam"`  
-	Time     int64 `protobuf:"varint,3,opt,name=Time,proto3" json:"time" form:"time" bson:"time,omitempty"`          
+	HomeTeam int64 `protobuf:"varint,1,opt,name=HomeTeam,proto3" json:"homeTeam" bson:"homeTeam"`
+	AwayTeam int64 `protobuf:"varint,2,opt,name=AwayTeam,proto3" json:"awayTeam" bson:"awayTeam"`
+	Time     int64 `protobuf:"varint,3,opt,name=Time,proto3" json:"time" form:"time" bson:"time,omitempty"`
 }
 
 func (x *Score) Reset() {
@@ -595,9 +596,9 @@ type Outcome struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Result       string   `protobuf:"bytes,1,opt,name=Result,proto3" json:"-" bson:"-"`              
-	Duration     int64    `protobuf:"varint,2,opt,name=Duration,proto3" json:"duration" bson:"duration"`         
-	ScoreHistory []*Score `protobuf:"bytes,3,rep,name=ScoreHistory,proto3" json:"scoreHistory" form:"scoreHistory" bson:"scoreHistory"`  
+	Result       string   `protobuf:"bytes,1,opt,name=Result,proto3" json:"-" bson:"-"`
+	Duration     int64    `protobuf:"varint,2,opt,name=Duration,proto3" json:"duration" bson:"duration"`
+	ScoreHistory []*Score `protobuf:"bytes,3,rep,name=ScoreHistory,proto3" json:"scoreHistory" form:"scoreHistory" bson:"scoreHistory"`
 }
 
 func (x *Outcome) Reset() {
@@ -658,9 +659,9 @@ type Outcomes struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Draw        *Outcome `protobuf:"bytes,1,opt,name=Draw,proto3" json:"draw,omitempty" form:"draw" bson:"draw,omitempty"`                
-	HomeTeamWin *Outcome `protobuf:"bytes,2,opt,name=HomeTeamWin,proto3" json:"homeTeamWin,omitempty" form:"homeTeamWin" bson:"homeTeamWin,omitempty"`  
-	AwayTeamWin *Outcome `protobuf:"bytes,3,opt,name=AwayTeamWin,proto3" json:"awayTeamWin,omitempty" form:"awayTeamWin" bson:"awayTeamWin,omitempty"`  
+	Draw        *Outcome `protobuf:"bytes,1,opt,name=Draw,proto3" json:"draw,omitempty" form:"draw" bson:"draw,omitempty"`
+	HomeTeamWin *Outcome `protobuf:"bytes,2,opt,name=HomeTeamWin,proto3" json:"homeTeamWin,omitempty" form:"homeTeamWin" bson:"homeTeamWin,omitempty"`
+	AwayTeamWin *Outcome `protobuf:"bytes,3,opt,name=AwayTeamWin,proto3" json:"awayTeamWin,omitempty" form:"awayTeamWin" bson:"awayTeamWin,omitempty"`
 }
 
 func (x *Outcomes) Reset() {
@@ -721,8 +722,8 @@ type BetUpdateResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string  `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Balance float64 `protobuf:"fixed64,2,opt,name=Balance,proto3" json:"balance"`  
+	Message string  `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
+	Balance float64 `protobuf:"fixed64,2,opt,name=Balance,proto3" json:"balance"`
 }
 
 func (x *BetUpdateResponse) Reset() {
@@ -776,9 +777,9 @@ type UpdateBetRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID         string  `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"-"`                  
-	Stake      float64 `protobuf:"fixed64,2,opt,name=Stake,proto3" json:"stake" bson:"stake"`          
-	Prediction string  `protobuf:"bytes,3,opt,name=Prediction,proto3" json:"prediction" bson:"prediction"`  
+	ID         string  `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"-"`
+	Stake      float64 `protobuf:"fixed64,2,opt,name=Stake,proto3" json:"stake" bson:"stake"`
+	Prediction string  `protobuf:"bytes,3,opt,name=Prediction,proto3" json:"prediction" bson:"prediction"`
 }
 
 func (x *UpdateBetRequest) Reset() {
@@ -839,9 +840,9 @@ type ScheduleStreamRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID        string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"-"`                 
-	Status    string `protobuf:"bytes,2,opt,name=Status,proto3" json:"-" bson:"status"`         
-	StartTime int64  `protobuf:"varint,3,opt,name=StartTime,proto3" json:"startTime" bson:"startTime"`  
+	ID        string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"-"`
+	Status    string `protobuf:"bytes,2,opt,name=Status,proto3" json:"-" bson:"status"`
+	StartTime int64  `protobuf:"varint,3,opt,name=StartTime,proto3" json:"startTime" bson:"startTime"`
 }
 
 func (x *ScheduleStreamRequest) Reset() {
@@ -902,7 +903,7 @@ type DeleteBetRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	BetId string `protobuf:"bytes,1,opt,name=BetId,proto3" json:"betId"`  
+	BetId string `protobuf:"bytes,1,opt,name=BetId,proto3" json:"betId"`
 }
 
 func (x *DeleteBetRequest) Reset() {
@@ -949,9 +950,9 @@ type League struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID   string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`      
-	Logo string `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo" bson:"logo,omitempty"`  
-	Name string `protobuf:"bytes,3,opt,name=Name,proto3" json:"name" bson:"name,omitempty"`  
+	ID   string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`
+	Logo string `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo" bson:"logo,omitempty"`
+	Name string `protobuf:"bytes,3,opt,name=Name,proto3" json:"name" bson:"name,omitempty"`
 }
 
 func (x *League) Reset() {
@@ -1012,8 +1013,8 @@ type AddLeagueRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	League *League `protobuf:"bytes,1,opt,name=League,proto3" json:"league"`  
-	Logo   *File   `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo"`      
+	League *League `protobuf:"bytes,1,opt,name=League,proto3" json:"league"`
+	Logo   *File   `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo"`
 }
 
 func (x *AddLeagueRequest) Reset() {
@@ -1067,8 +1068,8 @@ type AddLeagueResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string  `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`  
-	League  *League `protobuf:"bytes,2,opt,name=League,proto3" json:"league"`    
+	Message string  `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
+	League  *League `protobuf:"bytes,2,opt,name=League,proto3" json:"league"`
 }
 
 func (x *AddLeagueResponse) Reset() {
@@ -1122,7 +1123,7 @@ type GetLeaguesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Leagues []*League `protobuf:"bytes,1,rep,name=Leagues,proto3" json:"leagues"`  
+	Leagues []*League `protobuf:"bytes,1,rep,name=Leagues,proto3" json:"leagues"`
 }
 
 func (x *GetLeaguesResponse) Reset() {
@@ -1169,7 +1170,7 @@ type DeleteLeagueRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`  
+	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`
 }
 
 func (x *DeleteLeagueRequest) Reset() {
@@ -1216,7 +1217,7 @@ type DeleteLeagueResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`  
+	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
 }
 
 func (x *DeleteLeagueResponse) Reset() {
@@ -1263,10 +1264,10 @@ type Team struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID        string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`                
-	Logo      string `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo" bson:"logo,omitempty"`            
-	Name      string `protobuf:"bytes,3,opt,name=Name,proto3" json:"name" bson:"name,omitempty" form:"name"`            
-	ShortName string `protobuf:"bytes,4,opt,name=ShortName,proto3" json:"shortName" bson:"shortName,omitempty" form:"shortName"`  
+	ID        string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`
+	Logo      string `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo" bson:"logo,omitempty"`
+	Name      string `protobuf:"bytes,3,opt,name=Name,proto3" json:"name" bson:"name,omitempty" form:"name"`
+	ShortName string `protobuf:"bytes,4,opt,name=ShortName,proto3" json:"shortName" bson:"shortName,omitempty" form:"shortName"`
 }
 
 func (x *Team) Reset() {
@@ -1334,8 +1335,8 @@ type AddTeamRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Team *Team `protobuf:"bytes,1,opt,name=Team,proto3" json:"team"`  
-	Logo *File `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo"`  
+	Team *Team `protobuf:"bytes,1,opt,name=Team,proto3" json:"team"`
+	Logo *File `protobuf:"bytes,2,opt,name=Logo,proto3" json:"logo"`
 }
 
 func (x *AddTeamRequest) Reset() {
@@ -1389,7 +1390,7 @@ type GetTeamsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Teams []*Team `protobuf:"bytes,1,rep,name=Teams,proto3" json:"teams"`  
+	Teams []*Team `protobuf:"bytes,1,rep,name=Teams,proto3" json:"teams"`
 }
 
 func (x *GetTeamsResponse) Reset() {
@@ -1436,8 +1437,8 @@ type AddTeamResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`  
-	Team    *Team  `protobuf:"bytes,2,opt,name=Team,proto3" json:"team"`        
+	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
+	Team    *Team  `protobuf:"bytes,2,opt,name=Team,proto3" json:"team"`
 }
 
 func (x *AddTeamResponse) Reset() {
@@ -1491,7 +1492,7 @@ type DeleteTeamRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`  
+	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`
 }
 
 func (x *DeleteTeamRequest) Reset() {
@@ -1538,7 +1539,7 @@ type DeleteTeamResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`  
+	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
 }
 
 func (x *DeleteTeamResponse) Reset() {
@@ -1585,10 +1586,10 @@ type GetMatchesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Status string `protobuf:"bytes,1,opt,name=Status,proto3" json:"status"`  
-	Type   string `protobuf:"bytes,2,opt,name=Type,proto3" json:"type"`      
-	Page   string `protobuf:"bytes,3,opt,name=Page,proto3" json:"page"`      
-	Limit  int64  `protobuf:"varint,4,opt,name=Limit,proto3" json:"limit"`   
+	Status string `protobuf:"bytes,1,opt,name=Status,proto3" json:"status"`
+	Type   string `protobuf:"bytes,2,opt,name=Type,proto3" json:"type"`
+	Page   string `protobuf:"bytes,3,opt,name=Page,proto3" json:"page"`
+	Limit  int64  `protobuf:"varint,4,opt,name=Limit,proto3" json:"limit"`
 }
 
 func (x *GetMatchesRequest) Reset() {
@@ -1656,7 +1657,7 @@ type GetMatchesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Matches []*Match `protobuf:"bytes,1,rep,name=Matches,proto3" json:"matches"`  
+	Matches []*Match `protobuf:"bytes,1,rep,name=Matches,proto3" json:"matches"`
 }
 
 func (x *GetMatchesResponse) Reset() {
@@ -1703,7 +1704,7 @@ type GetMatchRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`  
+	ID string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id"`
 }
 
 func (x *GetMatchRequest) Reset() {
@@ -1750,8 +1751,8 @@ type File struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Data     []byte `protobuf:"bytes,1,opt,name=Data,proto3" json:"data"`          
-	Filename string `protobuf:"bytes,2,opt,name=Filename,proto3" json:"fileName"`  
+	Data     []byte `protobuf:"bytes,1,opt,name=Data,proto3" json:"data"`
+	Filename string `protobuf:"bytes,2,opt,name=Filename,proto3" json:"fileName"`
 }
 
 func (x *File) Reset() {
@@ -1805,9 +1806,9 @@ type AddOutcomesRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	ID       string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`              
-	Outcomes string `protobuf:"bytes,2,opt,name=Outcomes,proto3" json:"outcomes" bson:"outcomes"`  
-	Video    *File  `protobuf:"bytes,3,opt,name=Video,proto3" json:"video" bson:"video"`        
+	ID       string `protobuf:"bytes,1,opt,name=ID,proto3" json:"id" bson:"_id"`
+	Outcomes string `protobuf:"bytes,2,opt,name=Outcomes,proto3" json:"outcomes" bson:"outcomes"`
+	Video    *File  `protobuf:"bytes,3,opt,name=Video,proto3" json:"video" bson:"video"`
 }
 
 func (x *AddOutcomesRequest) Reset() {
@@ -1868,7 +1869,7 @@ type GameSettings struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Active bool `protobuf:"varint,1,opt,name=Active,proto3" json:"active" bson:"active"`  
+	Active bool `protobuf:"varint,1,opt,name=Active,proto3" json:"active" bson:"active"`
 }
 
 func (x *GameSettings) Reset() {
@@ -1915,12 +1916,12 @@ type QuickSoccerAdmin struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	OrgID       string        `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId" bson:"orgId,omitempty"`                
-	Virtual     *GameSettings `protobuf:"bytes,2,opt,name=Virtual,proto3" json:"virtual" bson:"virtual,omitempty"`            
-	Simulator   *GameSettings `protobuf:"bytes,3,opt,name=Simulator,proto3" json:"simulator" bson:"simulator,omitempty"`        
-	LiveBalance float64       `protobuf:"fixed64,4,opt,name=LiveBalance,proto3" json:"liveBalance" bson:"liveBalance,omitempty"`  
-	DemoBalance float64       `protobuf:"fixed64,5,opt,name=DemoBalance,proto3" json:"demoBalance" bson:"demoBalance,omitempty"`  
-	ExpiryDate  int64         `protobuf:"varint,6,opt,name=ExpiryDate,proto3" json:"expiryDate,omitempty" bson:"expiryDate,omitempty"`     
+	OrgID       string        `protobuf:"bytes,1,opt,name=OrgID,proto3" json:"orgId" bson:"orgId,omitempty"`
+	Virtual     *GameSettings `protobuf:"bytes,2,opt,name=Virtual,proto3" json:"virtual" bson:"virtual,omitempty"`
+	Simulator   *GameSettings `protobuf:"bytes,3,opt,name=Simulator,proto3" json:"simulator" bson:"simulator,omitempty"`
+	LiveBalance float64       `protobuf:"fixed64,4,opt,name=LiveBalance,proto3" json:"liveBalance" bson:"liveBalance,omitempty"`
+	DemoBalance float64       `protobuf:"fixed64,5,opt,name=DemoBalance,proto3" json:"demoBalance" bson:"demoBalance,omitempty"`
+	ExpiryDate  int64         `protobuf:"varint,6,opt,name=ExpiryDate,proto3" json:"expiryDate,omitempty" bson:"expiryDate,omitempty"`
 }
 
 func (x *QuickSoccerAdmin) Reset() {
@@ -2002,8 +2003,8 @@ type SubscribeSoccerRequest struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Package  string `protobuf:"bytes,1,opt,name=Package,proto3" json:"package"`     
-	Duration int64  `protobuf:"varint,2,opt,name=Duration,proto3" json:"duration"`  
+	Package  string `protobuf:"bytes,1,opt,name=Package,proto3" json:"package"`
+	Duration int64  `protobuf:"varint,2,opt,name=Duration,proto3" json:"duration"`
 }
 
 func (x *SubscribeSoccerRequest) Reset() {
@@ -2057,8 +2058,8 @@ type SubscribeSoccerResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message  string            `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Settings *QuickSoccerAdmin `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
+	Message  string            `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
+	Settings *QuickSoccerAdmin `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`
 }
 
 func (x *SubscribeSoccerResponse) Reset() {
@@ -2150,8 +2151,8 @@ type UpdateSoccerSettingsResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message  string            `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`    
-	Settings *QuickSoccerAdmin `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`  
+	Message  string            `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
+	Settings *QuickSoccerAdmin `protobuf:"bytes,2,opt,name=Settings,proto3" json:"settings"`
 }
 
 func (x *UpdateSoccerSettingsResponse) Reset() {
@@ -2205,7 +2206,7 @@ type AddOutcomesResponse struct {
 	sizeCache     protoimpl.SizeCache
 	unknownFields protoimpl.UnknownFields
 
-	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`  
+	Message string `protobuf:"bytes,1,opt,name=Message,proto3" json:"message"`
 }
 
 func (x *AddOutcomesResponse) Reset() {

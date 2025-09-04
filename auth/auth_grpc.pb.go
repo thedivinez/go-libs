@@ -57,8 +57,10 @@ type AuthenticationClient interface {
 	SwitchUserAccount(ctx context.Context, in *SwitchUserAccountRequest, opts ...grpc.CallOption) (*SwitchUserAccountResponse, error)
 	SwitchShowBalance(ctx context.Context, in *SwitchShowBalanceRequest, opts ...grpc.CallOption) (*SwitchShowBalanceResponse, error)
 	GetAgent(ctx context.Context, in *GetAgentRequest, opts ...grpc.CallOption) (*Agent, error)
+	AddGateway(ctx context.Context, in *Gateway, opts ...grpc.CallOption) (*AddGatewayResponse, error)
 	GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error)
 	CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error)
+	GetGateways(ctx context.Context, in *GetGatewaysRequest, opts ...grpc.CallOption) (*GetGatewaysResponse, error)
 	AddAgentMethod(ctx context.Context, in *AddAgentMethodRequest, opts ...grpc.CallOption) (*MessageResponse, error)
 	GetRecipient(ctx context.Context, in *GetRecipientRequest, opts ...grpc.CallOption) (*GetRecipientResponse, error)
 	TransferBalance(ctx context.Context, in *TransferBalanceRequest, opts ...grpc.CallOption) (*MessageResponse, error)
@@ -372,6 +374,15 @@ func (c *authenticationClient) GetAgent(ctx context.Context, in *GetAgentRequest
 	return out, nil
 }
 
+func (c *authenticationClient) AddGateway(ctx context.Context, in *Gateway, opts ...grpc.CallOption) (*AddGatewayResponse, error) {
+	out := new(AddGatewayResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/AddGateway", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *authenticationClient) GetAgents(ctx context.Context, in *GetAgentsRequest, opts ...grpc.CallOption) (*AgentsResponse, error) {
 	out := new(AgentsResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/GetAgents", in, out, opts...)
@@ -384,6 +395,15 @@ func (c *authenticationClient) GetAgents(ctx context.Context, in *GetAgentsReque
 func (c *authenticationClient) CreateAgent(ctx context.Context, in *CreateAgentRequest, opts ...grpc.CallOption) (*MessageResponse, error) {
 	out := new(MessageResponse)
 	err := c.cc.Invoke(ctx, "/Authentication/CreateAgent", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *authenticationClient) GetGateways(ctx context.Context, in *GetGatewaysRequest, opts ...grpc.CallOption) (*GetGatewaysResponse, error) {
+	out := new(GetGatewaysResponse)
+	err := c.cc.Invoke(ctx, "/Authentication/GetGateways", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
@@ -481,8 +501,10 @@ type AuthenticationServer interface {
 	SwitchUserAccount(context.Context, *SwitchUserAccountRequest) (*SwitchUserAccountResponse, error)
 	SwitchShowBalance(context.Context, *SwitchShowBalanceRequest) (*SwitchShowBalanceResponse, error)
 	GetAgent(context.Context, *GetAgentRequest) (*Agent, error)
+	AddGateway(context.Context, *Gateway) (*AddGatewayResponse, error)
 	GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error)
 	CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error)
+	GetGateways(context.Context, *GetGatewaysRequest) (*GetGatewaysResponse, error)
 	AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error)
 	GetRecipient(context.Context, *GetRecipientRequest) (*GetRecipientResponse, error)
 	TransferBalance(context.Context, *TransferBalanceRequest) (*MessageResponse, error)
@@ -594,11 +616,17 @@ func (UnimplementedAuthenticationServer) SwitchShowBalance(context.Context, *Swi
 func (UnimplementedAuthenticationServer) GetAgent(context.Context, *GetAgentRequest) (*Agent, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgent not implemented")
 }
+func (UnimplementedAuthenticationServer) AddGateway(context.Context, *Gateway) (*AddGatewayResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method AddGateway not implemented")
+}
 func (UnimplementedAuthenticationServer) GetAgents(context.Context, *GetAgentsRequest) (*AgentsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetAgents not implemented")
 }
 func (UnimplementedAuthenticationServer) CreateAgent(context.Context, *CreateAgentRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CreateAgent not implemented")
+}
+func (UnimplementedAuthenticationServer) GetGateways(context.Context, *GetGatewaysRequest) (*GetGatewaysResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetGateways not implemented")
 }
 func (UnimplementedAuthenticationServer) AddAgentMethod(context.Context, *AddAgentMethodRequest) (*MessageResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method AddAgentMethod not implemented")
@@ -1224,6 +1252,24 @@ func _Authentication_GetAgent_Handler(srv interface{}, ctx context.Context, dec 
 	return interceptor(ctx, in, info, handler)
 }
 
+func _Authentication_AddGateway_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Gateway)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).AddGateway(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/AddGateway",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).AddGateway(ctx, req.(*Gateway))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _Authentication_GetAgents_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetAgentsRequest)
 	if err := dec(in); err != nil {
@@ -1256,6 +1302,24 @@ func _Authentication_CreateAgent_Handler(srv interface{}, ctx context.Context, d
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
 		return srv.(AuthenticationServer).CreateAgent(ctx, req.(*CreateAgentRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _Authentication_GetGateways_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(GetGatewaysRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AuthenticationServer).GetGateways(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Authentication/GetGateways",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AuthenticationServer).GetGateways(ctx, req.(*GetGatewaysRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
@@ -1508,12 +1572,20 @@ var Authentication_ServiceDesc = grpc.ServiceDesc{
 			Handler:    _Authentication_GetAgent_Handler,
 		},
 		{
+			MethodName: "AddGateway",
+			Handler:    _Authentication_AddGateway_Handler,
+		},
+		{
 			MethodName: "GetAgents",
 			Handler:    _Authentication_GetAgents_Handler,
 		},
 		{
 			MethodName: "CreateAgent",
 			Handler:    _Authentication_CreateAgent_Handler,
+		},
+		{
+			MethodName: "GetGateways",
+			Handler:    _Authentication_GetGateways_Handler,
 		},
 		{
 			MethodName: "AddAgentMethod",
