@@ -1,4 +1,4 @@
-package aviator
+package skyrush
 
 import "encoding/json"
 

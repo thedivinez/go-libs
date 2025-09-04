@@ -4,7 +4,7 @@
 // - protoc             v3.12.4
 // source: messaging.proto
 
-package aviator
+package skyrush
 
 import (
 	context "context"
@@ -18,10 +18,10 @@ import (
 // Requires gRPC-Go v1.32.0 or later.
 const _ = grpc.SupportPackageIsVersion7
 
-// AviatorClient is the client API for Aviator service.
+// SkyRushClient is the client API for SkyRush service.
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
-type AviatorClient interface {
+type SkyRushClient interface {
 	RoundCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*RoundCashoutResponse, error)
 	PlaceRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaceRoundBetResponse, error)
 	Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error)
@@ -33,99 +33,99 @@ type AviatorClient interface {
 	UpdateRoundSettings(ctx context.Context, in *RoundSettings, opts ...grpc.CallOption) (*UpdateRoundSettingsResponse, error)
 }
 
-type aviatorClient struct {
+type skyRushClient struct {
 	cc grpc.ClientConnInterface
 }
 
-func NewAviatorClient(cc grpc.ClientConnInterface) AviatorClient {
-	return &aviatorClient{cc}
+func NewSkyRushClient(cc grpc.ClientConnInterface) SkyRushClient {
+	return &skyRushClient{cc}
 }
 
-func (c *aviatorClient) RoundCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*RoundCashoutResponse, error) {
+func (c *skyRushClient) RoundCashout(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*RoundCashoutResponse, error) {
 	out := new(RoundCashoutResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/RoundCashout", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/RoundCashout", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) PlaceRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaceRoundBetResponse, error) {
+func (c *skyRushClient) PlaceRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*PlaceRoundBetResponse, error) {
 	out := new(PlaceRoundBetResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/PlaceRoundBet", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/PlaceRoundBet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
+func (c *skyRushClient) Subscribe(ctx context.Context, in *SubscribeRequest, opts ...grpc.CallOption) (*SubscribeResponse, error) {
 	out := new(SubscribeResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/Subscribe", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/Subscribe", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) CancelRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*CancelRoundBetResponse, error) {
+func (c *skyRushClient) CancelRoundBet(ctx context.Context, in *RoundBet, opts ...grpc.CallOption) (*CancelRoundBetResponse, error) {
 	out := new(CancelRoundBetResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/CancelRoundBet", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/CancelRoundBet", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) GetRoundBets(ctx context.Context, in *GetRoundBetsRequest, opts ...grpc.CallOption) (*GetRoundBetsResponse, error) {
+func (c *skyRushClient) GetRoundBets(ctx context.Context, in *GetRoundBetsRequest, opts ...grpc.CallOption) (*GetRoundBetsResponse, error) {
 	out := new(GetRoundBetsResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/GetRoundBets", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/GetRoundBets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) GetRoundSettings(ctx context.Context, in *GetRoundSettingsRequest, opts ...grpc.CallOption) (*RoundSettings, error) {
+func (c *skyRushClient) GetRoundSettings(ctx context.Context, in *GetRoundSettingsRequest, opts ...grpc.CallOption) (*RoundSettings, error) {
 	out := new(RoundSettings)
-	err := c.cc.Invoke(ctx, "/Aviator/GetRoundSettings", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/GetRoundSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error) {
+func (c *skyRushClient) GetActiveBets(ctx context.Context, in *GetActiveBetsRequest, opts ...grpc.CallOption) (*GetActiveBetsResponse, error) {
 	out := new(GetActiveBetsResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/GetActiveBets", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/GetActiveBets", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) GetRoundHistory(ctx context.Context, in *GetRoundHistoryRequest, opts ...grpc.CallOption) (*GetRoundHistoryResponse, error) {
+func (c *skyRushClient) GetRoundHistory(ctx context.Context, in *GetRoundHistoryRequest, opts ...grpc.CallOption) (*GetRoundHistoryResponse, error) {
 	out := new(GetRoundHistoryResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/GetRoundHistory", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/GetRoundHistory", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-func (c *aviatorClient) UpdateRoundSettings(ctx context.Context, in *RoundSettings, opts ...grpc.CallOption) (*UpdateRoundSettingsResponse, error) {
+func (c *skyRushClient) UpdateRoundSettings(ctx context.Context, in *RoundSettings, opts ...grpc.CallOption) (*UpdateRoundSettingsResponse, error) {
 	out := new(UpdateRoundSettingsResponse)
-	err := c.cc.Invoke(ctx, "/Aviator/UpdateRoundSettings", in, out, opts...)
+	err := c.cc.Invoke(ctx, "/SkyRush/UpdateRoundSettings", in, out, opts...)
 	if err != nil {
 		return nil, err
 	}
 	return out, nil
 }
 
-// AviatorServer is the server API for Aviator service.
-// All implementations should embed UnimplementedAviatorServer
+// SkyRushServer is the server API for SkyRush service.
+// All implementations should embed UnimplementedSkyRushServer
 // for forward compatibility
-type AviatorServer interface {
+type SkyRushServer interface {
 	RoundCashout(context.Context, *RoundBet) (*RoundCashoutResponse, error)
 	PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error)
 	Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error)
@@ -137,253 +137,253 @@ type AviatorServer interface {
 	UpdateRoundSettings(context.Context, *RoundSettings) (*UpdateRoundSettingsResponse, error)
 }
 
-// UnimplementedAviatorServer should be embedded to have forward compatible implementations.
-type UnimplementedAviatorServer struct {
+// UnimplementedSkyRushServer should be embedded to have forward compatible implementations.
+type UnimplementedSkyRushServer struct {
 }
 
-func (UnimplementedAviatorServer) RoundCashout(context.Context, *RoundBet) (*RoundCashoutResponse, error) {
+func (UnimplementedSkyRushServer) RoundCashout(context.Context, *RoundBet) (*RoundCashoutResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method RoundCashout not implemented")
 }
-func (UnimplementedAviatorServer) PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error) {
+func (UnimplementedSkyRushServer) PlaceRoundBet(context.Context, *RoundBet) (*PlaceRoundBetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PlaceRoundBet not implemented")
 }
-func (UnimplementedAviatorServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
+func (UnimplementedSkyRushServer) Subscribe(context.Context, *SubscribeRequest) (*SubscribeResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method Subscribe not implemented")
 }
-func (UnimplementedAviatorServer) CancelRoundBet(context.Context, *RoundBet) (*CancelRoundBetResponse, error) {
+func (UnimplementedSkyRushServer) CancelRoundBet(context.Context, *RoundBet) (*CancelRoundBetResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method CancelRoundBet not implemented")
 }
-func (UnimplementedAviatorServer) GetRoundBets(context.Context, *GetRoundBetsRequest) (*GetRoundBetsResponse, error) {
+func (UnimplementedSkyRushServer) GetRoundBets(context.Context, *GetRoundBetsRequest) (*GetRoundBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRoundBets not implemented")
 }
-func (UnimplementedAviatorServer) GetRoundSettings(context.Context, *GetRoundSettingsRequest) (*RoundSettings, error) {
+func (UnimplementedSkyRushServer) GetRoundSettings(context.Context, *GetRoundSettingsRequest) (*RoundSettings, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRoundSettings not implemented")
 }
-func (UnimplementedAviatorServer) GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error) {
+func (UnimplementedSkyRushServer) GetActiveBets(context.Context, *GetActiveBetsRequest) (*GetActiveBetsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetActiveBets not implemented")
 }
-func (UnimplementedAviatorServer) GetRoundHistory(context.Context, *GetRoundHistoryRequest) (*GetRoundHistoryResponse, error) {
+func (UnimplementedSkyRushServer) GetRoundHistory(context.Context, *GetRoundHistoryRequest) (*GetRoundHistoryResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetRoundHistory not implemented")
 }
-func (UnimplementedAviatorServer) UpdateRoundSettings(context.Context, *RoundSettings) (*UpdateRoundSettingsResponse, error) {
+func (UnimplementedSkyRushServer) UpdateRoundSettings(context.Context, *RoundSettings) (*UpdateRoundSettingsResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method UpdateRoundSettings not implemented")
 }
 
-// UnsafeAviatorServer may be embedded to opt out of forward compatibility for this service.
-// Use of this interface is not recommended, as added methods to AviatorServer will
+// UnsafeSkyRushServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to SkyRushServer will
 // result in compilation errors.
-type UnsafeAviatorServer interface {
-	mustEmbedUnimplementedAviatorServer()
+type UnsafeSkyRushServer interface {
+	mustEmbedUnimplementedSkyRushServer()
 }
 
-func RegisterAviatorServer(s grpc.ServiceRegistrar, srv AviatorServer) {
-	s.RegisterService(&Aviator_ServiceDesc, srv)
+func RegisterSkyRushServer(s grpc.ServiceRegistrar, srv SkyRushServer) {
+	s.RegisterService(&SkyRush_ServiceDesc, srv)
 }
 
-func _Aviator_RoundCashout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_RoundCashout_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).RoundCashout(ctx, in)
+		return srv.(SkyRushServer).RoundCashout(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/RoundCashout",
+		FullMethod: "/SkyRush/RoundCashout",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).RoundCashout(ctx, req.(*RoundBet))
+		return srv.(SkyRushServer).RoundCashout(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_PlaceRoundBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_PlaceRoundBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).PlaceRoundBet(ctx, in)
+		return srv.(SkyRushServer).PlaceRoundBet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/PlaceRoundBet",
+		FullMethod: "/SkyRush/PlaceRoundBet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).PlaceRoundBet(ctx, req.(*RoundBet))
+		return srv.(SkyRushServer).PlaceRoundBet(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_Subscribe_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(SubscribeRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).Subscribe(ctx, in)
+		return srv.(SkyRushServer).Subscribe(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/Subscribe",
+		FullMethod: "/SkyRush/Subscribe",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).Subscribe(ctx, req.(*SubscribeRequest))
+		return srv.(SkyRushServer).Subscribe(ctx, req.(*SubscribeRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_CancelRoundBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_CancelRoundBet_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RoundBet)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).CancelRoundBet(ctx, in)
+		return srv.(SkyRushServer).CancelRoundBet(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/CancelRoundBet",
+		FullMethod: "/SkyRush/CancelRoundBet",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).CancelRoundBet(ctx, req.(*RoundBet))
+		return srv.(SkyRushServer).CancelRoundBet(ctx, req.(*RoundBet))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetRoundBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_GetRoundBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRoundBetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetRoundBets(ctx, in)
+		return srv.(SkyRushServer).GetRoundBets(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetRoundBets",
+		FullMethod: "/SkyRush/GetRoundBets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetRoundBets(ctx, req.(*GetRoundBetsRequest))
+		return srv.(SkyRushServer).GetRoundBets(ctx, req.(*GetRoundBetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetRoundSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_GetRoundSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRoundSettingsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetRoundSettings(ctx, in)
+		return srv.(SkyRushServer).GetRoundSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetRoundSettings",
+		FullMethod: "/SkyRush/GetRoundSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetRoundSettings(ctx, req.(*GetRoundSettingsRequest))
+		return srv.(SkyRushServer).GetRoundSettings(ctx, req.(*GetRoundSettingsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_GetActiveBets_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetActiveBetsRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetActiveBets(ctx, in)
+		return srv.(SkyRushServer).GetActiveBets(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetActiveBets",
+		FullMethod: "/SkyRush/GetActiveBets",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetActiveBets(ctx, req.(*GetActiveBetsRequest))
+		return srv.(SkyRushServer).GetActiveBets(ctx, req.(*GetActiveBetsRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_GetRoundHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_GetRoundHistory_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GetRoundHistoryRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).GetRoundHistory(ctx, in)
+		return srv.(SkyRushServer).GetRoundHistory(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/GetRoundHistory",
+		FullMethod: "/SkyRush/GetRoundHistory",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).GetRoundHistory(ctx, req.(*GetRoundHistoryRequest))
+		return srv.(SkyRushServer).GetRoundHistory(ctx, req.(*GetRoundHistoryRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-func _Aviator_UpdateRoundSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+func _SkyRush_UpdateRoundSettings_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(RoundSettings)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
 	if interceptor == nil {
-		return srv.(AviatorServer).UpdateRoundSettings(ctx, in)
+		return srv.(SkyRushServer).UpdateRoundSettings(ctx, in)
 	}
 	info := &grpc.UnaryServerInfo{
 		Server:     srv,
-		FullMethod: "/Aviator/UpdateRoundSettings",
+		FullMethod: "/SkyRush/UpdateRoundSettings",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(AviatorServer).UpdateRoundSettings(ctx, req.(*RoundSettings))
+		return srv.(SkyRushServer).UpdateRoundSettings(ctx, req.(*RoundSettings))
 	}
 	return interceptor(ctx, in, info, handler)
 }
 
-// Aviator_ServiceDesc is the grpc.ServiceDesc for Aviator service.
+// SkyRush_ServiceDesc is the grpc.ServiceDesc for SkyRush service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
-var Aviator_ServiceDesc = grpc.ServiceDesc{
-	ServiceName: "Aviator",
-	HandlerType: (*AviatorServer)(nil),
+var SkyRush_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "SkyRush",
+	HandlerType: (*SkyRushServer)(nil),
 	Methods: []grpc.MethodDesc{
 		{
 			MethodName: "RoundCashout",
-			Handler:    _Aviator_RoundCashout_Handler,
+			Handler:    _SkyRush_RoundCashout_Handler,
 		},
 		{
 			MethodName: "PlaceRoundBet",
-			Handler:    _Aviator_PlaceRoundBet_Handler,
+			Handler:    _SkyRush_PlaceRoundBet_Handler,
 		},
 		{
 			MethodName: "Subscribe",
-			Handler:    _Aviator_Subscribe_Handler,
+			Handler:    _SkyRush_Subscribe_Handler,
 		},
 		{
 			MethodName: "CancelRoundBet",
-			Handler:    _Aviator_CancelRoundBet_Handler,
+			Handler:    _SkyRush_CancelRoundBet_Handler,
 		},
 		{
 			MethodName: "GetRoundBets",
-			Handler:    _Aviator_GetRoundBets_Handler,
+			Handler:    _SkyRush_GetRoundBets_Handler,
 		},
 		{
 			MethodName: "GetRoundSettings",
-			Handler:    _Aviator_GetRoundSettings_Handler,
+			Handler:    _SkyRush_GetRoundSettings_Handler,
 		},
 		{
 			MethodName: "GetActiveBets",
-			Handler:    _Aviator_GetActiveBets_Handler,
+			Handler:    _SkyRush_GetActiveBets_Handler,
 		},
 		{
 			MethodName: "GetRoundHistory",
-			Handler:    _Aviator_GetRoundHistory_Handler,
+			Handler:    _SkyRush_GetRoundHistory_Handler,
 		},
 		{
 			MethodName: "UpdateRoundSettings",
-			Handler:    _Aviator_UpdateRoundSettings_Handler,
+			Handler:    _SkyRush_UpdateRoundSettings_Handler,
 		},
 	},
 	Streams:  []grpc.StreamDesc{},

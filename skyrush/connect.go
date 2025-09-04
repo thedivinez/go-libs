@@ -1,11 +1,11 @@
-package aviator
+package skyrush
 
 import "github.com/thedivinez/go-libs/utils"
 
-func Connect(addr string) (AviatorClient, error) {
+func Connect(addr string) (SkyRushClient, error) {
 	conn, err := utils.ConnectService(addr)
 	if err != nil {
 		return nil, err
 	}
-	return NewAviatorClient(conn), nil
+	return NewSkyRushClient(conn), nil
 }
