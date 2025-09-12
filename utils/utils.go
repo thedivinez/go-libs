@@ -193,12 +193,15 @@ func OutgoingInterceptor(ctx context.Context, req interface{}, info *grpc.UnaryS
 	return handler(ctx, req)
 }
 
-func UploadFile(dest, filename string, file []byte) (string, error) {
-	resp, err := resty.New().R().SetFileReader("file", filename, bytes.NewReader(file)).Put(dest)
+func UploadFile(dest, filename string, file []byte, headers map[string]string) (string, error) {
+	resp, err := resty.New().R().SetFileReader("file", filename, bytes.NewReader(file)).SetHeaders(headers).Put(dest)
 	if err != nil {
 		return "", errors.WithStack(err)
 	}
-	return string(resp.Body()), nil
+	if resp.IsError() {
+		return "", errors.New(resp.String())
+	}
+	return resp.String(), nil
 }
 
 func ReadMultipartFile(fileHeader *multipart.FileHeader) ([]byte, error) {
