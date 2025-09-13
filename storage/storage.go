@@ -13,8 +13,8 @@ type Database interface {
 	GenerateID(collection string, letters int, digits int) *ID
 	Aggregate(collection string, filter any, results any) error
 	UpdateOne(collection string, filter any, values any, opts ...*options.UpdateOptions) error
-	GetPage(collection string, filter any, page string, limit, sort int64, results any) error
 	ReplaceOne(collection string, filter any, values any, opts ...*options.ReplaceOptions) error
 	Find(collection string, filter any, results interface{}, opts ...*options.FindOptions) error
 	FindOne(collection string, filter any, results interface{}, opts ...*options.FindOneOptions) error
+	GetPage(collection string, filter any, page string, limit, sort int64, results any) (float64, error)
 }

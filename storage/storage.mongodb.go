@@ -147,28 +147,29 @@ func (s *MongoStorage) Count(collection string, filter any) (int64, error) {
 	return s.db.Collection(collection).CountDocuments(context.TODO(), filter)
 }
 
-func (s *MongoStorage) GetPage(collection string, filter any, page string, limit, sort int64, results any) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 12*time.Second)
+func (s *MongoStorage) GetPage(collection string, filter any, page string, limit, sort int64, results any) (float64, error) {
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	skip := int64(0)
 	l := limit
 	if page != "" {
 		idx, err := strconv.Atoi(page)
 		if err != nil {
-			return err
+			return 0, err
 		}
 		skip = int64(idx)*limit - limit
 	}
 	fOpt := options.FindOptions{Limit: &l, Skip: &skip, Sort: bson.M{"_id": sort}}
 	res, err := s.db.Collection(collection).Find(ctx, filter, &fOpt)
 	if err != nil {
-		return err
+		return 0, err
 	}
-	return errors.WithStack(res.All(context.TODO(), results))
+	count, err := s.db.Collection(collection).CountDocuments(ctx, filter)
+	return math.Ceil(float64(count / limit)), errors.WithStack(res.All(context.TODO(), results))
 }
 
 func (s *MongoStorage) Aggregate(collection string, filter any, results any) error {
-	ctx, cancel := context.WithTimeout(context.Background(), 12*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	res, err := s.db.Collection(collection).Aggregate(ctx, filter)
 	if err != nil {
