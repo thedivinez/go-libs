@@ -165,6 +165,9 @@ func (s *MongoStorage) GetPage(collection string, filter any, page string, limit
 		return 0, err
 	}
 	count, err := s.db.Collection(collection).CountDocuments(ctx, filter)
+	if err != nil {
+		return 0, err
+	}
 	return math.Ceil(float64(count / limit)), errors.WithStack(res.All(context.TODO(), results))
 }
 
