@@ -16,5 +16,5 @@ type Database interface {
 	ReplaceOne(collection string, filter any, values any, opts ...*options.ReplaceOptions) error
 	Find(collection string, filter any, results interface{}, opts ...*options.FindOptions) error
 	FindOne(collection string, filter any, results interface{}, opts ...*options.FindOneOptions) error
-	GetPage(collection string, filter any, page string, limit, sort int64, results any) (float64, error)
+	GetPage(collection string, filter any, page string, limit, sort int64, results any) (int64, error)
 }

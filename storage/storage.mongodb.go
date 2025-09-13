@@ -147,7 +147,7 @@ func (s *MongoStorage) Count(collection string, filter any) (int64, error) {
 	return s.db.Collection(collection).CountDocuments(context.TODO(), filter)
 }
 
-func (s *MongoStorage) GetPage(collection string, filter any, page string, limit, sort int64, results any) (float64, error) {
+func (s *MongoStorage) GetPage(collection string, filter any, page string, limit, sort int64, results any) (int64, error) {
 	ctx, cancel := context.WithTimeout(context.Background(), 30*time.Second)
 	defer cancel()
 	skip := int64(0)
@@ -168,7 +168,13 @@ func (s *MongoStorage) GetPage(collection string, filter any, page string, limit
 	if err != nil {
 		return 0, err
 	}
-	return math.Ceil(float64(count / limit)), errors.WithStack(res.All(context.TODO(), results))
+	ceilDiv := func(a, b int64) int64 {
+		if a%b == 0 {
+			return a / b
+		}
+		return a/b + 1
+	}
+	return ceilDiv(count, limit), errors.WithStack(res.All(context.TODO(), results))
 }
 
 func (s *MongoStorage) Aggregate(collection string, filter any, results any) error {
