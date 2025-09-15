@@ -22,6 +22,7 @@ const _ = grpc.SupportPackageIsVersion7
 //
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type NotifierClient interface {
+	SendEventMessage(ctx context.Context, in *EventMessage, opts ...grpc.CallOption) (*SendNotificationResponse, error)
 	SendVerifyEmail(ctx context.Context, in *SendEmailRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
 	SendResetPassword(ctx context.Context, in *SendEmailRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
 	SendEmailVerified(ctx context.Context, in *SendEmailRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error)
@@ -34,6 +35,15 @@ type notifierClient struct {
 
 func NewNotifierClient(cc grpc.ClientConnInterface) NotifierClient {
 	return &notifierClient{cc}
+}
+
+func (c *notifierClient) SendEventMessage(ctx context.Context, in *EventMessage, opts ...grpc.CallOption) (*SendNotificationResponse, error) {
+	out := new(SendNotificationResponse)
+	err := c.cc.Invoke(ctx, "/Notifier/SendEventMessage", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
 }
 
 func (c *notifierClient) SendVerifyEmail(ctx context.Context, in *SendEmailRequest, opts ...grpc.CallOption) (*SendNotificationResponse, error) {
@@ -76,6 +86,7 @@ func (c *notifierClient) SendFirebaseNotification(ctx context.Context, in *SendF
 // All implementations should embed UnimplementedNotifierServer
 // for forward compatibility
 type NotifierServer interface {
+	SendEventMessage(context.Context, *EventMessage) (*SendNotificationResponse, error)
 	SendVerifyEmail(context.Context, *SendEmailRequest) (*SendNotificationResponse, error)
 	SendResetPassword(context.Context, *SendEmailRequest) (*SendNotificationResponse, error)
 	SendEmailVerified(context.Context, *SendEmailRequest) (*SendNotificationResponse, error)
@@ -86,6 +97,9 @@ type NotifierServer interface {
 type UnimplementedNotifierServer struct {
 }
 
+func (UnimplementedNotifierServer) SendEventMessage(context.Context, *EventMessage) (*SendNotificationResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SendEventMessage not implemented")
+}
 func (UnimplementedNotifierServer) SendVerifyEmail(context.Context, *SendEmailRequest) (*SendNotificationResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SendVerifyEmail not implemented")
 }
@@ -108,6 +122,24 @@ type UnsafeNotifierServer interface {
 
 func RegisterNotifierServer(s grpc.ServiceRegistrar, srv NotifierServer) {
 	s.RegisterService(&Notifier_ServiceDesc, srv)
+}
+
+func _Notifier_SendEventMessage_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(EventMessage)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(NotifierServer).SendEventMessage(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/Notifier/SendEventMessage",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(NotifierServer).SendEventMessage(ctx, req.(*EventMessage))
+	}
+	return interceptor(ctx, in, info, handler)
 }
 
 func _Notifier_SendVerifyEmail_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
@@ -189,6 +221,10 @@ var Notifier_ServiceDesc = grpc.ServiceDesc{
 	ServiceName: "Notifier",
 	HandlerType: (*NotifierServer)(nil),
 	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "SendEventMessage",
+			Handler:    _Notifier_SendEventMessage_Handler,
+		},
 		{
 			MethodName: "SendVerifyEmail",
 			Handler:    _Notifier_SendVerifyEmail_Handler,
