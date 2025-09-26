@@ -3,7 +3,6 @@ package messaging
 import (
 	"context"
 	"encoding/json"
-	"fmt"
 
 	"github.com/redis/go-redis/v9"
 )
@@ -12,14 +11,8 @@ type Client struct {
 	redis *redis.Client
 }
 
-func NewClient(host string, db int) (*Client, error) {
-	redisClient := redis.NewClient(&redis.Options{Addr: host, ReadTimeout: -1, DB: db})
-	if err := redisClient.Ping(context.TODO()).Err(); err != nil {
-		if err := redisClient.Ping(context.TODO()).Err(); err != nil {
-			return nil, fmt.Errorf("failed to connect to messaging service")
-		}
-	}
-	return &Client{redis: redisClient}, nil
+func NewClient(host string, db int) *Client {
+	return &Client{redis: redis.NewClient(&redis.Options{Addr: host, ReadTimeout: -1, DB: db})}
 }
 
 func (client *Client) Listen(channels ...string) <-chan *EventMessage {
