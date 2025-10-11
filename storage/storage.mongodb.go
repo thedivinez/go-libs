@@ -20,11 +20,6 @@ import (
 	"go.mongodb.org/mongo-driver/x/mongo/driver/connstring"
 )
 
-type MongoDBConfig struct {
-	DbAddress string `json:"DB_ADDRESS"`
-	DbName    string `json:"DB_NAME"`
-}
-
 type MongoStorage struct{ db *mongo.Database }
 
 func NewMongoStorage(address string) *MongoStorage {
