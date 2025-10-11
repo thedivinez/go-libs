@@ -10,7 +10,8 @@ import (
 )
 
 type Client struct {
-	redis *redis.Client
+	redis  *redis.Client
+	Client NotifierClient
 }
 
 func NewClient(host string) *Client {
@@ -22,12 +23,13 @@ func NewClient(host string) *Client {
 	return &Client{redis: redis.NewClient(opts)}
 }
 
-func (client *Client) Connect(addr string) (NotifierClient, error) {
+func (client *Client) Connect(addr string) error {
 	conn, err := utils.ConnectService(addr)
 	if err != nil {
-		return nil, err
+		return err
 	}
-	return NewNotifierClient(conn), nil
+	client.Client = NewNotifierClient(conn)
+	return nil
 }
 
 func (client *Client) Listen(channels ...string) <-chan *EventMessage {
