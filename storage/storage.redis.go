@@ -7,7 +7,6 @@ import (
 	"log"
 	"reflect"
 	"strings"
-	"time"
 
 	"github.com/pkg/errors"
 	"github.com/redis/go-redis/v9"
@@ -17,15 +16,13 @@ type RedisCache struct {
 	Client *redis.Client
 }
 
-func NewRedisCache(address string, db int) *RedisCache {
-	redisClient := redis.NewClient(&redis.Options{Addr: address, ReadTimeout: -1, DB: db})
-	if err := redisClient.Ping(context.Background()).Err(); err != nil {
-		time.Sleep(3 * time.Second)
-		if err := redisClient.Ping(context.Background()).Err(); err != nil {
-			log.Fatal("failed to connect to redis :", err)
-		}
+func NewRedisCache(address string) *RedisCache {
+	opts, err := redis.ParseURL(address)
+	if err != nil {
+		log.Fatalf("Error parsing Redis URL: %v", err)
 	}
-	return &RedisCache{Client: redisClient}
+	opts.ReadTimeout = -1
+	return &RedisCache{Client: redis.NewClient(opts)}
 }
 
 func (client *RedisCache) transcode(in, out any) error {

@@ -3,24 +3,18 @@ package notifier
 import (
 	context "context"
 	"encoding/json"
-	"log"
 
-	"github.com/redis/go-redis/v9"
+	"github.com/thedivinez/go-libs/storage"
 	"github.com/thedivinez/go-libs/utils"
 )
 
 type Client struct {
-	redis  *redis.Client
 	Client NotifierClient
+	Redis  *storage.RedisCache
 }
 
 func NewClient(host string) *Client {
-	opts, err := redis.ParseURL(host)
-	if err != nil {
-		log.Fatalf("Error parsing Redis URL: %v", err)
-	}
-	opts.ReadTimeout = -1
-	return &Client{redis: redis.NewClient(opts)}
+	return &Client{Redis: storage.NewRedisCache(host)}
 }
 
 func (client *Client) Connect(addr string) error {
@@ -35,7 +29,7 @@ func (client *Client) Connect(addr string) error {
 func (client *Client) Listen(channels ...string) <-chan *EventMessage {
 	message := make(chan *EventMessage)
 	go func() {
-		for msg := range client.redis.Subscribe(context.Background(), channels...).Channel() {
+		for msg := range client.Redis.Client.Subscribe(context.Background(), channels...).Channel() {
 			payload := &EventMessage{}
 			if err := payload.UnmarshalBinary([]byte(msg.Payload)); err == nil {
 				message <- payload
@@ -55,7 +49,7 @@ type EventMessage struct {
 }
 
 func (client *Client) Send(message *EventMessage) error {
-	return client.redis.Publish(context.Background(), message.OrgId, message).Err()
+	return client.Redis.Client.Publish(context.Background(), message.OrgId, message).Err()
 }
 
 func (ev *EventMessage) MarshalBinary() ([]byte, error) {
