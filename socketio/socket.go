@@ -1,68 +1,32 @@
 package socketio
 
 import (
+	"context"
+
 	"github.com/zishang520/socket.io/v2/socket"
 )
 
-type Client struct {
+type SocketClient struct {
+	context.Context
 	*socket.Socket
-	UserId   string
-	DeviceId string
+	UserID    string
+	DeviceID  string
+	Container string
 }
 
-type Server struct {
-	*socket.Server
-}
-
-type AckFunc func(response any)
-
-type Event struct {
-	Name string
-	Data any
-	Ack  AckFunc
-}
-
-func Room(room string) socket.Room {
-	return socket.Room(room)
-}
-
-func NewServer(srv any, opts socket.ServerOptionsInterface) *Server {
-	return &Server{socket.NewServer(srv, opts)}
-}
-
-func OnConnect(connect func(client *Client)) func(clients ...any) {
+func NewSocketClient(connect func(client *SocketClient)) func(clients ...any) {
 	return func(clients ...any) {
 		client := clients[0].(*socket.Socket)
+		ctx := context.WithoutCancel(client.Request().Context())
 		userId, _ := client.Request().Headers().Get("X-User-Id")
-		deviceId, _ := client.Request().Headers().Get("X-Device-Id")
-		connect(&Client{client, userId, deviceId})
+		deviceID, _ := client.Request().Headers().Get("X-Device-Id")
+		container, _ := client.Request().Headers().Get("X-Container")
+		connect(&SocketClient{ctx, client, userId, deviceID, container})
 	}
 }
 
-func handleAck(handler func([]any, error)) AckFunc {
-	return func(data any) {
-		if handler != nil {
-			handler([]any{data}, nil)
-		}
-	}
-}
-
-func (client *Client) On(event string, handler func(client *Client, msg *Event)) {
+func (client *SocketClient) On(event string, handler func(client *SocketClient, msg []any)) {
 	client.Socket.On(event, func(data ...any) {
-		message := any(nil)
-		ack := func([]any, error) {}
-		if len(data) > 1 {
-			if _, ok := data[1].(func([]any, error)); ok {
-				ack = data[1].(func([]any, error))
-			}
-		}
-		if len(data) > 0 {
-			message = data[0]
-		}
-		handler(client, &Event{event, message, handleAck(ack)})
+		handler(client, data)
 	})
-}
-
-func (client *Client) To(room ...socket.Room) *socket.BroadcastOperator {
-	return client.Socket.To(room...)
 }
