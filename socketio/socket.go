@@ -30,3 +30,6 @@ func (client *SocketClient) On(event string, handler func(client *SocketClient, 
 		handler(client, data)
 	})
 }
+
+func (client *SocketClient) To(event string, handler func(client *SocketClient, msg []any)) {
+}
