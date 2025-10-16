@@ -43,13 +43,13 @@ func (client *Client) Listen(channels ...string) <-chan *EventMessage {
 type EventMessage struct {
 	Room    string `json:"room" bson:"room"`
 	Event   string `json:"event" bson:"event"`
-	OrgId   string `json:"orgId" bson:"orgId"`
+	Target  string `json:"target" bson:"target"`
 	Message any    `json:"message" bson:"message"`
 	Service string `json:"service" bson:"service"`
 }
 
 func (client *Client) Send(message *EventMessage) error {
-	return client.Redis.Client.Publish(context.Background(), message.OrgId, message).Err()
+	return client.Redis.Client.Publish(context.Background(), message.Target, message).Err()
 }
 
 func (ev *EventMessage) MarshalBinary() ([]byte, error) {
