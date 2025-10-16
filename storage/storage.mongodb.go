@@ -17,25 +17,17 @@ import (
 	"go.mongodb.org/mongo-driver/bson/primitive"
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
-	"go.mongodb.org/mongo-driver/x/mongo/driver/connstring"
 )
 
 type MongoStorage struct{ db *mongo.Database }
 
-func NewMongoStorage(address string) *MongoStorage {
-	cs, err := connstring.Parse(address)
-	if err != nil {
-		log.Fatalf("failed to parse connection string: %v", err)
-	}
-	if cs.Database == "" {
-		log.Fatal("database name missing in connection string")
-	}
+func NewMongoStorage(address, dbname string) *MongoStorage {
 	clientOption := options.Client().ApplyURI(address)
 	client, err := mongo.Connect(context.Background(), clientOption)
 	if err != nil {
 		log.Fatal(err)
 	}
-	return &MongoStorage{db: client.Database(cs.Database)}
+	return &MongoStorage{db: client.Database(dbname)}
 }
 
 func (s *MongoStorage) Transcode(in, out any) error {
