@@ -2,9 +2,12 @@ package gothex
 
 import (
 	"context"
+	_ "embed"
 	"encoding/json"
+	"fmt"
 	"io"
 	"net/http"
+	"strings"
 
 	"github.com/a-h/templ"
 	"github.com/gorilla/sessions"
@@ -100,4 +103,19 @@ func HxReload(c echo.Context) error {
 func HxRedirect(c echo.Context, location string) error {
 	c.Response().Header().Set("HX-Redirect ", location)
 	return c.NoContent(http.StatusOK)
+}
+
+//go:embed "error.templ"
+var errorComponentSource string
+
+// Simple templ-to-html converter for your specific use case
+func RenderErrorComponent(w io.Writer, message string) error {
+	// Simple template replacement - extend based on your needs
+	html := strings.ReplaceAll(errorComponentSource, "{ message }", message)
+	html = strings.ReplaceAll(html, "templ ErrorComponent(message string) {", "")
+	html = strings.ReplaceAll(html, "}", "")
+	html = strings.TrimSpace(html)
+
+	_, err := fmt.Fprint(w, html)
+	return err
 }

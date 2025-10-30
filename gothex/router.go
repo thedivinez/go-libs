@@ -17,6 +17,9 @@ import (
 	"github.com/pkg/errors"
 )
 
+//go:embed *.templ
+var templFiles embed.FS
+
 type GothexRouter struct {
 	*echo.Echo
 	configs     *Configs
