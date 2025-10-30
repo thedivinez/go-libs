@@ -1,4 +1,4 @@
-package router
+package gothex
 
 import (
 	"embed"
@@ -39,23 +39,23 @@ type ContextKey struct {
 var assetFiles embed.FS
 
 func createRouter(configs *Configs) *GothexRouter {
-	gothex := echo.New()
-	gothex.Static("/", "public")
-	gothex.StaticFS("/lib", echo.MustSubFS(assetFiles, "assets"))
+	router := echo.New()
+	router.Static("/", "public")
+	router.StaticFS("/lib", echo.MustSubFS(assetFiles, "assets"))
 	sessionAge, _ := strconv.Atoi(configs.SessionAge)
 	cookieStore := sessions.NewCookieStore([]byte(configs.GothexSecret))
 	cookieStore.Options.HttpOnly = true
 	cookieStore.Options.MaxAge = sessionAge
 	cookieStore.Options.Path = configs.AfterSignin
-	gothex.Use(session.Middleware(cookieStore))
-	gothex.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
+	router.Use(session.Middleware(cookieStore))
+	router.Use(func(next echo.HandlerFunc) echo.HandlerFunc {
 		return func(c echo.Context) error {
 			c.Set("X-Title", configs.AppTitle)
 			return next(c)
 		}
 	})
 
-	gothex.HTTPErrorHandler = func(err error, c echo.Context) {
+	router.HTTPErrorHandler = func(err error, c echo.Context) {
 		code := http.StatusInternalServerError
 		if he, ok := err.(*echo.HTTPError); ok {
 			code = he.Code
@@ -76,7 +76,7 @@ func createRouter(configs *Configs) *GothexRouter {
 	}
 
 	return &GothexRouter{
-		gothex,
+		router,
 		configs,
 		cookieStore,
 		func(next echo.HandlerFunc) echo.HandlerFunc {
