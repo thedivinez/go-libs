@@ -23,7 +23,7 @@ type Configs struct {
 
 var customErrorPageContent []ErrorPageContent
 
-func inCustomErrorPages(code int) *ErrorPageContent {
+func IsCustomErrorPages(code int) *ErrorPageContent {
 	for _, page := range customErrorPageContent {
 		if page.Code == code {
 			return &page

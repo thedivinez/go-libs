@@ -63,7 +63,7 @@ func createRouter(configs *Configs) *GothexRouter {
 				errPage := ErrorPageContent{Code: code}
 				errPage.ErrorType = he.Message.(string)
 				errPage.Title = fmt.Sprintf("Error (%d)", code)
-				if page := inCustomErrorPages(code); page != nil {
+				if page := IsCustomErrorPages(code); page != nil {
 					errPage = *page
 				}
 				c.Set("X-Title", errPage.Title)
