@@ -1,7 +1,6 @@
 package gothex
 
 import (
-	"embed"
 	"fmt"
 	"log"
 	"net/http"
@@ -34,9 +33,6 @@ type ErrorPageContent struct {
 type ContextKey struct {
 	Key string
 }
-
-//go:embed assets/*.png
-var assetFiles embed.FS
 
 func createRouter(configs *Configs) *GothexRouter {
 	router := echo.New()

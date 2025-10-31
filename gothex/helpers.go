@@ -2,6 +2,7 @@ package gothex
 
 import (
 	"context"
+	"embed"
 	_ "embed"
 	"encoding/json"
 	"io"
@@ -24,6 +25,14 @@ type Configs struct {
 }
 
 var customErrorPageContent []ErrorPageContent
+
+//go:embed assets/*.png
+var assetFiles embed.FS
+
+//go:embed assets/error_page_template.html
+var errorPageTemplate string
+
+var tmpl = template.Must(template.New("errorpage").Parse(errorPageTemplate))
 
 func IsCustomErrorPages(code int) *ErrorPageContent {
 	for _, page := range customErrorPageContent {
@@ -103,8 +112,3 @@ func HxRedirect(c echo.Context, location string) error {
 	c.Response().Header().Set("HX-Redirect ", location)
 	return c.NoContent(http.StatusOK)
 }
-
-//go:embed assets/error_page_template.html
-var errorPageTemplate string
-
-var tmpl = template.Must(template.New("errorpage").Parse(errorPageTemplate))
