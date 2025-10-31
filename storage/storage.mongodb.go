@@ -78,6 +78,9 @@ func (s *MongoStorage) DeleteMany(collection string, filter any) error {
 ********************************************/
 func (s *MongoStorage) InsertOne(collection string, data any) (insertId string, err error) {
 	result, err := s.db.Collection(collection).InsertOne(context.TODO(), data)
+	if err != nil {
+		return "", errors.WithStack(err)
+	}
 	if reflect.TypeOf(result.InsertedID).String() == "primitive.ObjectID" {
 		insertId = result.InsertedID.(primitive.ObjectID).Hex()
 	} else {
