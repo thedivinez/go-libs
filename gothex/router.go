@@ -71,9 +71,7 @@ func createRouter(configs *Configs) *GothexRouter {
 				}
 				c.Set("X-Title", errPage.Title)
 				c.Response().Header().Set(echo.HeaderContentType, echo.MIMETextHTML)
-				if err := ShowComponent(c, ErrorPage(c.Request().Context(), errPage)); err != nil {
-					log.Println(err)
-				}
+				tmpl.Execute(c.Response().Writer, errPage)
 				return
 			}
 		}

@@ -4,10 +4,9 @@ import (
 	"context"
 	_ "embed"
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/http"
-	"strings"
+	"text/template"
 
 	"github.com/a-h/templ"
 	"github.com/gorilla/sessions"
@@ -105,17 +104,7 @@ func HxRedirect(c echo.Context, location string) error {
 	return c.NoContent(http.StatusOK)
 }
 
-//go:embed "error.templ"
-var errorComponentSource string
+//go:embed assets/error_page_template.html
+var errorPageTemplate string
 
-// Simple templ-to-html converter for your specific use case
-func RenderErrorComponent(w io.Writer, message string) error {
-	// Simple template replacement - extend based on your needs
-	html := strings.ReplaceAll(errorComponentSource, "{ message }", message)
-	html = strings.ReplaceAll(html, "templ ErrorComponent(message string) {", "")
-	html = strings.ReplaceAll(html, "}", "")
-	html = strings.TrimSpace(html)
-
-	_, err := fmt.Fprint(w, html)
-	return err
-}
+var tmpl = template.Must(template.New("errorpage").Parse(errorPageTemplate))
