@@ -1,9 +1,6 @@
 package storage
 
 import (
-	"encoding/json"
-	"fmt"
-
 	"go.mongodb.org/mongo-driver/mongo/options"
 )
 
@@ -12,7 +9,7 @@ type Database interface {
 	DeleteMany(string, any) error
 	Count(string, any) (int64, error)
 	InsertOne(string, any) (string, error)
-	InsertMany(collection string, data ...any) (err error)
+	InsertMany(collection string, data []interface{}) (err error)
 	GenerateID(collection string, letters int, digits int) *ID
 	Aggregate(collection string, filter any, results any) error
 	UpdateOne(collection string, filter any, values any, opts ...*options.UpdateOptions) error
@@ -20,17 +17,4 @@ type Database interface {
 	Find(collection string, filter any, results interface{}, opts ...*options.FindOptions) error
 	FindOne(collection string, filter any, results interface{}, opts ...*options.FindOneOptions) error
 	GetPage(collection string, filter any, page string, limit, sort int64, results any) (int64, error)
-}
-
-func convertStructSliceToTaggedInterfaceSlice(data any) ([]interface{}, error) {
-	bytes, err := json.Marshal(data)
-	if err != nil {
-		return nil, fmt.Errorf("failed to marshal to JSON: %w", err)
-	}
-	var interfaceSlice []interface{}
-	err = json.Unmarshal(bytes, &interfaceSlice)
-	if err != nil {
-		return nil, fmt.Errorf("failed to unmarshal from JSON: %w", err)
-	}
-	return interfaceSlice, nil
 }

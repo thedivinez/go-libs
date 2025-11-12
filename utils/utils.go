@@ -294,3 +294,20 @@ func RandInt(min, max int64) int64 {
 		}
 	}
 }
+
+func ToInterfaces[T any](inputSlice []T) ([]interface{}, error) {
+	// 1. Marshal the generic slice into JSON bytes.
+	// This step interprets the struct tags of type T.
+	bytes, err := json.Marshal(inputSlice)
+	if err != nil {
+		return nil, fmt.Errorf("failed to marshal to JSON: %w", err)
+	}
+	// 2. Unmarshal the JSON bytes into a []interface{}.
+	// Each element will become a map[string]interface{} using the field names from the tags.
+	var interfaceSlice []interface{}
+	err = json.Unmarshal(bytes, &interfaceSlice)
+	if err != nil {
+		return nil, fmt.Errorf("failed to unmarshal from JSON: %w", err)
+	}
+	return interfaceSlice, nil
+}
