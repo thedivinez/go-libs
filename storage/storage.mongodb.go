@@ -89,15 +89,9 @@ func (s *MongoStorage) InsertOne(collection string, data any) (insertId string, 
 	return insertId, errors.WithStack(err)
 }
 
-func (s *MongoStorage) InsertMany(collection string, data ...any) (err error) {
-	betsList := bson.A{}
-	if err := s.Transcode(data[0], &betsList); err != nil {
+func (s *MongoStorage) InsertMany(collection string, data []interface{}) (err error) {
+	if _, err := s.db.Collection(collection).InsertMany(context.TODO(), data); err != nil {
 		return errors.WithStack(err)
-	}
-	if len(betsList) > 0 {
-		if _, err := s.db.Collection(collection).InsertMany(context.TODO(), betsList); err != nil {
-			return errors.WithStack(err)
-		}
 	}
 	return nil
 }
