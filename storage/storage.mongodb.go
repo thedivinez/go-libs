@@ -31,6 +31,7 @@ type Database interface {
 
 	// Legacy methods for compatibility
 	Find(ctx context.Context, collection string, filter any, results interface{}, opts ...*options.FindOptions) error
+	Aggregate(ctx context.Context, collection string, pipeline any, results any, opts ...*options.AggregateOptions) error
 	FindOne(ctx context.Context, collection string, filter any, results interface{}, opts ...*options.FindOneOptions) error
 
 	// Schema management
@@ -82,10 +83,7 @@ func NewMongoStorage(ctx context.Context, uri, dbname string) (*MongoStorage, er
 		return nil, errors.Wrap(err, "failed to ping MongoDB")
 	}
 
-	return &MongoStorage{
-		client: client,
-		db:     client.Database(dbname),
-	}, nil
+	return &MongoStorage{client: client, db: client.Database(dbname)}, nil
 }
 
 // Disconnect closes the MongoDB connection
@@ -301,6 +299,19 @@ func (s *MongoStorage) Transaction(ctx context.Context, fn func(sessCtx mongo.Se
 		return nil, fn(sessCtx)
 	})
 	return err
+}
+
+func (s *MongoStorage) Aggregate(ctx context.Context, collection string, pipeline, results any, opts ...*options.AggregateOptions) error {
+	cursor, err := s.db.Collection(collection).Aggregate(ctx, pipeline, opts...)
+	if err != nil {
+		return errors.Wrap(err, "failed to execute aggregation")
+	}
+	defer cursor.Close(ctx)
+
+	if err := cursor.All(ctx, &results); err != nil {
+		return errors.Wrap(err, "failed to decode aggregation results")
+	}
+	return nil
 }
 
 /*******************************************
