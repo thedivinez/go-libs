@@ -308,7 +308,7 @@ func (s *MongoStorage) Aggregate(ctx context.Context, collection string, pipelin
 	}
 	defer cursor.Close(ctx)
 
-	if err := cursor.All(ctx, &results); err != nil {
+	if err := cursor.All(ctx, results); err != nil {
 		return errors.Wrap(err, "failed to decode aggregation results")
 	}
 	return nil
