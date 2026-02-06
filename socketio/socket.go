@@ -3,7 +3,7 @@ package socketio
 import (
 	"context"
 
-	"github.com/zishang520/socket.io/servers/socket/v3"
+	"github.com/zishang520/socket.io/v2/socket"
 )
 
 type SocketClient struct {
